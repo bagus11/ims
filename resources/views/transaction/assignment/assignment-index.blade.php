@@ -5,8 +5,8 @@
     <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">
-                        <b class="headerTitle">Assignment</b>
+                    <div class="card-header bg-core">
+                        <span style="font-size: 13px">Assignment List</span>
                       <div class="card-tools">
                         <button class="btn btn-primary btn-sm" id="btn_refresh" type="button" >
                             <i class="fas fa-refresh"></i>

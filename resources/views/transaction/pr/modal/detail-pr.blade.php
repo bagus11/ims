@@ -1,8 +1,8 @@
 <div class="modal fade" id="detailTransacrionModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <b class="headerTitle">Detail Transaction</b>
+            <div class="modal-header bg-core">
+                Detail Transaction
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>

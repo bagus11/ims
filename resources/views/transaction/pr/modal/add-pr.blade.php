@@ -1,8 +1,8 @@
 <div class="modal fade" id="addPrModal">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <b class="headerTitle">Add Transaction</b>
+            <div class="modal-header bg-core">
+                Add Transaction
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>

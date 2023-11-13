@@ -5,8 +5,8 @@
     <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">
-                        <b class="headerTitle">Master Product</b>
+                    <div class="card-header bg-core">
+                     Master Product
                         <div class="card-tools">
                             <button class="btn btn-success btn-sm" id="btn_add_product" data-toggle="modal" type="button" data-target="#addProductModal">
                                 <i class="fas fa-plus"></i>

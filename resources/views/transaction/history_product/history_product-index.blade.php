@@ -5,12 +5,12 @@
     <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header bg-info">
-                        <b class="headerTitle" style="color:white" >Stock Move</b>
+                    <div class="card-header bg-core">
+                        Stock Move
                         <div class="card-tools">
                             <div class="btn-group" style="float:right">
                                 <button type="button" class="btn btn-sm btn-tool dropdown-toggle" style="margin-top:3px" data-toggle="dropdown">
-                                    <i class="fa-solid fa-filter"></i>
+                                    <i style="color: white" class="fa-solid fa-filter"></i>
                                 </button>
                            
                                 <div class="dropdown-menu dropdown-menu-right" id="filter" role="menu" style="width:250px !important;">
@@ -62,12 +62,12 @@
                                             </div>
                                         </div>
                                         <div class="mt-2 mb-2">
-                                            <button class="btn btn-warning btn-block"style="font-size: 10px"  id="btn_filter_stock">
+                                            <button style="color: white;font-size:9px" class="btn btn-success btn-block"style="font-size: 10px"  id="btn_filter_stock">
                                                 <i class="fa-solid fa-filter"></i> Filter
                                             </button>
                                         </div>
                                         <div class="mt-2 mb-2">
-                                            <button class="btn btn-info btn-block" style="font-size: 10px" id="btn_report_stock">
+                                            <button class="btn btn-danger btn-block" style="font-size: 10px" id="btn_report_stock">
                                                 <i class="fa-solid fa-file-pdf"></i> Export to PDF
                                             </button>
                                         </div>

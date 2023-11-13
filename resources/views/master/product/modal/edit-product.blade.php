@@ -1,8 +1,8 @@
 <div class="modal fade" id="editProductModal">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <b class="headerTitle">Edit Product</b>
+            <div class="modal-header bg-core">
+                Edit Product
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
