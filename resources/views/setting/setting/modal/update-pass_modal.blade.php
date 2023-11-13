@@ -2,7 +2,7 @@
 <div class="modal fade" id="updatePassModal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header bg-core">
                 Change Password
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>

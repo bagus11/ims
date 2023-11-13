@@ -364,4 +364,8 @@ tr.shown td.subdetails-click {
     .myFont{
       font-size:9px
     }
+    .bg-core{
+      background-color: #26577C !important;
+      color: white ;
+    }
 </style>
