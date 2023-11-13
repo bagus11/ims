@@ -62,7 +62,7 @@
                                             </div>
                                         </div>
                                         <div class="mt-2 mb-2">
-                                            <button style="color: white;font-size:9px" class="btn btn-success btn-block"style="font-size: 10px"  id="btn_filter_stock">
+                                            <button style="color: white;font-size:9px" class="btn btn-info btn-block"style="font-size: 10px"  id="btn_filter_stock">
                                                 <i class="fa-solid fa-filter"></i> Filter
                                             </button>
                                         </div>
