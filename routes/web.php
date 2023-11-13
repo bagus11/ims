@@ -12,6 +12,7 @@ use App\Http\Controllers\Transaction\PurchaseRequestController;
 use App\Http\Controllers\Transaction\TransactionProductController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\SettingController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -130,8 +131,15 @@ Route::group(['middleware' => ['auth']], function() {
                 Route::get('print_stock_move/{from}/{date}/{productFilter}/{officeFilter}/{reqFilter}',[TransactionProductController::class, 'print_stock_move']);
                 Route::get('print_ir/{request_code}',[TransactionProductController::class, 'print_ir']);
                 Route::get('print_pr/{request_code}',[TransactionProductController::class, 'print_pr']);
-
             // Hisrory Product
+
+            // Setting Password
+            
+            Route::get('setting_password', [SettingController::class, 'index'])->name('setting_password');
+            Route::post('update_user', [SettingController::class, 'update_user'])->name('update_user');
+            Route::post('change_password', [SettingController::class, 'change_password'])->name('change_password');
+        
+            // Setting Password
         // Transaction
     
 });
