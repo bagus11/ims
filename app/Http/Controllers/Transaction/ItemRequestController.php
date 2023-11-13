@@ -23,7 +23,7 @@ class ItemRequestController extends Controller
     function getItemRequest(Request $request) {
         // dd(auth()->user()->roles->pluck('name')); 
         if(auth()->user()->hasPermissionTo('get-only_user-item_request')){
-            // dd('test');
+           
             $data = ItemRequestModel::with([
                 'userRelation',
                 'itemRelation',
@@ -38,17 +38,19 @@ class ItemRequestController extends Controller
                 'data'=>$data,  
             ]);  
         }else if(auth()->user()->hasPermissionTo('get-only_admin-item_request')){
+            //  dd('test');
             $data = ItemRequestModel::with([
                 'userRelation',
                 'itemRelation',
                 'stepRelation',
                 'locationRelation',
                 'approvalRelation',
-            ])->where('location_id','like','%'.$request->id.'%')
-                ->whereIn('request_type',[1,2,3])
-                ->whereHas('stepRelation',function($q){
+                ])->where('location_id','like','%'.$request->id.'%')
+                ->Where('user_id',auth()->user()->id)
+                ->orWhereHas('stepRelation',function($q){
                     $q->where('user_id', auth()->user()->id);
                 })
+                ->whereIn('request_type',[1,2,3])
                 ->orderBy('status','asc')
                 ->orderBy('id', 'desc')
                 ->get();

@@ -273,24 +273,26 @@
                                                 <i class="fas fa-solid fa-file"></i>
                                             </button>
                                 `;
-                            data += `<tr style="text-align: center;">
-                                  
-                                    <td style="text-align:center;">${response[i].request_code}</td>
-                                    <td style="text-align:left;">${response[i].user_relation.name}</td>
-                                    <td style="text-align:left;">${response[i].item_relation.name}</td>
-                                    <td style="text-align:left;">${response[i].location_relation.name}</td>
-                                    <td style="text-align:center;">${status}</td>
-                                    <td style="">
-                                            <button title="Detail" class="stepApproval btn btn-sm btn-info rounded" data-tc="${response[i].request_code}"   data-des="${response[i].des_location_id}" data-toggle="modal" data-target="#detailTransacrionModal">
-                                                <i class="fas fa-solid fa-user"></i>
-                                            </button>
-                                            @can('get-only_staff-item_request')
-                                                ${buttonChecking}
-                                            @endcan
-                                            ${buttonReport}
-                                    </td>
-                                </tr>
-                                `;
+                                if(response[i].request_type != 4){
+                                    data += `<tr style="text-align: center;">
+                                          
+                                            <td style="text-align:center;">${response[i].request_code}</td>
+                                            <td style="text-align:left;">${response[i].user_relation.name}</td>
+                                            <td style="text-align:left;">${response[i].item_relation == null ? '' : response[i].item_relation.name}</td>
+                                            <td style="text-align:left;">${response[i].location_relation.name}</td>
+                                            <td style="text-align:center;">${status}</td>
+                                            <td style="">
+                                                    <button title="Detail" class="stepApproval btn btn-sm btn-info rounded" data-tc="${response[i].request_code}"   data-des="${response[i].des_location_id}" data-toggle="modal" data-target="#detailTransacrionModal">
+                                                        <i class="fas fa-solid fa-user"></i>
+                                                    </button>
+                                                    @can('get-only_staff-item_request')
+                                                        ${buttonChecking}
+                                                    @endcan
+                                                    ${buttonReport}
+                                            </td>
+                                        </tr>
+                                        `;
+                                }
                         }
                 $('#ir_table > tbody:first').html(data);
                 $('#ir_table').DataTable({
