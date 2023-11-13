@@ -4,14 +4,13 @@
 <div class="container">
     <div class="row justify-content-center">
           <div class="col-md-6">
-            <div class="card card-info">
+            <div class="card">
                 <div class="card-header">
-                  <label for="">Profile</label>
-                  
+                Profile
                 </div>
                 <div class="card-body">
                    <div class="form-group row">
-                        <img style="width:40%;margin:auto" src="{{URL::asset('profile.png')}}" alt="">                     
+                        <img style="width:25%;margin:auto" src="{{URL::asset('profile.png')}}" alt="">                     
                    </div>
                    <div class="form-group row justify-content-center">
                         <button class="btn btn-primary" data-toggle="modal" data-target="#updatePassModal" onclick="clear_pass()">
@@ -21,7 +20,7 @@
                    <div class="container mt-2 justify-content-center ">
                         <div class="form-group row">
                             <div class="col-md-2 mt-2">
-                                <label for="">NIK</label>
+                                <p for="">NIK</p>
                             </div>
                             <div class="col-md-8">
                                 <input type="text" id="nik" value="{{auth()->user()->nik}}" class="form-control" readonly>
@@ -30,7 +29,7 @@
 
                         <div class="form-group row ">
                             <div class="col-md-2 mt-2">
-                                <label for="">Email</label>
+                                <p for="">Email</p>
                             </div>
                             <div class="col-md-8">
                                 <input type="text" id="email_user" value="{{auth()->user()->email}}" class="form-control">
@@ -39,7 +38,7 @@
                         
                         <div class="form-group row">
                             <div class="col-md-2 mt-2">
-                                <label for="">Name</label>
+                                <p for="">Name</p>
                             </div>
                             <div class="col-md-8">
                                 <input type="text" id="user_name" value="{{auth()->user()->name}}" class="form-control">
