@@ -39,10 +39,10 @@
                     'next': '<span class="next-icon"><i class="fa-solid fa-arrow-right"></i></span>'
                     }
                 },
-                Paginate: false,
-                LengthChange: false,
-                Filter: true,
-                Info: false,
+                paginate: false,
+                lengthChange: false,
+                filter: true,
+                info: false,
                 
             }).columns.adjust()
         
