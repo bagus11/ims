@@ -39,7 +39,9 @@
                     'next': '<span class="next-icon"><i class="fa-solid fa-arrow-right"></i></span>'
                     }
                 },
-                "pageLength": 30
+                pagingType: "simple",
+                iDisplayLength: 2,
+                
             }).columns.adjust()
         
         }
