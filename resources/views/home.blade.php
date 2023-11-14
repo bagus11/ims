@@ -58,7 +58,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-9">
-                            <h5 style="font-weight: bold">Assignment</h5>
+                            <h5 style="font-weight: bold">Stock Move</h5>
                         </div>
                         <div class="col-3" style="text-align: center">
                             <i style="color:#26577C " class="fa-solid fa-paper-plane fa-2xl"></i>
