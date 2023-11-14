@@ -33,6 +33,12 @@
             $('#product_table').DataTable({
                 dom: 'rtip',
                 scrollX  : true,
+                language: {
+                    'paginate': {
+                    'previous': '<span class="prev-icon"></span>',
+                    'next': '<span class="next-icon"></span>'
+                    }
+                }
             }).columns.adjust()
         
         }
