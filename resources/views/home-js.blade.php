@@ -35,8 +35,8 @@
                 scrollX  : true,
                 language: {
                     'paginate': {
-                    'previous': '<span class="prev-icon"></span>',
-                    'next': '<span class="next-icon"></span>'
+                    'previous': '<span class="prev-icon"><i class="fa-solid fa-arrow-right"></i></span>',
+                    'next': '<span class="next-icon"><i class="fa-solid fa-arrow-left"></i></span>'
                     }
                 }
             }).columns.adjust()
