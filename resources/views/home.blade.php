@@ -9,7 +9,7 @@
                     Current Stock Product
                 </div> --}}
                 <div class="card-body">
-                    <p>Current Stock</p>
+                    <h4 style="font-weight: bold">Current Stock</h4>
                     <hr>
                     <table class="table" id="product_table">
                         <thead>

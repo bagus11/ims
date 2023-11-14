@@ -380,4 +380,8 @@ tr.shown td.subdetails-click {
       /* box-shadow: 5px 5px rgb(0 0 0 / 0.2); */
       filter: drop-shadow(5px 5px 5px rgba(0,0,0,0.1));
     }
+    .dataTables_info{
+      font-size: 10px;
+      color: #b3acac;
+    }
 </style>

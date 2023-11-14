@@ -31,7 +31,7 @@
                     }
             $('#product_table > tbody:first').html(data);
             $('#product_table').DataTable({
-               
+                dom: 'rtip',
                 scrollX  : true,
                 language: {
                     'paginate': {
@@ -39,11 +39,8 @@
                     'next': '<span class="next-icon"><i class="fa-solid fa-arrow-right"></i></span>'
                     }
                 },
-                paginate: false,
-                scrollY :500,
-                lengthChange: false,
-                filter: true,
-                info: false,
+                pagingType: "simple",
+                iDisplayLength:10,
                 
             }).columns.adjust()
         
