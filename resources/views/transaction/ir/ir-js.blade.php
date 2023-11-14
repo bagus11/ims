@@ -48,6 +48,8 @@
                 var data ={ 'id':$('#select_product').val()}
                 getCallbackNoSwal('detailProduct', data, function(response){
                     $('#quantity_product').val(response.detail.quantity)
+                    $('#uom_cp').html(response.detail.uom)
+                    $('#uom_pr').html(response.detail.uom)
                     $('#quantity_product').prop('disabled',true)
                 })
             })

@@ -54,7 +54,7 @@
                                             <input type="text" class="form-control" id="quantity_product">
                                         </div>
                                         <div class="col-md-2 mt-2">
-                                            <p style="font-size:9px">pcs</p>
+                                            <p style="font-size:9px" id="uom_cp">pcs</p>
                                         </div>
                                     @endcan
                                     <div class="col-md-2 mt-2">
@@ -65,7 +65,7 @@
                                         <span  style="color:red;" class="message_error text-red block quantity_request_error"></span>
                                     </div>
                                     <div class="col-md-2 mt-2">
-                                        <p style="font-size:9px">pcs</p>
+                                        <p style="font-size:9px" id="uom_pr">pcs</p>
                                     </div>
                             </div>
                             <div class="row">
