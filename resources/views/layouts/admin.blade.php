@@ -376,7 +376,7 @@ tr.shown td.subdetails-click {
       border-radius: 20px;
     }
     .card-radius-shadow{
-      border-radius: 20px;
+      border-radius: 15px;
       /* box-shadow: 5px 5px rgb(0 0 0 / 0.2); */
       filter: drop-shadow(5px 5px 5px rgba(0,0,0,0.1));
     }

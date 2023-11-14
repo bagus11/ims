@@ -9,7 +9,14 @@
                     Current Stock Product
                 </div> --}}
                 <div class="card-body">
-                    <h4 style="font-weight: bold">Current Stock</h4>
+                    <div class="row">
+                        <div class="col-9">
+                            <h5 style="font-weight: bold">Current Stock</h5>
+                        </div>
+                        <div class="col-3" style="text-align: center">
+                            <i style="color:#26577C " class="fa-solid fa-box-archive fa-2xl"></i>
+                        </div>
+                    </div>
                     <hr>
                     <table class="table" id="product_table">
                         <thead>
@@ -30,27 +37,16 @@
                     Current Stock Product
                 </div> --}}
                 <div class="card-body">
-                    <p>Assignment List</p>
+                    <div class="row">
+                        <div class="col-9">
+                            <h5 style="font-weight: bold">Assignment</h5>
+                        </div>
+                        <div class="col-3" style="text-align: center">
+                            <i style="color:#26577C " class="fa-solid fa-hand fa-2xl"></i>
+                        </div>
+                    </div>
                     <hr>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
+                    
                 </div>
             </div>
         </div>
@@ -60,30 +56,20 @@
                     Current Stock Product
                 </div> --}}
                 <div class="card-body">
-                    <p>Stock Move</p>
+                    <div class="row">
+                        <div class="col-9">
+                            <h5 style="font-weight: bold">Assignment</h5>
+                        </div>
+                        <div class="col-3" style="text-align: center">
+                            <i style="color:#26577C " class="fa-solid fa-paper-plane fa-2xl"></i>
+                        </div>
+                    </div>
                     <hr>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
+                    
                 </div>
             </div>
         </div>
+       
    </div>
 </div>
 @endsection
