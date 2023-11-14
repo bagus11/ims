@@ -19,7 +19,8 @@ class MasterProductController extends Controller
         return view('master.product.product-index');
     }
     function getProduct() {
-        $data = ProductModel::with(['typeRelation','categoryRelation','locationRelation','departmentRelation'])->get();
+        // dd(auth()->user()->departement);
+        $data = ProductModel::with(['typeRelation','categoryRelation','locationRelation','departmentRelation'])->where('department_id',auth()->user()->departement)->get();
         return response()->json([
             'data'=>$data,  
         ]);  
