@@ -5,7 +5,7 @@
   <div class="row justify-content-center">
     {{-- Role --}}
         <div class="col-md-6">
-            <div class="card">
+            <div class="card card-radius">
                 <div class="card-header">
                     <b class="headerTitle">Role</b>
                     <div class="card-tools">
@@ -30,7 +30,7 @@
     {{-- Role --}}
     {{-- Permission --}}
         <div class="col-md-6">
-            <div class="card">
+            <div class="card card-radius">
                 <div class="card-header">
                     <b class="headerTitle">Permission</b>
                     <div class="card-tools">

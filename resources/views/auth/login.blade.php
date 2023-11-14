@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card">
+            <div class="card card-radius">
                 <div class="card-header" style="background-color: #26577C;color:white">{{ __('Login') }}
                
                 </div>

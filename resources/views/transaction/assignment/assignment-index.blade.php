@@ -4,7 +4,7 @@
 <div class="pl-2 pr-2">
     <div class="row">
             <div class="col-md-12">
-                <div class="card">
+                <div class="card card-radius">
                     <div class="card-header bg-core">
                         <span style="font-size: 13px">Assignment List</span>
                       <div class="card-tools">

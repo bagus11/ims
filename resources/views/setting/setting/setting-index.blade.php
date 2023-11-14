@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
           <div class="col-md-5">
-            <div class="card">
+            <div class="card card-radius">
                 <div class="card-header bg-core">
                 Profile
                 </div>

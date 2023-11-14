@@ -368,4 +368,11 @@ tr.shown td.subdetails-click {
       background-color: #26577C !important;
       color: white ;
     }
+    .card-radius{
+      border-radius: 20px;
+    }
+    .card-radius-shadow{
+      border-radius: 20px;
+      box-shadow: 5px 5px rgb(0 0 0 / 0.1);
+    }
 </style>

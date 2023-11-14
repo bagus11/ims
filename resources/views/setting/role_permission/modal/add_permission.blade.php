@@ -17,6 +17,7 @@
                         <div class="col-md-8">
                             <select name="option" class="select2" style="width:100%"  id="option">
                                 <option value="view">View</option>
+                                <option value="get-dashboard_admin">Dashboard Admin</option>
                                 <option value="get-only_user">Only User</option>
                                 <option value="get-only_staff">Only Staff</option>
                                 <option value="get-only_admin">Only Admin</option>
