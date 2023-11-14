@@ -111,11 +111,15 @@
 </html>
 
 <style>
+   /* body {
+        font-family: poppins !important;
+        font-size: 1.2em !important;
+    } */
   .selectOption2{
     font-size:9px;
   }
 .datatable-bordered{
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Poppins;
   border-collapse: collapse;
   width: 100% !important;
   font-size: 9px;
@@ -373,6 +377,7 @@ tr.shown td.subdetails-click {
     }
     .card-radius-shadow{
       border-radius: 20px;
-      box-shadow: 5px 5px rgb(0 0 0 / 0.1);
+      /* box-shadow: 5px 5px rgb(0 0 0 / 0.2); */
+      filter: drop-shadow(5px 5px 5px rgba(0,0,0,0.1));
     }
 </style>
