@@ -40,6 +40,7 @@
                     }
                 },
                 paginate: false,
+                scrollY :500,
                 lengthChange: false,
                 filter: true,
                 info: false,
