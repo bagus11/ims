@@ -123,6 +123,7 @@ class PurchaseRequestController extends Controller
                 'location_id'          =>$request->location_id,
                 'des_location_id'      =>$request->location_id,
                 'request_type'         =>$request->transaction_id,
+                'category_id'          => $request->category_id,
                 'status'               =>2,
                 'approval_status'      =>0,
                 'user_id'              =>auth()->user()->id,
