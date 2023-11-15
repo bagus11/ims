@@ -20,13 +20,21 @@
 
     // Operation
         $('#from').on('change', function(){
-            getCallbackNoSwal('getHistoryProductDashboard',dataDashboard,function(response){
+            var data = {
+            'from' : $('#from').val(),
+            'to' : $('#to').val(),
+        }
+            getCallbackNoSwal('getHistoryProductDashboard',data,function(response){
                 swal.close()
                 mappingTableStock(response.data)
             })
         })
         $('#to').on('change', function(){
-            getCallbackNoSwal('getHistoryProductDashboard',dataDashboard,function(response){
+            var data = {
+            'from' : $('#from').val(),
+            'to' : $('#to').val(),
+        }
+            getCallbackNoSwal('getHistoryProductDashboard',data,function(response){
                 swal.close()
                 mappingTableStock(response.data)
             })
