@@ -20,7 +20,7 @@
             })
             $('#select_department').on('change', function(){
                 var data ={
-                    'id': $('#select_department').val()
+                    'department_id': $('#select_department').val()
                 }
                 getActiveItems('getActiveCategory',data,'select_category','Category')
             })

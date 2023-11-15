@@ -38,7 +38,7 @@ class ItemRequestController extends Controller
                 'data'=>$data,  
             ]);  
         }else if(auth()->user()->hasPermissionTo('get-only_admin-item_request')){
-            //  dd('test');
+            //  dd(auth()->user()->id);
             $data = ItemRequestModel::with([
                 'userRelation',
                 'itemRelation',
@@ -46,10 +46,10 @@ class ItemRequestController extends Controller
                 'locationRelation',
                 'approvalRelation',
                 ])->where('location_id','like','%'.$request->id.'%')
-                ->Where('user_id',auth()->user()->id)
-                ->orWhereHas('stepRelation',function($q){
+                ->whereHas('stepRelation',function($q){
                     $q->where('user_id', auth()->user()->id);
                 })
+                ->orWhere('user_id',auth()->user()->id)
                 ->whereIn('request_type',[1,2,3])
                 ->orderBy('status','asc')
                 ->orderBy('id', 'desc')
@@ -197,6 +197,7 @@ class ItemRequestController extends Controller
                 'quantity_request'     =>$request->quantity_request,
                 'location_id'          =>$request->location_id,
                 'des_location_id'      =>$request->location_id,
+                'category_id'          =>$productCode->category_id,
                 'request_type'         =>$request->transaction_id,
                 'remark'                =>$request->comment,
                 'status'               =>2,
@@ -208,6 +209,7 @@ class ItemRequestController extends Controller
                 'step'                 =>2,
                 'attachment'           =>$destinationAttachment,
             ];
+            dd($post);
             DB::transaction(function() use($post,$postLog,$request,$fileName,$approval_id,$postSecond,$postLogSecond) {
                 ItemRequestDetail::create($postLog);
                 if($approval_id->user_id == auth()->user()->id){
