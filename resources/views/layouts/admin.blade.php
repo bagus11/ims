@@ -11,6 +11,17 @@
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
         <link href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap4.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <!-- css.gg -->
+        <link href="https://css.gg/css" rel="stylesheet" />
+
+        <!-- UNPKG -->
+        <link href="https://unpkg.com/css.gg/icons/icons.css" rel="stylesheet" />
+
+        <!-- JSDelivr -->
+        <link
+          href="https://cdn.jsdelivr.net/npm/css.gg/icons/icons.css"
+          rel="stylesheet"
+        />
     </head>
     <body class="hold-transition sidebar-mini">
         <div class="wrapper">
@@ -383,5 +394,9 @@ tr.shown td.subdetails-click {
     .dataTables_info{
       font-size: 10px;
       color: #b3acac;
+    }
+    .item ion-icon[item-left]+.item-inner,
+    .item ion-icon[item-left]+.item-input {
+        margin-left: 10px !important;
     }
 </style>

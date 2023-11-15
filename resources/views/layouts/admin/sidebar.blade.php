@@ -1,16 +1,19 @@
 <aside class="main-sidebar sidebar-dark-danger elevation-4" style="background-color: #26577C" >
     <a href="" class="brand-link bg-white" style=" border-top-right-radius: 25px;">
         <img src="{{asset('icon.png')}}" height="30px" style="margin-left:auto;margin-right:auto;display:block" alt="">
+        
      </a>
     <div class="sidebar">
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
                 <img src="{{URL::asset('profile.png')}}" class="img-circle elevation-2" alt="User Image">
+                
             </div>
             <div class="info">
                 <a href="#" class="d-block" style="font-size:14px">{{auth()->user()->name}}</a>
             </div>
         </div>
+      
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 @php
@@ -29,8 +32,8 @@
                     @if($item->type == 1)
                         <li class="nav-item">
                             <a href="{{$item->link}}" class="nav-link">
-                                <i class="nav-icon {{$item->icon}}"></i>
-                                <p>{{$item->name}}</p>
+                                <ion-icon name="{{$item->icon}}"></ion-icon>
+                                <p class="ml-2">{{$item->name}}</p>
                             </a>
                         </li>
                     @else
@@ -48,8 +51,8 @@
                                         ->get();
                             @endphp
                              <a href="#" class="nav-link">
-                                <i class="nav-icon {{$item->icon}}"></i>
-                                <p>{{$item->name}}<i class="right fas fa-angle-left"></i></p>
+                                <ion-icon name="{{$item->icon}}"></ion-icon>
+                                <p class="ml-2">{{$item->name}}<i class="right fas fa-angle-left"></i></p>
                             </a>
                             <ul class="nav nav-treeview">
                                 @foreach ($submenus as $row)

@@ -46,7 +46,16 @@
                         </div>
                     </div>
                     <hr>
-                    
+                    <table class="table" id="assignment_table">
+                        <thead>
+                            <tr>
+                                <th  style="text-align: center">Request Code</th>
+                                <th  style="text-align: center">PIC</th>
+                                <th  style="text-align: center">Action</th>
+                            </tr>
+                        </thead>
+                        
+                    </table>
                 </div>
             </div>
         </div>

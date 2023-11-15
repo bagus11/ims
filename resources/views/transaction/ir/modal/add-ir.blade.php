@@ -46,7 +46,7 @@
                                         <input type="hidden" class="form-control" id="product_id">
                                         <span  style="color:red;" class="message_error text-red block product_id_error"></span>
                                     </div>
-                                    @can('get-only_staff-item_request')
+                                    {{-- @can('get-only_staff-item_request') --}}
                                         <div class="col-md-2 mt-2">
                                             <p style="font-size:9px">Current Quantity</p>
                                         </div>
@@ -56,7 +56,7 @@
                                         <div class="col-md-2 mt-2">
                                             <p style="font-size:9px" id="uom_cp">pcs</p>
                                         </div>
-                                    @endcan
+                                    {{-- @endcan --}}
                                     <div class="col-md-2 mt-2">
                                         <p style="font-size:9px">Transaction Quantity</p>
                                     </div>
