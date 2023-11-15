@@ -85,10 +85,10 @@
                     <table class="table" id="stock_move_table">
                         <thead>
                             <tr>
+                                <th  style="text-align: center">Created At</th>
                                 <th  style="text-align: center">Request Code</th>
                                 <th  style="text-align: center">Item Name</th>
                                 <th  style="text-align: center">Quantity</th>
-                                <th  style="text-align: center">UOM</th>
                             </tr>
                         </thead>
                         

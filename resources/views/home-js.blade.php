@@ -130,11 +130,15 @@
             var data=''
                     for(i = 0; i < response.length; i++ )
                     {    
+                        const d = new Date(response[i].created_at)
+                        const date = d.toISOString().split('T')[0];
+                        const time = d.toTimeString().split(' ')[0];
                         data += `<tr style="text-align: center;">
+                                    <td style="text-align:center;">${date} ${time}</td>
                                     <td style="text-align:center;">${response[i].transaction_relation.request_code}</td>
                                     <td style="text-align:left">${response[i].item_relation.name}</td>
-                                    <td style="text-align:center;">${response[i].quantity_request}</td>
-                                    <td style="text-align:center;">${response[i].item_relation.uom}</td>
+                                    <td style="text-align:center;">${response[i].quantity_request} ${response[i].item_relation.uom}</td>
+
                                   
                                 </tr>
                             `;
@@ -152,8 +156,8 @@
                 searching :true,
                 pagingType: "simple",
                 iDisplayLength:10,
-                scrollY:260
-                
+                scrollY:260,
+                order: [ [ $('th.defaultSort').index(),  'asc' ] ]
             }).columns.adjust()
         
         }
