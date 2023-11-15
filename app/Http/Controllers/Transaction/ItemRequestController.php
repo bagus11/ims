@@ -209,7 +209,7 @@ class ItemRequestController extends Controller
                 'step'                 =>2,
                 'attachment'           =>$destinationAttachment,
             ];
-            dd($post);
+            // dd($post);
             DB::transaction(function() use($post,$postLog,$request,$fileName,$approval_id,$postSecond,$postLogSecond) {
                 ItemRequestDetail::create($postLog);
                 if($approval_id->user_id == auth()->user()->id){
