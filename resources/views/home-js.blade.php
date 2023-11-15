@@ -65,7 +65,7 @@
                         
                         data += `<tr style="text-align: center;">
                                     <td style="width:45%;text-align:left">${response[i].request_code}</td>
-                                    <td style="text-align:center;">${response[i].user_relation.name}</td>
+                                    <td style="text-align:left;">${response[i].user_relation.name}</td>
                                     <td style="width:15%;text-align:center">
                                         <button class="btn btn-success btn-sm">
                                             <a target="_blank" href="assignment" style="color:white;font-size:9.5px">
