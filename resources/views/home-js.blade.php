@@ -124,7 +124,7 @@
                     {    
                         data += `<tr style="text-align: center;">
                                     <td style="text-align:center;">${response[i].transaction_relation.request_code}</td>
-                                    <td style="width:35%;text-align:left">${response[i].item_relation.name}</td>
+                                    <td style="text-align:left">${response[i].item_relation.name}</td>
                                     <td style="text-align:center;">${response[i].quantity_request}</td>
                                     <td style="text-align:center;">${response[i].item_relation.uom}</td>
                                   
