@@ -14,7 +14,7 @@
             <a href="#" data-toggle ="dropdown" class="nav-link">
                 <i class="fas fa-user"></i>
             </a>
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">  
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style=" font-family: 'Poppins', sans-serif;">  
              
                 <div class="dropdown-divider"></div>
               

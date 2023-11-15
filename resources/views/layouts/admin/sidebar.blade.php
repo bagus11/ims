@@ -15,7 +15,7 @@
                 
             </div>
             <div class="info">
-                <a href="#" class="d-block" style="font-size:14px">{{auth()->user()->name}}</a>
+                <a href="#" class="d-block" style="font-size:14px; font-family: 'Poppins', sans-serif;">{{auth()->user()->name}}</a>
             </div>
         </div>
       
@@ -38,7 +38,7 @@
                         <li class="nav-item">
                             <a href="{{$item->link}}" class="nav-link">
                                 <ion-icon name="{{$item->icon}}"></ion-icon>
-                                <p class="ml-2">{{$item->name}}</p>
+                                <p class="ml-2" style=" font-family: 'Poppins', sans-serif;">{{$item->name}}</p>
                             </a>
                         </li>
                     @else
@@ -64,7 +64,7 @@
                                     <li class="nav-item" style="width:100%">
                                         <a href="{{$row->link}}" class="nav-link ml-2">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>{{$row->name}}</p>
+                                            <p style=" font-family: 'Poppins', sans-serif;">{{$row->name}}</p>
                                         </a>
                                     </li>
                                 @endforeach
