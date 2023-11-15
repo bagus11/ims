@@ -157,7 +157,7 @@
                 pagingType: "simple",
                 iDisplayLength:10,
                 scrollY:260,
-                order: [ [ $('th.defaultSort').index(),  'asc' ] ]
+                order: [[0, 'desc']]
             }).columns.adjust()
         
         }
