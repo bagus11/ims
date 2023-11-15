@@ -1,6 +1,11 @@
 <aside class="main-sidebar sidebar-dark-danger elevation-4" style="background-color: #26577C" >
     <a href="" class="brand-link bg-white" style=" border-top-right-radius: 25px;">
-        <img src="{{asset('icon.png')}}" height="30px" style="margin-left:auto;margin-right:auto;display:block" alt="">
+        <div id="60_container" hidden>
+            <img src="{{asset('60.png')}}" height="30px" style="margin-left:auto;margin-right:auto;display:block" alt="">
+        </div>
+        <div id="logo_container">
+            <img src="{{asset('icon.png')}}" height="30px" style="margin-left:auto;margin-right:auto;display:block" alt="">
+        </div>
         
      </a>
     <div class="sidebar">
