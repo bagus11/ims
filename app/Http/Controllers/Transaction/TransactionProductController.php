@@ -103,6 +103,7 @@ class TransactionProductController extends Controller
                 $productFilter = ProductModel::find($request->productFilter);
                 $productCode = $productFilter->product_code;
             }
+            
             $data = HistoryProduct_model::with([
                 'itemRelation',
                 'desLocationRelation',
@@ -115,6 +116,28 @@ class TransactionProductController extends Controller
             ->where('product_code','like','%'.$productCode.'%')
             ->whereHas('transactionRelation',function($query) use($request){
                 $query->where('user_id', 'like', '%'.$request->reqFilter .'%');
+            })
+            ->whereHas('itemRelation',function($query) use($request){
+                $query->where('department_id', auth()->user()->departement);
+            })
+            ->orderBy('id', 'desc')->get();
+            return response()->json([
+                'data'      => $data
+            ]);
+    }
+    function getHistoryProductDashboard(Request $request) {
+     
+      
+            $data = HistoryProduct_model::with([
+                'itemRelation',
+                'desLocationRelation',
+                'transactionRelation.userRelation',
+                'locationRelation',
+                'transactionRelation',
+            ])
+            ->whereBetween(DB::raw('DATE(created_at)'), [$request->from, $request->to])
+            ->whereHas('itemRelation',function($query) use($request){
+                $query->where('department_id', auth()->user()->departement);
             })
             ->orderBy('id', 'desc')->get();
             return response()->json([

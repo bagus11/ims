@@ -52,7 +52,7 @@
                             @endphp
                              <a href="#" class="nav-link">
                                 <ion-icon name="{{$item->icon}}"></ion-icon>
-                                <p class="ml-2">{{$item->name}}<i class="right fas fa-angle-left"></i></p>
+                                <p class="ml-2" style="margin-top:-10px !mportant">{{$item->name}}<i class="right fas fa-angle-left"></i></p>
                             </a>
                             <ul class="nav nav-treeview">
                                 @foreach ($submenus as $row)

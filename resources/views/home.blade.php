@@ -74,12 +74,21 @@
                         </div>
                     </div>
                     <hr>
-                    <table class="table" id="assignment_table">
+                    <div class="row">
+                        <div class="col">
+                            <input type="date" id="from" class="form-control" value="{{date("Y-m-d", strtotime( date( "Y-m-d", strtotime( date("Y-m-d") ) ) . "-1 month" ) )}}">
+                        </div>
+                        <div class="col">
+                            <input type="date" class="form-control" id="to" value="{{date('Y-m-d')}}">
+                        </div>
+                    </div>
+                    <table class="table" id="stock_move_table">
                         <thead>
                             <tr>
+                                <th  style="text-align: center">Request Code</th>
                                 <th  style="text-align: center">Item Name</th>
-                                <th  style="text-align: center">PIC</th>
-                                <th  style="text-align: center">Action</th>
+                                <th  style="text-align: center">Quantity</th>
+                                <th  style="text-align: center">UOM</th>
                             </tr>
                         </thead>
                         

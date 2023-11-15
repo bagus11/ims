@@ -8,9 +8,29 @@
             swal.close()
             mappingTableAssignment(response.data)
         })
+        var dataDashboard = {
+            'from' : $('#from').val(),
+            'to' : $('#to').val(),
+        }
+        getCallback('getHistoryProductDashboard',dataDashboard,function(response){
+            swal.close()
+            mappingTableStock(response.data)
+        })
     //Call Function
 
     // Operation
+        $('#from').on('change', function(){
+            getCallbackNoSwal('getHistoryProductDashboard',dataDashboard,function(response){
+                swal.close()
+                mappingTableStock(response.data)
+            })
+        })
+        $('#to').on('change', function(){
+            getCallbackNoSwal('getHistoryProductDashboard',dataDashboard,function(response){
+                swal.close()
+                mappingTableStock(response.data)
+            })
+        })
     // Operation
 
     // Function
@@ -64,7 +84,7 @@
                                         </button>`
                         
                         data += `<tr style="text-align: center;">
-                                    <td style="width:45%;text-align:left">${response[i].request_code}</td>
+                                    <td style="width:35%;text-align:left">${response[i].request_code}</td>
                                     <td style="text-align:left;">${response[i].user_relation.name}</td>
                                     <td style="width:15%;text-align:center">
                                         <button class="btn btn-success btn-sm">
@@ -90,6 +110,41 @@
                 pagingType: "simple",
                 iDisplayLength:10,
                 scrollY:300
+                
+            }).columns.adjust()
+        
+        }
+        function mappingTableStock(response){
+            var data =''
+            $('#stock_move_table').DataTable().clear();
+            $('#stock_move_table').DataTable().destroy();
+
+            var data=''
+                    for(i = 0; i < response.length; i++ )
+                    {    
+                        data += `<tr style="text-align: center;">
+                                    <td style="text-align:center;">${response[i].transaction_relation.request_code}</td>
+                                    <td style="width:35%;text-align:left">${response[i].item_relation.name}</td>
+                                    <td style="text-align:center;">${response[i].quantity_request}</td>
+                                    <td style="text-align:center;">${response[i].item_relation.uom}</td>
+                                  
+                                </tr>
+                            `;
+                    }
+            $('#stock_move_table > tbody:first').html(data);
+            $('#stock_move_table').DataTable({
+                dom: 'rtip',
+                scrollX  : true,
+                language: {
+                    'paginate': {
+                    'previous': '<span class="prev-icon"><i class="fa-solid fa-arrow-left"></i></span>',
+                    'next': '<span class="next-icon"><i class="fa-solid fa-arrow-right"></i></span>'
+                    }
+                },
+                searching :true,
+                pagingType: "simple",
+                iDisplayLength:10,
+                scrollY:260
                 
             }).columns.adjust()
         
