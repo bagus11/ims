@@ -15,7 +15,7 @@
                 
             </div>
             <div class="info">
-                <a href="#" class="d-block" style="font-size:14px; font-family: 'Poppins', sans-serif;">{{auth()->user()->name}}</a>
+                <a href="#" class="d-block" style="font-size:14px; font-family: 'Poppins', sans-serif;margin-top:5px">{{auth()->user()->name}}</a>
             </div>
         </div>
       
