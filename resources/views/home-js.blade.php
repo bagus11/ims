@@ -67,7 +67,7 @@
                                     <td style="width:45%;text-align:left">${response[i].request_code}</td>
                                     <td style="text-align:center;">${response[i].user_relation.name}</td>
                                     <td style="width:15%;text-align:center">
-                                        <button class="btn btn-success">
+                                        <button class="btn btn-success btn-sm">
                                             <a target="_blank" href="assignment" style="color:white;font-size:9.5px">
                                                 <i class="fa-solid fa-share"></i>
                                             </a>
