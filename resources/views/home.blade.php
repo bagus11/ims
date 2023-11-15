@@ -82,7 +82,7 @@
                             <input type="date" class="form-control" id="to" value="{{date('Y-m-d')}}">
                         </div>
                     </div>
-                    <table class="table" id="stock_move_table" style="width: 100% !important">
+                    <table class="table" id="stock_move_table" style="width: 100% !important; position: sticky;">
                         <thead>
                             <tr>
                                 <th  style="text-align: center">Created At</th>
