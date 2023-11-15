@@ -134,9 +134,9 @@
                         const date = d.toISOString().split('T')[0];
                         const time = d.toTimeString().split(' ')[0];
                         data += `<tr style="text-align: center;">
-                                    <td style="text-align:center;width: 25%">${date} ${time}</td>
-                                    <td style="text-align:center;width: 25%">${response[i].transaction_relation.request_code}</td>
-                                    <td style="text-align:left;width: 25%">${response[i].item_relation.name}</td>
+                                    <td style="text-align:center;width: 50px">${date} ${time}</td>
+                                    <td style="text-align:center;width: 50px%">${response[i].transaction_relation.request_code}</td>
+                                    <td style="text-align:left;width: 100px%">${response[i].item_relation.name}</td>
                                     <td style="text-align:center;width: 25%">${response[i].quantity_request} ${response[i].item_relation.uom}</td>
 
                                   
