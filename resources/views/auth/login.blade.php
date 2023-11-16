@@ -165,7 +165,7 @@
             }
             
             .submit-btn {
-                background-color: #26577C !important;
+                background-color:#6B92A4) !important;
                 color: white ;
                 /* color: rgba(256,256,256,0.7); */
                 border:0;
