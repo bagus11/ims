@@ -75,7 +75,7 @@
         width: 350px;
         position: relative;
         overflow: hidden;
-        
+        filter: drop-shadow(5px 5px 5px rgba(0,0,0,0.4));
         &::after {
             content: '';
             opacity: .8;
