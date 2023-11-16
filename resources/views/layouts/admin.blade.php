@@ -363,7 +363,7 @@ tr.shown td.subdetails-click {
       font-size:9px
     }
     .bg-core{
-      background-color: #26577C !important;
+      background-color: #6B92A4 !important;
       color: white ;
     }
     .card-radius{

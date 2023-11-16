@@ -1,4 +1,4 @@
-<aside class="main-sidebar sidebar-dark-danger elevation-4" style="background-color: #26577C" >
+<aside class="main-sidebar sidebar-dark-danger elevation-4" style="background-color: #6B92A4" >
     <a href="" class="brand-link bg-white" style=" border-top-right-radius: 25px;">
         <div id="60_container" hidden>
             <img src="{{asset('60.png')}}" height="30px" style="margin-left:auto;margin-right:auto;display:block" alt="">
