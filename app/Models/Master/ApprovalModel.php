@@ -21,5 +21,8 @@ class ApprovalModel extends Model
     function categoryRelation(){
         return $this->hasOne(CategoryModel::class,'id','category_id');
     }
+    function userRelation() {
+        return $this->hasOne(User::class,'id','user_id');
+    }
 
 }

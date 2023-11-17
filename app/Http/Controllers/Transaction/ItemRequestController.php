@@ -6,6 +6,7 @@ use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddTransactionRequest;
 use App\Http\Requests\UpdateProgressRequest;
+use App\Mail\NotifyEmail;
 use App\Models\Master\ApprovalModel;
 use App\Models\Master\ProductModel;
 use App\Models\MasterLocation;
@@ -15,8 +16,23 @@ use App\Models\Transaction\ItemRequestModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use NumConvert;
+use Illuminate\Support\Facades\Mail;
 class ItemRequestController extends Controller
 {
+    public function sendMail($title,$to,$message,$subject)
+    {
+        $emails =$to;
+    
+        $mailData = [
+            'title' =>$title,
+            'subject'=>$subject,
+            'body'=>$message,
+            'footer' => 'Email otomatis dari PT.Pralon(ICT DEV)'
+        ];
+        Mail::to($emails)
+        ->cc('bagus.slamet@pralon.com')
+        ->send(new NotifyEmail($mailData));
+    }
     function index() {
         return view('transaction.ir.ir-index');
     }
@@ -241,6 +257,7 @@ class ItemRequestController extends Controller
          // try {
             $updateProgressRequest->validated();
             $dataOld            = ItemRequestDetail::where('request_code',$request->id)->orderBy('id','desc')->first();
+            $itemRequest        = ItemRequestModel :: where('request_code',$request->id)->orderBy('id','desc')->first();
             $updateProduct      = ProductModel::where('product_code', $dataOld->item_id)->first();  
             $finalItem          = $dataOld->request_type == 1 || $dataOld->request_type == 3 ?  $updateProduct->quantity - $dataOld->quantity_request : $updateProduct->quantity + $dataOld->quantity_request;
             $productCode        = ProductModel::where('product_code',$dataOld->item_id)->first();
@@ -287,13 +304,30 @@ class ItemRequestController extends Controller
                 'quantity'=>$finalItem
             ];
                
-    
-            DB::transaction(function() use($post,$post_log,$request,$dataOld,$postLogProduct,$updatePost,$updateProduct) {
+            $email_approver = [];
+            $approver = ApprovalModel::with('userRelation')->where('category_id', $itemRequest->category_id)->get();
+            DB::transaction(function() use($post,$post_log,$request,$dataOld,$postLogProduct,$updatePost,$updateProduct,$email_approver, $approver) {
 
                 ItemRequestModel::where('request_code',$request->id)->update($post);
                 ItemRequestDetail::create($post_log);
                 $updateProduct->update($updatePost);
                   HistoryProduct_model::create($postLogProduct);
+                  $itemValidation = ProductModel :: find($updateProduct->id);
+                if($itemValidation->quantity < $itemValidation->min_quantity){
+                    foreach($approver as $row){
+                        // dd($row['userRelation']['email']);
+                        $item      = ProductModel::where('product_code', $dataOld->item_id)->first();  
+                        $title      = 'Stock Item Reminder ';
+                        $subject    = 'IMS - ' . $dataOld->request_code;
+                        $to         = $row['userRelation']['email'];
+                        $dataEmail  = [
+                            'data' => $item,
+                            'user' => $row['userRelation']['name']
+                        ];
+                        $message    = view('email.reminder',$dataEmail);
+                        $this->sendMail($title,$to,$message,$subject);
+                    }
+                }
             });
             return ResponseFormatter::success(   
                 $post_log,                              
@@ -308,4 +342,5 @@ class ItemRequestController extends Controller
         // }
         
     }
+  
 }

@@ -62,8 +62,8 @@
                 if(type == 1 ){
                     if(total <=  min){
                         toastr['warning']('quantity is not enough, please contact accounting staff');  
-                        $('#quantity_request').val('')
-                        return false
+                        // $('#quantity_request').val('')
+                        // return false
                     }
                 }
             })

@@ -48,16 +48,21 @@
             $('#product_table').DataTable().destroy();
 
             var data=''
-                    for(i = 0; i < response.length; i++ )
-                    {
+            for(i = 0; i < response.length; i++ )
+            {
+                        var css ='';
+                        if(response[i].quantity <= response[i].min_quantity){
+                            css ='color : red; font-weight:bold'
+                        }
+
                         var editBuffer =` <button title="Edit Buffer" class="editBufferProduct btn btn-sm btn-secondary rounded" data-code="${response[i]['product_code']}" data-id="${response[i]['id']}" data-toggle="modal" data-target="#editBufferProductModal">
                                             <i class="fas fa-solid fa-gears"></i>
                                         </button>`
                         
                         data += `<tr style="text-align: center;">
-                                    <td style="width:45%;text-align:left">${response[i].name}</td>
-                                    <td style="width:15%;text-align:center">${response[i].quantity}</td>
-                                    <td style="width:15%;text-align:center">${response[i].uom}</td>
+                                    <td style="width:45%;text-align:left;${css}">${response[i].name}</td>
+                                    <td style="width:15%;text-align:center;${css}">${response[i].quantity}</td>
+                                    <td style="width:15%;text-align:center;${css}">${response[i].uom}</td>
                                 </tr>
                             `;
                     }
