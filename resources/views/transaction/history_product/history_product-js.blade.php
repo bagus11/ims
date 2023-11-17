@@ -121,6 +121,12 @@
                     $('#product_table').DataTable({
                         scrollX  : true,
                         ordering: true,
+                        language: {
+                            'paginate': {
+                            'previous': '<span class="prev-icon"><i class="fa-solid fa-arrow-left"></i></span>',
+                            'next': '<span class="next-icon"><i class="fa-solid fa-arrow-right"></i></span>'
+                            }
+                        },
                         order: [[0, 'desc']]
                         // autoWidth: true
                     }).columns.adjust()

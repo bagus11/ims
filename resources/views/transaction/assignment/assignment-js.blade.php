@@ -154,6 +154,12 @@
                 $('#assignment_table > tbody:first').html(data);
                 $('#assignment_table').DataTable({
                     scrollX  : true,
+                    language: {
+                    'paginate': {
+                    'previous': '<span class="prev-icon"><i class="fa-solid fa-arrow-left"></i></span>',
+                    'next': '<span class="next-icon"><i class="fa-solid fa-arrow-right"></i></span>'
+                    }
+                },
                 }).columns.adjust()
         }
     // FUnction
