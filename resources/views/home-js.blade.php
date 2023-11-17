@@ -56,7 +56,7 @@
                         
                         data += `<tr style="text-align: center;">
                                     <td style="width:45%;text-align:left">${response[i].name}</td>
-                                    <td style="width:15%;text-align:right">${response[i].quantity}</td>
+                                    <td style="width:15%;text-align:center">${response[i].quantity}</td>
                                     <td style="width:15%;text-align:center">${response[i].uom}</td>
                                 </tr>
                             `;
