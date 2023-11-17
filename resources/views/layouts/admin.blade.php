@@ -143,6 +143,12 @@
   .selectOption2{
     font-size:9px;
   }
+  .page-link
+  {
+    font-size: 9px !important;
+    height: 30px !important;  
+    margin-top:10px !important; 
+  }
 .datatable-bordered{
   font-family: Poppins;
   border-collapse: collapse;
