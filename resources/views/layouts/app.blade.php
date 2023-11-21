@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" style="background-image: url({{ asset('bg.png') }});">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -22,7 +22,7 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript" defer></script>
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 </head>
-<body>
+<body style="background: transparent">
     <div id="app">
         <main class="py-4">
             @yield('content')

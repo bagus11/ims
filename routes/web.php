@@ -136,10 +136,10 @@ Route::group(['middleware' => ['auth']], function() {
 
             // Setting Password
             
-            Route::get('setting_password', [SettingController::class, 'index'])->name('setting_password');
-            Route::post('update_user', [SettingController::class, 'update_user'])->name('update_user');
-            Route::post('change_password', [SettingController::class, 'change_password'])->name('change_password');
-        
+                Route::get('setting_password', [SettingController::class, 'index'])->name('setting_password');
+                Route::post('update_user', [SettingController::class, 'update_user'])->name('update_user');
+                Route::post('change_password', [SettingController::class, 'change_password'])->name('change_password');
+            
             // Setting Password
         // Transaction
     

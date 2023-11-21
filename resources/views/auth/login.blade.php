@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 <div class="form-structor">
 	<div class="signup">
@@ -63,7 +62,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-family: "Fira Sans", Helvetica, Arial, sans-serif;
+        font-family: "Poppins";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     }
@@ -165,14 +164,14 @@
             }
             
             .submit-btn {
-                background-color:#6B92A4) !important;
+                background-color:#6B92A4!important;
                 color: white ;
                 /* color: rgba(256,256,256,0.7); */
                 border:0;
                 border-radius: 15px;
                 display: block;
                 margin: 15px auto; 
-                padding: 15px 45px;
+                padding: 5px 25px;
                 width: 100%;
                 font-size: 13px;
                 font-weight: bold;
