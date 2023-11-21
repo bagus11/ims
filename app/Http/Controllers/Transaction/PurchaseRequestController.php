@@ -26,7 +26,7 @@ class PurchaseRequestController extends Controller
             'userRelation',
             'itemRelation',
             'locationRelation',
-        ])->whereIn('request_type',[3,4])  
+        ])->where('request_type',4)  
             ->orderBy('status','asc')
             ->orderBy('id', 'desc')
             ->get();
