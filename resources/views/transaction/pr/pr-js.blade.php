@@ -318,6 +318,7 @@
                             var buttonChecking = ''
                             console.log(response[i].status)
                             console.log(authId)
+                            var authId = $('#authId').val()
                             if(response[i].status == 3 || response[i].status == 5){
                                 if(response[i].approval_id == authId){
                                     buttonChecking = `
