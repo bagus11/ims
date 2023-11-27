@@ -61,9 +61,13 @@
                 var total = parseInt(quantity_product) - parseInt(quantity)
                 if(type == 1 ){
                     if(total <=  min){
-                        toastr['warning']('quantity is not enough, please contact accounting staff');  
-                        // $('#quantity_request').val('')
-                        // return false
+                        if(total < 0){
+                            $('#quantity_request').val('')
+                            toastr['danger']('quantity is not enough, please contact accounting staff');  
+                            return false
+                        }else{
+                            toastr['warning']('quantity is low, please review your item balances');  
+                        }
                     }
                 }
             })
