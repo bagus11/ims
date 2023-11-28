@@ -55,10 +55,12 @@
             })
             $('#quantity_request').on('change', function(){
                 var min = $("#select_product").select2().find(":selected").data("min");
+                var buffer = $("#select_product").select2().find(":selected").data("buffer");
                 var quantity = $('#quantity_request').val()
                 var quantity_product = $('#quantity_product').val()
                 var type = $('#transaction_id').val()
-                var total = parseInt(quantity_product) - parseInt(quantity)
+                var total = parseInt(quantity_product) - parseInt(quantity) - parseInt(buffer)
+                console.log(total + '=' + parseInt(quantity_product) + '-'  + parseInt(quantity) + '-' +  parseInt(buffer))
                 if(type == 1 ){
                     if(total <=  min){
                         if(total < 0){

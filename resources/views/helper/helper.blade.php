@@ -90,7 +90,7 @@
                     $('#'+id).empty()
                     $('#'+id).append('<option value ="">Choose '+ name +'</option>');
                     $.each(response.data,function(i,data){
-                        $('#'+id).append('<option data-uom="'+data.uom+'" data-min="'+ data.min_quantity +'" data-max="'+ data.max_quantity +'"  data-name="'+ data.name +'" value="'+data.id+'">' + data.name +'</option>');
+                        $('#'+id).append('<option data-uom="'+data.uom+'" data-buffer="'+ data.quantity_buffer +'" data-min="'+ data.min_quantity +'" data-max="'+ data.max_quantity +'"  data-name="'+ data.name +'" value="'+data.id+'">' + data.name +'</option>');
                     });
                 },
                 error: function(response) {

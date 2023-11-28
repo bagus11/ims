@@ -171,6 +171,12 @@ class AssignmentController extends Controller
                 }
                 ItemRequestModel::where('request_code',$request->id)->update($post);
                 ItemRequestDetail::create($post_log);
+                if($request->approval_id != 1){
+                   $productCode = ProductModel::where('product_code',$dataOld->item_id)->first();
+                   ProductModel::where('product_code',$dataOld->item_id)->update([
+                    'quantity_buffer' => $productCode->quantity_buffer - $dataOld->quantity_request
+                   ]);
+                }
             });
             return ResponseFormatter::success(   
                 $updateAssignmentRequest,                              

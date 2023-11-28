@@ -225,8 +225,11 @@ class ItemRequestController extends Controller
                 'step'                 =>2,
                 'attachment'           =>$destinationAttachment,
             ];
+            $post_product =[
+                'quantity_buffer' => $productCode->quantity_buffer + $request->quantity_request
+            ];
             // dd($post);
-            DB::transaction(function() use($post,$postLog,$request,$fileName,$approval_id,$postSecond,$postLogSecond) {
+            DB::transaction(function() use($post,$postLog,$request,$fileName,$approval_id,$postSecond,$postLogSecond,$post_product) {
                 ItemRequestDetail::create($postLog);
                 if($approval_id->user_id == auth()->user()->id){
                     ItemRequestModel::create($postSecond);
@@ -238,7 +241,7 @@ class ItemRequestController extends Controller
                     $destination = $request->transaction_id == 1 ?'/AttachmentRequest/' :'/AttachmentReturn/';
                     $request->file('attachment_req')->storeAs('/attachment/',$fileName);
                 }
-                
+                ProductModel::find($request->product_id)->update($post_product);
             });
             
             return ResponseFormatter::success(   
@@ -260,6 +263,7 @@ class ItemRequestController extends Controller
             $itemRequest        = ItemRequestModel :: where('request_code',$request->id)->orderBy('id','desc')->first();
             $updateProduct      = ProductModel::where('product_code', $dataOld->item_id)->first();  
             $finalItem          = $dataOld->request_type == 1 || $dataOld->request_type == 3 ?  $updateProduct->quantity - $dataOld->quantity_request : $updateProduct->quantity + $dataOld->quantity_request;
+            $finalBuffer        = $dataOld->request_type == 1 || $dataOld->request_type == 3 ?  $updateProduct->quantity_buffer - $dataOld->quantity_request : $updateProduct->quantity + $dataOld->quantity_request;
             $productCode        = ProductModel::where('product_code',$dataOld->item_id)->first();
             $approval_id        = ApprovalModel::where([
                 'category_id'   => $productCode->category_id,
@@ -301,7 +305,8 @@ class ItemRequestController extends Controller
                 'quantity_result' =>$finalItem,
             ];
             $updatePost =[
-                'quantity'=>$finalItem
+                'quantity'=> $finalItem,
+                'quantity_buffer'=> $finalBuffer
             ];
                
             $email_approver = [];

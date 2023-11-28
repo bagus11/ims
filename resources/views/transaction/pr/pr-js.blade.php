@@ -317,8 +317,9 @@
                             }
                             var buttonChecking = ''
                             var authId = $('#authId').val()
+                            console.log(authId)
                             if(response[i].status == 3 || response[i].status == 5){
-                                if(response[i].approval_id == authId){
+                                if(response[i].user_id == authId){
                                     buttonChecking = `
                                                 <button title="Update Progress" class="updateProgress btn btn-sm btn-warning rounded" data-tc="${response[i].request_code}"   data-des="${response[i].des_location_id}" data-toggle="modal" data-target="#updateTransacrionModal">
                                                     <i class="fas fa-solid fa-edit"></i>
