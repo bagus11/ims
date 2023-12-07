@@ -4,6 +4,9 @@ use App\Http\Controllers\Master\MasterApproverController;
 use App\Http\Controllers\Master\MasterCategoryController;
 use App\Http\Controllers\Master\MasterProductController;
 use App\Http\Controllers\Master\MasterTypeController;
+use App\Http\Controllers\PettyCash\Master\MasterCategoryPCController;
+use App\Http\Controllers\PettyCash\Master\MasterPettyCashController;
+use App\Http\Controllers\PettyCash\Master\MaterApproverPCController;
 use App\Http\Controllers\Setting\RolePermissionController;
 use App\Http\Controllers\Setting\UserAccessController;
 use App\Http\Controllers\Transaction\AssignmentController;
@@ -29,6 +32,7 @@ Auth::routes();
 Route::group(['middleware' => ['auth']], function() {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('/');
     Route::get('home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    // IMS 
         // Setting
             // Role & Permission 
                 Route::get('role_permission', [RolePermissionController::class, 'index'])->name('role_permission');
@@ -54,7 +58,7 @@ Route::group(['middleware' => ['auth']], function() {
                 Route::get('destroyRolePermission', [UserAccessController::class, 'destroyRolePermission'])->name('destroyRolePermission');
             // User Access
         // Setting
-    
+
         // Master
             // Type
                 Route::get('master_type', [MasterTypeController::class, 'index'])->name('master_type');
@@ -66,7 +70,7 @@ Route::group(['middleware' => ['auth']], function() {
                 Route::post('updateStatusType', [MasterTypeController::class, 'updateStatusType'])->name('updateStatusType');
                 Route::post('updateType', [MasterTypeController::class, 'updateType'])->name('updateType');
             // Type
-    
+
             // Category
                 Route::get('master_category', [MasterCategoryController::class, 'index'])->name('master_category');
                 Route::get('getCategory', [MasterCategoryController::class, 'getCategory'])->name('getCategory');
@@ -101,7 +105,7 @@ Route::group(['middleware' => ['auth']], function() {
                 // Approver
                 // Master
                 
-         // Transaction
+        // Transaction
             // Purchase Request
                 Route::get('purchase_req', [PurchaseRequestController::class, 'index'])->name('purchase_req');
                 Route::get('getPurchase', [PurchaseRequestController::class, 'getPurchase'])->name('getPurchase');
@@ -124,7 +128,7 @@ Route::group(['middleware' => ['auth']], function() {
                 Route::post('updateAssignment', [AssignmentController::class, 'updateAssignment'])->name('updateAssignment');
             // Assignment
                 
-             // Hisrory Product
+            // Hisrory Product
                 Route::get('historyProduct', [TransactionProductController::class, 'index'])->name('historyProduct');
                 Route::get('getHistoryProduct', [TransactionProductController::class, 'getHistoryProduct'])->name('getHistoryProduct');
                 Route::get('getHistoryProductDashboard', [TransactionProductController::class, 'getHistoryProductDashboard'])->name('getHistoryProductDashboard');
@@ -142,5 +146,30 @@ Route::group(['middleware' => ['auth']], function() {
             
             // Setting Password
         // Transaction
+    // IMS 
     
+    // Petty Cash 
+        // Master
+            Route::get('master_pettycash', [MasterPettyCashController::class, 'index'])->name('master_pettycash');
+            Route::get('getMasterPC', [MasterPettyCashController::class, 'getMasterPC'])->name('getMasterPC');
+            Route::post('addMasterPC', [MasterPettyCashController::class, 'addMasterPC'])->name('addMasterPC');
+            Route::post('activatePC', [MasterPettyCashController::class, 'activatePC'])->name('activatePC');
+        // Master
+        
+        // Category
+            Route::get('master_category_pt', [MasterCategoryPCController::class, 'index'])->name('master_category_pt');
+            Route::get('getCategoryPC', [MasterCategoryPCController::class, 'getCategoryPC'])->name('getCategoryPC');
+            Route::get('detailCategoryPC', [MasterCategoryPCController::class, 'detailCategoryPC'])->name('detailCategoryPC');
+            Route::post('addCategoryPC', [MasterCategoryPCController::class, 'addCategoryPC'])->name('addCategoryPC');
+            Route::post('activateCategoryPC', [MasterCategoryPCController::class, 'activateCategoryPC'])->name('activateCategoryPC');
+            Route::post('UpdateCategoryPC', [MasterCategoryPCController::class, 'UpdateCategoryPC'])->name('UpdateCategoryPC');
+            // Category
+            
+        // Master Approver
+            Route::get('master_approver_pc', [MaterApproverPCController::class, 'index'])->name('master_approver_pc');
+            Route::get('getApproverPC', [MaterApproverPCController::class, 'getApproverPC'])->name('getApproverPC');
+            Route::get('addMasterApproverPC', [MaterApproverPCController::class, 'addMasterApproverPC'])->name('addMasterApproverPC');
+            
+        // Master Approver
+    // Petty Cash 
 });
