@@ -32,7 +32,9 @@
             </div>
     </div>
 </div>
-
+@include('pettycash.master.master_approver.modal.add-approver_pc')
+@include('pettycash.master.master_approver.modal.edit-approver_pc')
+@include('pettycash.master.master_approver.modal.step-approver_pc')
 @endsection
 @push('custom-js')
 @include('pettycash.master.master_approver.master_approver_pc-js')

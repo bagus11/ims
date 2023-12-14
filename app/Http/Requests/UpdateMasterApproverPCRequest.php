@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePCRequest extends FormRequest
+class UpdateMasterApproverPCRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,7 @@ class StorePCRequest extends FormRequest
     public function rules()
     {
         return [
-            'period' =>'required',
-            'bank_id' =>'required',
-            'total_pc' =>'required',
-            'no_check' =>['required', 'unique:master_petty_cash'],
+            'edit_step'=>'required'
         ];
     }
 }

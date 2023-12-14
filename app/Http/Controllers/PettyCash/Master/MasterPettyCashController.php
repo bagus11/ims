@@ -5,6 +5,7 @@ namespace App\Http\Controllers\PettyCash\Master;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePCRequest;
+use App\Models\MasterBank;
 use App\Models\PettyCash\Master\MasterPettyCash;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class MasterPettyCashController extends Controller
         return view('pettycash.master.master_pettycash.master_pettycash-index');
     }
     function getMasterPC() {
-        $data = MasterPettyCash::all();
+        $data = MasterPettyCash::with(['bankRelation'])->get();
         return response()->json([
             'data'=>$data,
         ]); 
@@ -22,14 +23,20 @@ class MasterPettyCashController extends Controller
     function addMasterPC(Request $request, StorePCRequest $storePCRequest) {
         try {
             $storePCRequest->validated();
+            $fileName           = '';
             $post =[
                 'no_check'              => $request->no_check,
                 'status'                => 1,
                 'period'                =>$request->period,
+                'bank_id'               =>$request->bank_id,
                 'total_petty_cash'      =>$request->total_pc,
                 'user_id'               =>auth()->user()->id,
+                'attachment'            => 'storage/balance/'.date('YmdHis').'.pdf'
             ];
             // dd($post);
+            if($request->file('attachment')){
+                $request->file('attachment')->storeAs('/balance',$request->no_check.'.pdf');
+            }
             MasterPettyCash::create($post);
             return ResponseFormatter::success(   
                 $post,                              
@@ -42,6 +49,12 @@ class MasterPettyCashController extends Controller
                 500
             );
         }
+    }
+    function getActiveBank() {
+        $data = MasterBank::where('status', 1)->get();
+        return response()->json([
+            'data'=>$data,
+        ]); 
     }
     function activatePC(Request $request) {
         try {

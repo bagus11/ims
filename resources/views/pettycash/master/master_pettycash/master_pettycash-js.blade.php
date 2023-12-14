@@ -16,16 +16,24 @@
             formatCurrency($(this), "blur");
             }
         });
-
-        $('#btn_save_pc').on('click', function(){
+        $('#btn_add_pc').on('click', function(){
+            getActiveItems('getActiveBank', null, 'select_bank','Bank')
+        })
+        onChange('select_bank','bank_id')
+        $('#btn_save_pc').on('click', function(e){
+            e.preventDefault();
             const total_pc = $('#total_pc').val()
             var total_pc_string = parseFloat(total_pc.replace(/,/g, ''));
-            var data ={
-                'total_pc'  :  total_pc_string,
-                'period'    : $('#period').val(),
-                'no_check'    : $('#no_check').val(),
-            }
-            postCallback('addMasterPC', data, function(response){
+            var data = new FormData();
+         
+
+            data.append('attachment',$('#attachment')[0].files[0]);
+            data.append('total_pc',total_pc_string)
+            data.append('period',$('#period').val())
+            data.append('bank_id',$('#bank_id').val())
+            data.append('no_check',$('#no_check').val())
+            
+            postAttachment('addMasterPC',data,false,function(response){
                     swal.close()
                     $('.message_error').html('')
                     toastr['success'](response.meta.message);
@@ -74,13 +82,22 @@
                         var editBuffer =` <button title="Edit Buffer" class="editBufferProduct btn btn-sm btn-secondary rounded" data-code="${response[i]['product_code']}" data-id="${response[i]['id']}" data-toggle="modal" data-target="#editBufferProductModal">
                                             <i class="fas fa-solid fa-gears"></i>
                                         </button>`
-                        
+                        var output = response[i].attachment.split('/').pop();
                         data += `<tr style="text-align: center;">
                                     <td style="text-align: center;"> <input type="checkbox" id="check" name="check" class="is_checked" style="border-radius: 5px !important;" value="${response[i]['id']}"  ${response[i].status == 1 ?'checked' :''} data-check="${response[i].no_check}" data-status="${response[i].status}"></td>
                                     <td style="text-align:center;">${response[i].status == 1 ? 'active' : 'inactive'}</td>
                                     <td style="text-align:left;">${response[i].no_check}</td>
+                                    <td style="text-align:left;">${response[i].bank_relation.name}</td>
                                     <td style="text-align:center;">${response[i].period}</td>
                                     <td style="text-align:right;">${ formatRupiah(response[i].total_petty_cash)}</td>
+                                    <td style="text-align:center;">
+                                        <a target="_blank" href="{{URL::asset('${response[i].attachment}')}}" class="ml-3" style="color:blue;">
+                                            <i class="far fa-file" style="color: red;font-size: 20px;margin-top:-15px"></i>
+                                            ${output}
+                                        </a>
+                                       
+                                        
+                                        </td>
                                 </tr>
                             `;
                     }

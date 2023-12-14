@@ -75,6 +75,30 @@
                 }
             });   
     }
+    function getActiveItemTransaction(url,data,id,name){
+        $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                async: true,
+                data : data,
+                beforeSend: function() {
+                    SwalLoading('Please wait ...');
+                },
+                success: function(response) {
+                swal.close();
+                    $('#'+id).empty()
+                    $('#'+id).append('<option value ="">Choose '+ name +'</option>');
+                    $.each(response.data,function(i,data){
+                        $('#'+id).append('<option data-max ="'+ data.max_transaction +'" data-name="'+ data.name +'" value="'+data.id+'">' + data.name +'</option>');
+                    });
+                },
+                error: function(response) {
+                    swal.close();
+                    toastr['error']('Failed to get data, please contact Developer');
+                }
+            });   
+    }
     function getProductItems(url,data,id,name){
         $.ajax({
                 url: url,
@@ -350,6 +374,7 @@
                 { style: 'currency', currency: 'IDR' }
             ).format(money);
         }
+
         function convertToRupiah(angka) {
             var rupiah = '';
             var angkarev = angka.toString().split('').reverse().join('');

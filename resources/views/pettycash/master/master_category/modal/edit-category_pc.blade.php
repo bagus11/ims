@@ -16,14 +16,14 @@
                         </div>
                         <div class="col-md-8">
                             <input type="hidden" class="form-control" id="categoryId">
-                            <input type="text" class="form-control" id="name_edit">
+                            <input type="text" class="form-control" id="name_edit" disabled>
                             <span  style="color:red;" class="message_error text-red block name_edit_error"></span>
                         </div>
                         <div class="col-md-3 mt-2">
                            <p>Description</p>
                         </div>
                         <div class="col-md-8">
-                            <textarea class="form-control" id="description_edit" rows="3"></textarea>
+                            <textarea class="form-control" id="description_edit" rows="3" disabled></textarea>
                             <span  style="color:red;" class="message_error text-red block description_edit_error"></span>
                         </div>
                     </div>

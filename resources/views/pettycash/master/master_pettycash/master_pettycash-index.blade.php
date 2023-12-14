@@ -20,8 +20,10 @@
                                     <th  style="text-align: center"></th>
                                     <th  style="text-align: center">Status</th>
                                     <th  style="text-align: center">No Check</th>
+                                    <th  style="text-align: center">Bank</th>
                                     <th  style="text-align: center">Period</th>
                                     <th  style="text-align: center">Total Petty Cash</th>
+                                    <th  style="text-align: center">Attachment</th>
                                 </tr>
                             </thead>
                         </table>

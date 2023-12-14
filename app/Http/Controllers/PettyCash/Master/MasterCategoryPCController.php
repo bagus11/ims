@@ -20,6 +20,12 @@ class MasterCategoryPCController extends Controller
             'data'=>$data,
         ]); 
     }
+    function getActiveCategoryPC() {
+        $data = MasterCategoryPC::where('status',1)->get();
+        return response()->json([
+            'data'=>$data,
+        ]); 
+    }
     function detailCategoryPC(Request $request) {
         $data = MasterCategoryPC::find($request->id);
         return response()->json([
