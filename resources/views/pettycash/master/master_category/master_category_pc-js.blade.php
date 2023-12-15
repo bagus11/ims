@@ -73,7 +73,9 @@
                         })
                     })
                 })
+
             // Activated Category
+            
             // Update Category
             $("#min_transaction_edit").on({
                 keyup: function() {
@@ -98,7 +100,7 @@
                     }
                     getCallback('detailCategoryPC',data,function(response){
                         swal.close()
-                        console.log(response.detail)
+                       
                        $('#categoryId').val(response.detail.id)
                        $('#name_edit').val(response.detail.name)
                        $('#description_edit').val(response.detail.description)

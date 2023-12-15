@@ -6,6 +6,7 @@ use App\Http\Controllers\Master\MasterProductController;
 use App\Http\Controllers\Master\MasterTypeController;
 use App\Http\Controllers\PettyCash\Master\MasterCategoryPCController;
 use App\Http\Controllers\PettyCash\Master\MasterPettyCashController;
+use App\Http\Controllers\PettyCash\Master\MasterSubCategoryController;
 use App\Http\Controllers\PettyCash\Master\MaterApproverPCController;
 use App\Http\Controllers\PettyCash\Transaction\PettyCashRequestController;
 use App\Http\Controllers\Setting\RolePermissionController;
@@ -38,7 +39,7 @@ Route::group(['middleware' => ['auth']], function() {
             // Role & Permission 
                 Route::get('role_permission', [RolePermissionController::class, 'index'])->name('role_permission');
                 Route::get('getRole', [RolePermissionController::class, 'getRole'])->name('getRole');
-                Route::get('getPettyCashRequestermission', [RolePermissionController::class, 'getPermission'])->name('getPermission');
+                Route::get('getPermission', [RolePermissionController::class, 'getPermission'])->name('getPermission');
                 Route::get('deleteRole', [RolePermissionController::class, 'deleteRole'])->name('deleteRole');
                 Route::post('addRole', [RolePermissionController::class, 'addRole'])->name('addRole');
                 Route::get('detailRole', [RolePermissionController::class, 'detailRole'])->name('detailRole');
@@ -168,6 +169,17 @@ Route::group(['middleware' => ['auth']], function() {
             Route::post('UpdateCategoryPC', [MasterCategoryPCController::class, 'UpdateCategoryPC'])->name('UpdateCategoryPC');
             // Category
             
+        // Sub Category
+            
+            Route::get('sub_category_pc', [MasterSubCategoryController::class, 'index'])->name('sub_category_pc');
+            Route::get('getSubCategory', [MasterSubCategoryController::class, 'getSubCategory'])->name('getSubCategory');
+            Route::get('detailSubCategory', [MasterSubCategoryController::class, 'detailSubCategory'])->name('detailSubCategory');
+            Route::get('getActiveSubCategory', [MasterSubCategoryController::class, 'getActiveSubCategory'])->name('getActiveSubCategory');
+            Route::post('addSubCategory', [MasterSubCategoryController::class, 'addSubCategory'])->name('addSubCategory');
+            Route::post('activateSubCategoryPC', [MasterSubCategoryController::class, 'activateSubCategoryPC'])->name('activateSubCategoryPC');
+            Route::post('updateSubCategory', [MasterSubCategoryController::class, 'updateSubCategory'])->name('updateSubCategory');
+        // Sub Category
+
         // Master Approver
             Route::get('master_approver_pc', [MaterApproverPCController::class, 'index'])->name('master_approver_pc');
             Route::get('getApproverPC', [MaterApproverPCController::class, 'getApproverPC'])->name('getApproverPC');
