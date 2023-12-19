@@ -15,13 +15,13 @@ class MasterPettyCashController extends Controller
         return view('pettycash.master.master_pettycash.master_pettycash-index');
     }
     function getMasterPC() {
-        $data = MasterPettyCash::with(['bankRelation'])->get();
+        $data = MasterPettyCash::with(['bankRelation','locationRelation'])->get();
         return response()->json([
             'data'=>$data,
         ]); 
     }
     function addMasterPC(Request $request, StorePCRequest $storePCRequest) {
-        try {
+        // try {
             $storePCRequest->validated();
             $fileName           = '';
             $post =[
@@ -29,26 +29,27 @@ class MasterPettyCashController extends Controller
                 'status'                => 1,
                 'period'                =>$request->period,
                 'bank_id'               =>$request->bank_id,
+                'location_id'            =>$request->location_id,
                 'total_petty_cash'      =>$request->total_pc,
                 'user_id'               =>auth()->user()->id,
                 'attachment'            => 'storage/balance/'.date('YmdHis').'.pdf'
             ];
             // dd($post);
             if($request->file('attachment')){
-                $request->file('attachment')->storeAs('/balance',$request->no_check.'.pdf');
+                $request->file('attachment')->storeAs('/balance',date('YmdHis').'.pdf');
             }
             MasterPettyCash::create($post);
             return ResponseFormatter::success(   
                 $post,                              
                 'Petty Cash successfully added'
             );            
-        } catch (\Throwable $th) {
-            return ResponseFormatter::error(
-                $th,
-                'Petty Cash failed to add',
-                500
-            );
-        }
+        // } catch (\Throwable $th) {
+        //     return ResponseFormatter::error(
+        //         $th,
+        //         'Petty Cash failed to add',
+        //         500
+        //     );
+        // }
     }
     function getActiveBank() {
         $data = MasterBank::where('status', 1)->get();

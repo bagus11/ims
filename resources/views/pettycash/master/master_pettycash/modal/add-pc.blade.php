@@ -27,6 +27,14 @@
                             <span  style="color:red;" class="message_error text-red block period_error"></span>
                         </div>
                         <div class="col-3 mt-2">
+                            <p>Location</p>
+                        </div>
+                        <div class="col-md-8">
+                            <select name="select_location" class="select2" id="select_location"></select>
+                            <input type="hidden" id="location_id">
+                            <span  style="color:red;" class="message_error text-red block location_id_error"></span>
+                        </div>
+                        <div class="col-3 mt-2">
                             <p>Bank</p>
                         </div>
                         <div class="col-md-8">

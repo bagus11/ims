@@ -27,6 +27,7 @@ class StorePCRequest extends FormRequest
             'period' =>'required',
             'bank_id' =>'required',
             'total_pc' =>'required',
+            'location_id' =>'required',
             'no_check' =>['required', 'unique:master_petty_cash'],
         ];
     }

@@ -18,8 +18,10 @@
         });
         $('#btn_add_pc').on('click', function(){
             getActiveItems('getActiveBank', null, 'select_bank','Bank')
+            getActiveItems('getLocation', null, 'select_location','Location')
         })
         onChange('select_bank','bank_id')
+        onChange('select_location','location_id')
         $('#btn_save_pc').on('click', function(e){
             e.preventDefault();
             const total_pc = $('#total_pc').val()
@@ -31,6 +33,7 @@
             data.append('total_pc',total_pc_string)
             data.append('period',$('#period').val())
             data.append('bank_id',$('#bank_id').val())
+            data.append('location_id',$('#location_id').val())
             data.append('no_check',$('#no_check').val())
             
             postAttachment('addMasterPC',data,false,function(response){
@@ -87,6 +90,7 @@
                                     <td style="text-align: center;"> <input type="checkbox" id="check" name="check" class="is_checked" style="border-radius: 5px !important;" value="${response[i]['id']}"  ${response[i].status == 1 ?'checked' :''} data-check="${response[i].no_check}" data-status="${response[i].status}"></td>
                                     <td style="text-align:center;">${response[i].status == 1 ? 'active' : 'inactive'}</td>
                                     <td style="text-align:left;">${response[i].no_check}</td>
+                                    <td style="text-align:left;">${response[i].location_relation.name}</td>
                                     <td style="text-align:left;">${response[i].bank_relation.name}</td>
                                     <td style="text-align:center;">${response[i].period}</td>
                                     <td style="text-align:right;">${ formatRupiah(response[i].total_petty_cash)}</td>

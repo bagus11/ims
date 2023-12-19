@@ -54,7 +54,7 @@
                 })
             })
             $('#quantity_request').on('change', function(){
-                var min = $("#select_product").select2().find(":selected").data("min");
+            var min = [$("#select_product").select2().find(":selected").data("min")];
                 var buffer = $("#select_product").select2().find(":selected").data("buffer");
                 var quantity = $('#quantity_request').val()
                 var quantity_product = $('#quantity_product').val()

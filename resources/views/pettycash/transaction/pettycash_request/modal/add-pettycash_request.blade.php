@@ -17,6 +17,7 @@
                         <div class="col-md-4">
                             <select name="select_category" class="select2" id="select_category"></select>
                             <input type="hidden" id="category_id">
+                            <input type="hidden" id="total_array">
                             <span  style="color:red;" class="message_error text-red block category_id_error"></span>
                         </div>
                         <div class="col-2 mt-2">
@@ -24,6 +25,7 @@
                         </div>
                         <div class="col-md-4">
                             <input type="text" class="form-control" id="max_transaction" disabled>
+                            <input type="hidden" class="form-control" id="max_transaction_str">
                             
                         </div>
                         <div class="col-2 mt-2">
@@ -33,6 +35,7 @@
                             <select name="select_subcategory" class="select2" id="select_subcategory">
                                 <option value="">Select Category First</option>
                             </select>
+                            <input type="text" id="subcategoryId">
                         </div>
                         <div class="col-2 mt-2">
                             <p>Amount</p>
@@ -44,6 +47,9 @@
                         <div class="col-12">
                             <button class="btn btn-success btn-sm" style="float: right" type="button" id="btn_array_pc">
                                 <i class="fas fa-plus"></i>
+                            </button>
+                            <button class="btn btn-success btn-sm" style="float: right" type="button" id="btn_update_array_pc">
+                                <i class="fas fa-edit"></i>
                             </button>
                         </div>
                     </div>
