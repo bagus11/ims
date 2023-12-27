@@ -193,6 +193,7 @@ Route::group(['middleware' => ['auth']], function() {
         // Transaction
             Route::get('pettycash_request', [PettyCashRequestController::class, 'index'])->name('pettycash_request');
             Route::get('getPettyCashRequest', [PettyCashRequestController::class, 'getPettyCashRequest'])->name('getPettyCashRequest');
+            Route::post('addPettyCashRequest', [PettyCashRequestController::class, 'addPettyCashRequest'])->name('addPettyCashRequest');
             
         // Transaction
     // Petty Cash 

@@ -21,7 +21,7 @@ class MasterPettyCashController extends Controller
         ]); 
     }
     function addMasterPC(Request $request, StorePCRequest $storePCRequest) {
-        // try {
+        try {
             $storePCRequest->validated();
             $fileName           = '';
             $post =[
@@ -43,13 +43,13 @@ class MasterPettyCashController extends Controller
                 $post,                              
                 'Petty Cash successfully added'
             );            
-        // } catch (\Throwable $th) {
-        //     return ResponseFormatter::error(
-        //         $th,
-        //         'Petty Cash failed to add',
-        //         500
-        //     );
-        // }
+        } catch (\Throwable $th) {
+            return ResponseFormatter::error(
+                $th,
+                'Petty Cash failed to add',
+                500
+            );
+        }
     }
     function getActiveBank() {
         $data = MasterBank::where('status', 1)->get();

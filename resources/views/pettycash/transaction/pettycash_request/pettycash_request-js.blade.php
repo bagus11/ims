@@ -1,6 +1,7 @@
 <script>
     var array_item = []
     var total = 0
+    $('#pc_req_table').prop('hidden', true)
     $('#btn_update_array_pc').prop('hidden', true)
     // Call Function
         getCallback('getPettyCashRequest',null,function(response){
@@ -11,97 +12,149 @@
 
     // Operation
         // Add Request
-            $('#btn_add_pr').on('click', function(){
-                $('#pc_req_table').prop('hidden', true)
-                $('#max_transaction').val('')
-                $('#category_id').val('')
-                $('#amount').val('')
-                $('#remark').val('')
-                $('#total_array').val(0)
-                $('#attachment').val('')
-                getActiveItemTransaction('getActiveCategoryPC',null,'select_category', 'Category')
-            })
-            $('#select_category').on('change', function(){
-                var max_transaction = $("#select_category").select2().find(":selected").data("max")
-                var rupiah = formatRupiah(max_transaction)
-                $('#max_transaction_str').val(max_transaction)
-                $('#max_transaction').val(rupiah)
-                var data ={
-                    'id' : $('#select_category').val()
-                }
-                getActiveItems('getActiveSubCategory',data, 'select_subcategory', 'Sub Category')
-            })
-            $("#amount").on({
-                keyup: function() {
-                formatCurrency($(this));
-                },
-                blur: function() { 
-                formatCurrency($(this), "blur");
-                }
-            });
-            $('#btn_array_pc').on('click', function(){
-                var total_array = $('#total_array').val()
-                var max_transaction_str = $('#max_transaction_str').val()
-                var subcategory = $("#select_subcategory").select2().find(":selected").data("name");
-                var amount_string = $('#amount').val()
-                var amount = parseFloat(amount_string.replace(/,/g, ''));
-                var totalPC = parseInt(total_array) + parseInt(amount) 
-                console.log(max_transaction_str +' + ' + (totalPC) + '=' + total_array )
-                if(amount =='' || amount_string == ''){
-                    toastr['error']('subcategory or amount cannot be null');
-                    return false
-                }else{
-                    var test = array_item.some(el => el.subcategory == subcategory)
-                   
-                    if(test == true){
-                        toastr['error']('item is already exist');
+                $('#btn_add_pr').on('click', function(){
+                  
+                    $('#max_transaction').val('')
+                    $('#category_id').val('')
+                    $('#amount').val('')
+                    $('#remark').val('')
+                    $('#total_array').val(0)
+                    $('#attachment').val('')
+                    getActiveItemTransaction('getActiveCategoryPC',null,'select_category', 'Category')
+                    getActiveItems('getUser',null,'select_pic', 'PIC')
+                })
+                $(document).ready(function(){
+                    $('#select_category').on('change', function(){
+                        var max_transaction = $("#select_category").select2().find(":selected").data("max")
+                        var rupiah = formatRupiah(max_transaction)
+                        $('#max_transaction_str').val(max_transaction)
+                        $('#max_transaction').val(rupiah)
+                        var data ={
+                            'id' : $('#select_category').val()
+                        }
+                        getActiveItems('getActiveSubCategory',data, 'select_subcategory', 'Sub Category')
+                    })
+                 
+                 
+                })
+                onChange('select_subcategory','subcategoryId')
+                onChange('select_category','category_id')
+                onChange('select_pic','pic_id')
+                $("#amount").on({
+                    keyup: function() {
+                    formatCurrency($(this));
+                    },
+                    blur: function() { 
+                    formatCurrency($(this), "blur");
+                    }
+                });
+            // Add Array Request
+                $('#btn_array_pc').on('click', function(){
+                    var total_array = $('#total_array').val()
+                    var max_transaction_str = $('#max_transaction_str').val()
+                    var subcategory = $("#select_subcategory").select2().find(":selected").data("name");
+                    var amount_string = $('#amount').val()
+                    var amount = parseFloat(amount_string.replace(/,/g, ''));
+                    var totalPC = parseInt(total_array) + parseInt(amount) 
+                
+                    if(amount =='' || amount_string == ''){
+                        toastr['error']('subcategory or amount cannot be null');
                         return false
                     }else{
-                        
-                        if( parseInt(max_transaction_str) < parseInt(totalPC) ){
-                        toastr['error']('transaction cannot bigger than max transaction in this category');
-                        return false
+                        var test = array_item.some(el => el.subcategory == subcategory)
+                    
+                        if(test == true){
+                            toastr['error']('item is already exist');
+                            return false
                         }else{
-                            $('#pc_req_table').prop('hidden', false)
-                            var post_array ={
-                                'subcategory'         : subcategory,
-                                'amount'            : amount,
+                            
+                            if( parseInt(max_transaction_str) < parseInt(totalPC) ){
+                            toastr['error']('transaction cannot bigger than max transaction in this category');
+                            return false
+                            }else{
+                                $('#pc_req_table').prop('hidden', false)
+                                var post_array ={
+                                    'subcategoryId'         : $('#subcategoryId').val(),
+                                    'subcategory'           : subcategory,
+                                    'amount'                : amount,
+                                }
+                                array_item.push(post_array)
+                                mappingArrayTable(array_item)
+                                $('#amount').val('')
+                                $('#select_subcategory').val('')
+                                $('#select_subcategory').select2().trigger('change')
                             }
-                            array_item.push(post_array)
-                            mappingArrayTable(array_item)
-                            $('#amount').val('')
-                            $('#select_subcategory').val('')
-                            $('#select_subcategory').select2().trigger('change')
                         }
                     }
-                }
-            })
+                })
+            // Add Array Request
             // Update Array request
-            $('#pc_req_table').on('click', '.edit', function(){
-                $('#btn_array_pc').prop('hidden', true)
-                $('#btn_update_array_pc').prop('hidden', false)
-                var id = $(this).data("id");
-                $('#itemArrayId').val(id)
-                $('#select_product').val(array_item[id].product_id)
-                $('#select_product').select2().trigger('change')
-                $('#quantity_request').val(array_item[id].quantity_request)
-                $('#quantity_product').val(array_item[id].current_quantity)
-               
-            });
-            $('#btn_edit_array_item').on('click', function(){
-                $('#btn_update_array_pc').prop('hidden', true)
-                $('#btn_array_pc').prop('hidden', false)
-                var id = $('#subcategoryId').val()
-                var item_name = $("#select_product").select2().find(":selected").data("name");
+                $('#pc_req_table').on('click', '.edit', function(){
+                    $('#btn_array_pc').prop('hidden', true)
+                    $('#btn_update_array_pc').prop('hidden', false)
+                    var id = $(this).data("id");
+                    $('#arraySubCategory').val(id)
+                    $('#select_subcategory').val(array_item[id].subcategoryId)
+                    $('#select_subcategory').select2().trigger('change')
+                    $('#amount').val(array_item[id].amount)
+                
+                });
+                $('#btn_update_array_pc').on('click', function(){
+                    $('#btn_update_array_pc').prop('hidden', true)
+                    $('#btn_array_pc').prop('hidden', false)
+                    var id = $('#arraySubCategory').val()
+                    var subcategory = $("#select_subcategory").select2().find(":selected").data("name");
+                    var amount_string = $('#amount').val()
+                    var amount = parseFloat(amount_string.replace(/,/g, ''));
+                    array_item[id].subcategory = subcategory
+                    array_item[id].subcategoryId = $('#subcategoryId').val()
+                    array_item[id].amount = amount
 
-                array_item[id].item_name = item_name
-                array_item[id].product_id = $('#product_id').val()
-                array_item[id].quantity_request = $('#quantity_request').val()
-                array_item[id].quantity_product = $('#quantity_product').val()
-                mappingArrayTable(array_item)
-
-            })
+                    mappingArrayTable(array_item)
+                    $('#amount').val('')
+                    $('#select_subcategory').val('')
+                    $('#select_subcategory').select2().trigger('change')
+                })
             // Update Array request
+            // Delete Array Request 
+                $('#pc_req_table').on('click','.delete', function(){
+                        var id = $(this).data("id");
+                        $('#btn_update_array_pc').prop('hidden', true)
+                        $('#btn_array_pc').prop('hidden', false)
+                        array_item.splice(id,1)
+                        mappingArrayTable(array_item)
+                })
+            // Delete Array Request 
+
+            // Add Request Here
+                $('#btn_save_category_pc').on('click', function(e){
+                    e.preventDefault();
+                    var data = new FormData();
+                    data.append('attachment',$('#attachment')[0].files[0]);
+                    data.append('pic_id',$('#pic_id').val())
+                    data.append('category_id',$('#category_id').val())
+                    data.append('remark',$('#remark').val())
+                 
+                    data.append('array_item',JSON.stringify(array_item))
+                
+                    if(array_item.length > 0){
+                        console.log(array_item)
+                        postAttachment('addPettyCashRequest',data,false,function(response){
+                            swal.close()
+                            $('.message_error').html('')
+                            toastr['success'](response.meta.message);
+                            $('#addPettycashRequst').modal('hide')
+                            getCallback('getMasterPC',null,function(response){
+                                swal.close()
+                                mappingTable(response.data)
+                            })
+                        })
+                    }else{
+                        toastr['error']('subcategory cannot be null');
+                        return false
+                    }
+                })
+            // Add Request Here
         // Add Request
     // Operation
 

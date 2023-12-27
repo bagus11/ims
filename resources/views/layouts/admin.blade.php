@@ -220,6 +220,9 @@
     height: 35px !important;
     font-size:9px;
 }
+.modal {
+  overflow-y:auto !important;
+}
 .select2-selection__arrow {
     height: 34px !important;
     font-size:9px;

@@ -85,6 +85,7 @@ class MaterApproverPCController extends Controller
             $updateApproverRequest->validated();
             $validating = ApprovalPCModel::where('approver_id',$request->approval_id)->count();
             $array_post=[];
+            $getDepartment = MasterApproverPC::where('approver_id', $request->approval_id)->first();
             foreach($request->user_array as $row){
                 $location = MasterApproverPC::where('approver_id',$request->approval_id)->first(); 
                 $post = [
@@ -92,6 +93,7 @@ class MaterApproverPCController extends Controller
                     'step'              => $row['step'],
                     'location_id'       => $location->location_id,
                     'approver_id'       => $request->approval_id,
+                    'department_id'     => $getDepartment->department_id
                 ];
                 array_push($array_post, $post);
             }
