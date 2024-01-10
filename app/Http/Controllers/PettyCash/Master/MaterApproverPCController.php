@@ -97,7 +97,6 @@ class MaterApproverPCController extends Controller
                 ];
                 array_push($array_post, $post);
             }
-            // dd($array_post);
             DB::transaction(function() use($validating,$array_post,$request) {
                 if($validating > 0){
                     ApprovalPCModel::where('approver_id',$request->approval_id)->delete();

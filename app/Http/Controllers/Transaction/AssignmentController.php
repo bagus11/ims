@@ -35,12 +35,14 @@ class AssignmentController extends Controller
         // try {
             $updateAssignmentRequest->validated();
             $dataOld            = ItemRequestDetail::where('request_code',$request->id)->orderBy('id','desc')->first();
-            if($dataOld->request_type == 4){
-                $purchaseModel      =  PurchaseModel::where('request_code', $request->id)->first();
-                $productCategory    = ProductModel::where('product_code',$purchaseModel->product_code)->first();
-            }else{
-                $productCategory    = ProductModel::where('product_code',$dataOld->item_id)->first();
-            }
+            // setup Type
+                if($dataOld->request_type == 4){
+                    $purchaseModel      =  PurchaseModel::where('request_code', $request->id)->first();
+                    $productCategory    = ProductModel::where('product_code',$purchaseModel->product_code)->first();
+                }else{
+                    $productCategory    = ProductModel::where('product_code',$dataOld->item_id)->first();
+                }
+            // setup Type
             $stepApproval       = $dataOld->step == 1 ? $dataOld->step + 1 : $dataOld->step + 1;
             $NextApporval       = ApprovalModel::where([
                 'location_id' => $dataOld->location_id,

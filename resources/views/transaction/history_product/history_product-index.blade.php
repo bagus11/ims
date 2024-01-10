@@ -71,6 +71,11 @@
                                                 <i class="fa-solid fa-file-pdf"></i> Export to PDF
                                             </button>
                                         </div>
+                                        <div class="mt-2 mb-2">
+                                            <button class="btn btn-success btn-block" style="font-size: 10px" id="btn_report_stock">
+                                                <i class="fa-solid fa-file-excel"></i> Export to Excell
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

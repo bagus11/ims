@@ -11,7 +11,10 @@
     <div class="sidebar">
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{URL::asset('profile.png')}}" class="img-circle elevation-2" alt="User Image">
+                @php
+                    $profile = auth()->user()->gender == 1 ? 'profile.png' : 'female_final.png'
+                @endphp
+                <img src="{{URL::asset($profile)}}" class="img-circle elevation-2" alt="User Image">
                 
             </div>
             <div class="info">

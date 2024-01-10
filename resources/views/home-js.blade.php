@@ -92,13 +92,17 @@
             var data=''
                     for(i = 0; i < response.length; i++ )
                     {
+                        const d = new Date(response[i].created_at)
+                        const date = d.toISOString().split('T')[0];
+                        const time = d.toTimeString().split(' ')[0];
                         var editBuffer =` <button title="Edit Buffer" class="editBufferProduct btn btn-sm btn-secondary rounded" data-code="${response[i]['product_code']}" data-id="${response[i]['id']}" data-toggle="modal" data-target="#editBufferProductModal">
                                             <i class="fas fa-solid fa-gears"></i>
                                         </button>`
                         
                         data += `<tr style="text-align: center;">
-                                    <td style="width:35%;text-align:left">${response[i].request_code}</td>
-                                    <td style="text-align:left;">${response[i].user_relation.name}</td>
+                                    <td style="width:25%;text-align:center">${date} ${time}</td>
+                                    <td style="width:25%;text-align:left">${response[i].request_code}</td>
+                                    <td style="text-align:left;widht:35%">${response[i].user_relation.name}</td>
                                     <td style="width:15%;text-align:center">
                                      
                                             <a class="btn btn-success btn-sm" target="_blank" href="assignment" style="color:white;font-size:9.5px">

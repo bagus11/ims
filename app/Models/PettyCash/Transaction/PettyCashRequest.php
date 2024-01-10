@@ -20,7 +20,13 @@ class PettyCashRequest extends Model
     function locationRelation() {
         return $this->hasOne(MasterLocation::class,'id','location_id');
     }
-    function picRelation() {
+    function requesterRelation() {
         return $this->hasOne(User::class,'id','user_id');
+    }
+    function picRelation() {
+        return $this->hasOne(User::class,'id','pic_id');
+    }
+    function approvalRelation() {
+        return $this->hasOne(User::class,'id','approval_id');
     }
 }

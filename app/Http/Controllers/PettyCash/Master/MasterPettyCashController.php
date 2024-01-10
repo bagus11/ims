@@ -27,14 +27,15 @@ class MasterPettyCashController extends Controller
             $post =[
                 'no_check'              => $request->no_check,
                 'status'                => 1,
-                'period'                =>$request->period,
-                'bank_id'               =>$request->bank_id,
-                'location_id'            =>$request->location_id,
-                'total_petty_cash'      =>$request->total_pc,
-                'user_id'               =>auth()->user()->id,
+                'period'                => $request->period,
+                'bank_id'               => $request->bank_id,
+                'location_id'           => $request->location_id,
+                'total_petty_cash'      => $request->total_pc,
+                'user_id'               => auth()->user()->id,
                 'attachment'            => 'storage/balance/'.date('YmdHis').'.pdf'
             ];
             // dd($post);
+            
             if($request->file('attachment')){
                 $request->file('attachment')->storeAs('/balance',date('YmdHis').'.pdf');
             }

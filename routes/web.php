@@ -8,6 +8,7 @@ use App\Http\Controllers\PettyCash\Master\MasterCategoryPCController;
 use App\Http\Controllers\PettyCash\Master\MasterPettyCashController;
 use App\Http\Controllers\PettyCash\Master\MasterSubCategoryController;
 use App\Http\Controllers\PettyCash\Master\MaterApproverPCController;
+use App\Http\Controllers\PettyCash\Transaction\AssignmentPettyCashController;
 use App\Http\Controllers\PettyCash\Transaction\PettyCashRequestController;
 use App\Http\Controllers\Setting\RolePermissionController;
 use App\Http\Controllers\Setting\UserAccessController;
@@ -191,9 +192,20 @@ Route::group(['middleware' => ['auth']], function() {
             // Master Approver
             
         // Transaction
-            Route::get('pettycash_request', [PettyCashRequestController::class, 'index'])->name('pettycash_request');
-            Route::get('getPettyCashRequest', [PettyCashRequestController::class, 'getPettyCashRequest'])->name('getPettyCashRequest');
-            Route::post('addPettyCashRequest', [PettyCashRequestController::class, 'addPettyCashRequest'])->name('addPettyCashRequest');
+            // PettyCash Request
+                Route::get('pettycash_request', [PettyCashRequestController::class, 'index'])->name('pettycash_request');
+                Route::get('getPettyCashRequest', [PettyCashRequestController::class, 'getPettyCashRequest'])->name('getPettyCashRequest');
+                Route::post('addPettyCashRequest', [PettyCashRequestController::class, 'addPettyCashRequest'])->name('addPettyCashRequest');
+                Route::get('detailPettyCashRequest', [PettyCashRequestController::class, 'detailPettyCashRequest'])->name('detailPettyCashRequest');
+                // PettyCash Request
+                
+                // Assignment PC
+                Route::get('assignment_pc', [AssignmentPettyCashController::class, 'index'])->name('assignment_pc');
+                Route::get('getAssignmentPC', [AssignmentPettyCashController::class, 'getAssignmentPC'])->name('getAssignmentPC');
+                Route::get('getHistoryRemark', [AssignmentPettyCashController::class, 'getHistoryRemark'])->name('getHistoryRemark');
+                Route::post('updateApprovalPC', [AssignmentPettyCashController::class, 'updateApprovalPC'])->name('updateApprovalPC');
+                
+            // Assignment PC
             
         // Transaction
     // Petty Cash 

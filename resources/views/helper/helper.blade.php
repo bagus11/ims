@@ -237,7 +237,6 @@
         $.ajax({
                 url: route,
                 type: 'POST',
-                type: "post",
                 dataType: 'json',
                 async: true,
                 processData: withFile,
@@ -383,4 +382,86 @@
             return rupiah.split('', rupiah.length - 1).reverse().join('');
         }
     // Format Number
+
+    // Case Petty cash get mapping array table 
+    function mappingArrayTable(name,response){
+            var data =''
+            var total = 0
+                $('#'+ name).DataTable().clear();
+                $('#'+ name).DataTable().destroy();
+                var data_total='';
+                  
+                        for(i = 0; i < response.length; i++ )
+                        {
+                            total += response[i].amount
+                            if(name == 'detail_req_table'){
+                                data += `<tr style="text-align: center;">
+                                  
+                                  <td style="text-align:center;">${i + 1}</td>
+                                  <td style="text-align:left;width:50%">${response[i].subcategory_name}</td>
+                                  <td style="text-align:center;">${formatRupiah(response[i].amount)}</td>
+                              </tr>
+                              `;
+                            }else{
+                                data += `<tr style="text-align: center;">
+                                  
+                                  <td style="text-align:center;">${i + 1}</td>
+                                  <td style="text-align:left;width:50%">${response[i].subcategory}</td>
+                                  <td style="text-align:center;">${formatRupiah(response[i].amount)}</td>
+                                  <td style ="text-align:center">
+                                      <button class="btn btn-sm btn-info edit" data-id ="${i}">
+                                          <i class="fas fa-edit"></i>
+                                      </button>
+                                      <button class="btn btn-sm btn-danger delete" data-id ="${i}">
+                                          <i class="fas fa-trash"></i>
+                                      </button>
+                                  </td>
+                              </tr>
+                              `;
+                            }
+                        }
+                        data_total= ` <tr style="text-align:center;background-color:yellow">
+                                    <td></td>
+                                    <td style="font-weight:bold"> Total </td>
+                                    <td style="font-weight:bold">${formatRupiah(total)} </td>
+                                    <td></td>
+                                    
+                                </tr>`
+                                data += data_total
+                $('#total_array').val(total)
+                $('#'+ name +' > tbody:first').html(data);
+                $('#'+ name).DataTable({
+                    scrollX  : false,
+                    language: {
+                    'paginate': {
+                    'previous': '<span class="prev-icon"><i class="fa-solid fa-arrow-left"></i></span>',
+                    'next': '<span class="next-icon"><i class="fa-solid fa-arrow-right"></i></span>'
+                    }
+                },
+                    ordering : false
+                }).columns.adjust()
+              
+                $('#quantity_product').val('')
+                $('#quantity_request').val('')
+                $('#select_product').val('')
+                $('#select_product').select2().trigger('change')
+                $('#select_category').prop('disabled', true)
+                $('#select_location').prop('disabled', true)
+                $('#itemListContainer').prop('hidden',false)
+        }
+    // Case Petty cash get mapping array table 
+
+    function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2) 
+            month = '0' + month;
+        if (day.length < 2) 
+            day = '0' + day;
+
+        return [year, month, day].join('-');
+    }
 </script>

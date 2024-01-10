@@ -22,6 +22,8 @@
           href="https://cdn.jsdelivr.net/npm/css.gg/icons/icons.css"
           rel="stylesheet"
         />
+          <!-- Tempus Dominus Styles -->
+          <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     </head>
     <body class="hold-transition sidebar-mini">
         <div class="wrapper">
@@ -40,6 +42,7 @@
               <h5>Title</h5>
               <p>Sidebar content</p>
             </div>
+         
         </aside>
         @include('layouts.admin.footer')
         </div>
@@ -61,7 +64,14 @@
         integrity="sha512-+UYTD5L/bU1sgAfWA0ELK5RlQ811q8wZIocqI7+K0Lhh8yVdIoAMEs96wJAIbgFvzynPm36ZCXtkydxu1cs27w==" crossorigin="anonymous" 
         referrerpolicy="no-referrer"></script>
         <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+        <!--Moment JS CDN-->
+        <script src="https://momentjs.com/downloads/moment.js"></script>
 
+        <!--Tempusdominus JS CDN-->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
+
+        <!--Tempusdominus CSS CDN-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
         <script>
             $(document).ready(function(){
                 $(".select2").select2();
@@ -215,6 +225,10 @@
     line-height: 25px !important;
     font-size:9px;
   
+}
+.badge {
+    min-width: 28px;
+    border-radius: 4px;
 }
 .select2-container .select2-selection--single {
     height: 35px !important;
