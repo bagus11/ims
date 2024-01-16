@@ -12,6 +12,16 @@
             formatCurrency($(this), "blur");
             }
         });
+        $('#amount_assign').on('change', function(){
+            var amount_total_detail = $('#amount_total_detail').val()
+            var amount_assign = $('#amount_assign').val()
+            var amount_final = parseFloat(amount_assign.replace(/,/g, ''));
+            if(amount_final > amount_total_detail){
+                toastr['warning']('amount assign cannot bigger than amount request');
+                $('#amount_assign').val(amount_total_detail)
+                document.getElementById("amount_assign").style.color = "red";
+            }
+        })
             $(document).ready(function(){
                 $('#start_date').datetimepicker({
                     format:'Y-MM-DD',
@@ -24,6 +34,7 @@
                     data ={
                         'id':id
                     }
+              
                     getCallback('detailPettyCashRequest',data,function(response){
                         response.count == response.detail.step ? $('#detail_transaction_card').prop('hidden', false) : $('#detail_transaction_card').prop('hidden', true)
                         swal.close()
@@ -53,6 +64,7 @@
                         var output = response.detail.attachment.split('/').pop();
                         $('#pc_code_id').val(response.detail.pc_code)
                        $('#pc_code_label').html(': ' + response.detail.pc_code)
+                       $('#amount_total_detail').val(response.detail.amount)
                        $('#status_label').html(': ' + status)
                        $('#request_label').html(': ' + response.detail.requester_relation.name)
                        $('#pic_label').html(': ' + response.detail.pic_relation.name)
@@ -65,7 +77,17 @@
                         $('#current_approval_label').html(': ' +  response.detail.approval_relation? response.detail.approval_relation.name : '')
                         $('#location_label').html(': ' +  response.detail.location_relation.name)
 
-                        mappingArrayTable('detail_req_table',response.data)
+                        if(response.detail.status == 3){
+                            $('#detail_req_table_pi_container').prop('hidden', false)
+                            $('#detail_req_table_container').prop('hidden', true)
+                            mappingArrayTablePIChecking('detail_req_table_pi',response.data)
+                            // console.log(response.data)
+                        }else{
+                            $('#detail_req_table_container').prop('hidden', false)
+                            $('#detail_req_table_pi_container').prop('hidden', true)
+                            mappingArrayTable('detail_req_table',response.data)
+                        }
+                        
                     })
         })
         
@@ -197,6 +219,58 @@
                     scrollY:320
                     
                 }).columns.adjust()
+        }
+        function mappingArrayTablePIChecking(name,response){
+            var data =''
+            var total = 0
+            var total_payment = 0
+                $('#'+ name).DataTable().clear();
+                $('#'+ name).DataTable().destroy();
+                var data_total='';
+                        for(i = 0; i < response.length; i++ )
+                        {
+                            var output = response[i].attachment.split('/').pop();
+                            total += response[i].subcategory_amount
+                            total_payment += response[i].payment
+                                data += `<tr style="text-align: center;">
+                                  
+                                  <td style="text-align:center;">${i + 1}</td>
+                                  <td style="text-align:left;width:30%">${response[i].subcategory_name}</td>
+                                  <td style="text-align:left;width:20%">${formatRupiah(response[i].subcategory_amount)}</td>
+                                  <td style="text-align:left;width:20%">${formatRupiah(response[i].payment)}</td>
+                                  <td style="text-align:left;width:20%">
+                                    <a target="_blank" href="{{URL::asset('${response[i].attachment}')}}" style="color:blue;">
+                                            <i class="far fa-file" style="color: red;font-size: 20px;margin-top:-15px"></i>
+                                            ${output}
+                                        </a>
+                                    </td>
+                                
+                              </tr>
+                              `;
+                        }
+                        data_total= ` <tr style="text-align:center;background-color:yellow">
+                                    <td></td>
+                                    <td style="font-weight:bold"> Total </td>
+                                    <td style="font-weight:bold !important;text-align:left">${formatRupiah(total)} </td>
+                                    <td style="font-weight:bold !important;text-align:left">${formatRupiah(total_payment)} </td>
+                                    <td></td>
+                                    
+                                </tr>`
+                        data += data_total
+                              
+                $('#total_array').val(total)
+                $('#'+ name +' > tbody:first').html(data);
+                $('#'+ name).DataTable({
+                    scrollX  : false,
+                    language: {
+                    'paginate': {
+                    'previous': '<span class="prev-icon"><i class="fa-solid fa-arrow-left"></i></span>',
+                    'next': '<span class="next-icon"><i class="fa-solid fa-arrow-right"></i></span>'
+                    }
+                },
+                    ordering : false
+                }).columns.adjust()
+         
         }
     // Function
 </script>

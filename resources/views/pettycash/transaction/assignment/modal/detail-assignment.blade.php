@@ -76,15 +76,30 @@
                     <legend class="scheduler-border"> Detail Transaction</legend>
                        <div class="mx-4">
                         <div class="" style="width:100% !important">
-                            <table class="datatable-bordered nowrap display" id="detail_req_table" style="width: 100% !important">
-                                <thead>
-                                    <tr>
-                                        <th  style="text-align: center">No</th>
-                                        <th  style="text-align: center">Category</th>
-                                        <th  style="text-align: center">Amount</th>
-                                    </tr>
-                                </thead>
-                            </table>
+                            <div id="detail_req_table_container">
+                                <table class="datatable-bordered nowrap display" id="detail_req_table" style="width: 100% !important">
+                                    <thead>
+                                        <tr>
+                                            <th  style="text-align: center">No</th>
+                                            <th  style="text-align: center">Category</th>
+                                            <th  style="text-align: center">Amount</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div id="detail_req_table_pi_container">
+                                <table class="datatable-bordered nowrap display" id="detail_req_table_pi" style="width: 100% !important">
+                                    <thead>
+                                        <tr>
+                                            <th  style="text-align: center">No</th>
+                                            <th  style="text-align: center">Category</th>
+                                            <th  style="text-align: center">Amount</th>
+                                            <th  style="text-align: center">Payment</th>
+                                            <th  style="text-align: center">Attachment</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
                         </div>
                        </div>
                   </fieldset>
@@ -133,6 +148,7 @@
                             </div>
                             <div class="col-4">
                                 <input type="currency" class="form-control" id="amount_assign" style="text-align: left">
+                                <input type="hidden" class="form-control" id="amount_total_detail" style="text-align: left">
                             </div>
                         </div>
                     </div>

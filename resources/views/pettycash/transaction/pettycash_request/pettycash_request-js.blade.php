@@ -54,10 +54,10 @@
                     var max_transaction_str = $('#max_transaction_str').val()
                     var subcategory = $("#select_subcategory").select2().find(":selected").data("name");
                     var amount_string = $('#amount').val()
+                    var selectSubcategory = $('#select_subcategory').val()
                     var amount = parseFloat(amount_string.replace(/,/g, ''));
                     var totalPC = parseInt(total_array) + parseInt(amount) 
-                
-                    if(amount =='' || amount_string == ''){
+                    if(subcategory =='' || amount_string == ''||selectSubcategory == ''|| selectSubcategory==undefined ){
                         toastr['error']('subcategory or amount cannot be null');
                         return false
                     }else{
@@ -137,7 +137,6 @@
                     data.append('array_item',JSON.stringify(array_item))
                 
                     if(array_item.length > 0){
-                        console.log(array_item)
                         postAttachment('addPettyCashRequest',data,false,function(response){
                             swal.close()
                             $('.message_error').html('')
@@ -166,7 +165,6 @@
                     getCallback('detailPettyCashRequest',data,function(response){
                         swal.close()
                         var status =''
-                        console.log(response.detail.approval_relation)
                     if(response.detail.status ==0){
                         status ='NEW'
                     }else if(response.detail.status == 1){
@@ -206,44 +204,184 @@
                             $('#current_approval_label').html(': ' +  response.detail.approval_relation.name)
                         }
                         $('#loc_label').html(': ' +  response.detail.location_relation === null ? '' : ': ' + response.detail.location_relation.name)
-                        mappingArrayTable('detail_req_table',response.data)
+                        if(response.detail.status == 3){
+                            $('#detail_req_table_pi_container').prop('hidden', false)
+                            $('#detail_req_table_container').prop('hidden', true)
+                            mappingArrayTablePIChecking('detail_req_table_pi',response.data)
+                            // console.log(response.data)
+                        }else{
+                            $('#detail_req_table_container').prop('hidden', false)
+                            $('#detail_req_table_pi_container').prop('hidden', true)
+                            mappingArrayTable('detail_req_table',response.data)
+                        }
                     })
                 })
-                $('#btn_history_remark').on('click', function(){
-            $('#loading').prop('hidden', false)
-            var data ={
-                'pc_code' : $('#pc_code_id').val()
-            }
-            getCallbackNoSwal('getHistoryRemark',data, function(response){
-                $('#loading').prop('hidden', true)
-                $('#logMessage').empty()
-                var data =''
-               for(i = 0; i < response.data.length; i++){
-                const d = new Date(response.data[i].created_at)
-                const date = d.toISOString().split('T')[0];
-                const time = d.toTimeString().split(' ')[0];
-                var auth = $('#authId').val()
-                data +=`
-                        <div class="direct-chat-msg ${response.data[i].creator_relation.id == $('#authId').val() ?'right':''}">
-                            <div class="direct-chat-infos clearfix">
-                                <span class="direct-chat-name ${response.data[i].creator_relation.id == $('#authId').val() ?'float-right':'float-left'}" style='font-size:12px;'>${response.data[i].creator_relation == null ?'':response.data[i].creator_relation.name}</span>
-                                <span style='font-size:9px;' class="direct-chat-timestamp ${response.data[i].creator_relation.id == $('#authId').val() ?'float-left':'float-right'}">${formatDate(date)} ${time}</span>
-                            </div>
+                // Payment Instruction
+                    $('#pettycash_request_table').on('click','.add-pi',function(){
+                        var id =$(this).data('id')
+                        $('#detail_transaction_card').prop('hidden', true)
+                        data ={
+                            'id':id
+                        }
+                        getCallback('detailPettyCashRequest',data,function(response){
+                            swal.close()
+                            var status =''
+                            if(response.detail.status != 1 || response.detail.status != 2){
+                                $('#detail_transaction_card').prop('hidden', false)
+                            }
+                        if(response.detail.status ==0){
+                            status ='NEW'
+                        }else if(response.detail.status == 1){
+                            status ='Partially Approved'
+                        }else if(response.detail.status == 2){
+                            status = 'On Progress'
+                        
+                        }else if(response.detail.status == 3){
+                            status = 'Checking'
+                        }else if(response.detail.status == 4){
+                            status = 'DONE'
+                        }else{
+                            status = 'Reject'
+                        }      
+                        if(response.detail.approval_id ==0){
+                                $('#ca_label').prop('hidden', true)
+                                $('#current_approval_label').prop('hidden', true)
+                        }else{
+                            $('#ca_label').prop('hidden', false)
+                            $('#current_approval_label').prop('hidden', false)
+
+                        }       
+                        var output = response.detail.attachment.split('/').pop();
+                        $('#pc_code_label_pi').html(': ' + response.detail.pc_code)
+                        $('#pc_code_id_pi').val( response.detail.pc_code)
+                        $('#status_label_pi').html(': ' + status)
+                        $('#amount_req_label_pi').html(': ' + formatRupiah(response.detail.amount))
+                        $('#approved_amount_label_pi').html(': ' + formatRupiah(response.detail.amount_approve))
+                        $('#start_date_label_pi').html(': ' + response.detail.start_date)
+                        $('#end_date_label_pi').html(': ' + response.detail.end_date)
+                        $('#request_label_pi').html(': ' + response.detail.requester_relation.name)
+                        $('#pic_label_pi').html(': ' + response.detail.pic_relation.name)
+                        $('#category_label_pi').html(': ' + response.detail.category_relation.name)
+                        $('#attachment_label_pi').html(`:  <a target="_blank" href="{{URL::asset('${response.detail.attachment}')}}" style="color:blue;">
+                                                <i class="far fa-file" style="color: red;font-size: 20px;margin-top:-15px"></i>
+                                                ${output}
+                                            </a>`)
+                            $('#remark_label_pi').html(': ' +  response.detail.remark)
+                            if(response.detail.approval_relation != null){
+                                $('#current_approval_label_pi').html(': ' +  response.detail.approval_relation.name)
+                            }
+                            $('#loc_label_pi').html(': ' +  response.detail.location_relation === null ? '' : ': ' + response.detail.location_relation.name)
+                            mappingArrayTablePI('detail_pi_table',response.data)
+                        })
+                    })
+                    // onChange('select_paid','paid_id')
+                    // Add Payment Instruction
+                        $('#btn_save_pi').on('click', function(e){
+                            e.preventDefault()
+                            var array_amount =[]
                             
-                                <img class="direct-chat-img" src="{{URL::asset('profile.png')}}" alt="message user image">
+                            $('.payment_amount').each(function() {
+                                array_amount.push($(this).val()); 
+                            })
+                            var array_attachment =[]
+                            $('.attachment_pi').each(function() {
+                                var files = $(this)[0].files;
+                                for (var i = 0; i < files.length; i++) {
+                                    array_attachment.push(files[i]);
+                                }
+                            });
+                            var data = new FormData();
+                            data.append('pc_code_id_pi',$('#pc_code_id_pi').val())
+                            data.append('remark_pi',$('#remark_pi').val())
+                            for (var i = 0; i < array_attachment.length; i++) {
+                                data.append('attachment_pi[]', array_attachment[i]);
+                            }
+                            data.append('amount',JSON.stringify(array_amount));
+                            postAttachment('addPaymentInstruction',data,false,function(response){
+                                swal.close()
+                                $('.message_error').html('')
+                                toastr['success'](response.meta.message);
+                                $('#addPCModal').modal('hide')
+                                getCallback('getMasterPC',null,function(response){
+                                    swal.close()
+                                    mappingTable(response.data)
+                                })
+                            })
+                        })
+                        $('#btn_history_remark_pi').on('click', function(){
+                            $('#loading').prop('hidden', false)
+                            var data ={
+                                'pc_code' : $('#pc_code_id').val()
+                            }
+                            getCallbackNoSwal('getHistoryRemark',data, function(response){
+                                $('#loading').prop('hidden', true)
+                                $('#logMessagePI').empty()
+                                var data =''
+                                for(i = 0; i < response.data.length; i++){
+                                    const d = new Date(response.data[i].created_at)
+                                    const date = d.toISOString().split('T')[0];
+                                    const time = d.toTimeString().split(' ')[0];
+                                    var auth = $('#authId').val()
+                                    var name_img = response.data[i].creator_relation.gender == 1 ? 'profile.png' : 'female_final.png';
+                                    data +=`
+                                            <div class="direct-chat-msg ${response.data[i].creator_relation.id == $('#authId').val() ?'right':''}">
+                                                <div class="direct-chat-infos clearfix">
+                                                    <span class="direct-chat-name ${response.data[i].creator_relation.id == $('#authId').val() ?'float-right':'float-left'}" style='font-size:12px;'>${response.data[i].creator_relation == null ?'':response.data[i].creator_relation.name}</span>
+                                                    <span style='font-size:9px;' class="direct-chat-timestamp ${response.data[i].creator_relation.id == $('#authId').val() ?'float-left':'float-right'}">${formatDate(date)} ${time}</span>
+                                                </div>
+                                                
+                                                    <img class="direct-chat-img" src="{{URL::asset('${name_img}')}}" alt="message user image">
+                                            
+                                                <div class="direct-chat-text" style='font-size:9px;'>
+                                                    ${response.data[i].remark}
+                                                </div>
+                                            
+                                            </div>
+                                    `;
+                                    }
                         
-                            <div class="direct-chat-text" style='font-size:9px;'>
-                                ${response.data[i].remark}
-                            </div>
-                        
-                        </div>
-                `;
-            }
-          
-               $('#logMessage').append(data)
+                                    $('#logMessage').append(data)
+                                    
+                                })
+                        })
+                    // Add Payment Instruction
+                // Payment Instruction
+                $('#btn_history_remark').on('click', function(){
+                    $('#loading').prop('hidden', false)
+                    var data ={
+                        'pc_code' : $('#pc_code_id').val()
+                    }
+                    getCallbackNoSwal('getHistoryRemark',data, function(response){
+                        $('#loading').prop('hidden', true)
+                        $('#logMessage').empty()
+                        var data =''
+                        for(i = 0; i < response.data.length; i++){
+                            const d = new Date(response.data[i].created_at)
+                            const date = d.toISOString().split('T')[0];
+                            const time = d.toTimeString().split(' ')[0];
+                            var auth = $('#authId').val()
+                            var name_img = response.data[i].creator_relation.gender == 1 ? 'profile.png' : 'female_final.png';
+                            data +=`
+                                    <div class="direct-chat-msg ${response.data[i].creator_relation.id == $('#authId').val() ?'right':''}">
+                                        <div class="direct-chat-infos clearfix">
+                                            <span class="direct-chat-name ${response.data[i].creator_relation.id == $('#authId').val() ?'float-right':'float-left'}" style='font-size:12px;'>${response.data[i].creator_relation == null ?'':response.data[i].creator_relation.name}</span>
+                                            <span style='font-size:9px;' class="direct-chat-timestamp ${response.data[i].creator_relation.id == $('#authId').val() ?'float-left':'float-right'}">${formatDate(date)} ${time}</span>
+                                        </div>
+                                        
+                                            <img class="direct-chat-img" src="{{URL::asset('${name_img}')}}" alt="message user image">
+                                    
+                                        <div class="direct-chat-text" style='font-size:9px;'>
+                                            ${response.data[i].remark}
+                                        </div>
+                                    
+                                    </div>
+                            `;
+                            }
                 
-            })
-        })
+                            $('#logMessage').append(data)
+                            
+                        })
+                })
         // Edit Request 
     // Operation
 
@@ -278,7 +416,14 @@
                             }else{
                                 status = 'Reject'
                                 color = 'danger'
-                            }                 
+                            }     
+                            var btnPaymentInstruction = ''
+                            if(response[i].status == 2){
+                                btnPaymentInstruction =` 
+                                        <button title="Detail" class="add-pi btn btn-sm btn-warning rounded"data-id="${response[i]['id']}" data-toggle="modal" data-target="#paymentInstructionModal">
+                                            <i class="fas fa-solid fa-edit"></i>
+                                        </button> `
+                            }            
                             data += `<tr style="text-align: center;">
                                     
                                         <td style="text-align:center;">${response[i].pc_code}</td>
@@ -291,6 +436,7 @@
                                         <button title="Detail" class="edit btn btn-sm btn-primary rounded"data-id="${response[i]['id']}" data-toggle="modal" data-target="#detailPettycashRequst">
                                             <i class="fas fa-solid fa-eye"></i>
                                         </button> 
+                                        ${btnPaymentInstruction}
                                         
                                 </td>
                                     </tr>
@@ -375,6 +521,110 @@
                 $('#select_category').prop('disabled', true)
                 $('#select_location').prop('disabled', true)
                 $('#itemListContainer').prop('hidden',false)
+        }
+        function mappingArrayTablePI(name,response){
+            var data =''
+            var total = 0
+                $('#'+ name).DataTable().clear();
+                $('#'+ name).DataTable().destroy();
+                var data_total='';
+                        for(i = 0; i < response.length; i++ )
+                        {
+                            total += response[i].amount
+                                data += `<tr style="text-align: center;">
+                                  
+                                  <td style="text-align:center;">${i + 1}</td>
+                                  <td style="text-align:left;width:30%">${response[i].subcategory_name}</td>
+                                  <td style="text-align:left;width:20%">${formatRupiah(response[i].amount)}</td>
+                                  <td style="text-align:center;">
+                                    <input type="text" class="form-control payment_amount">  
+                                    </td>
+                                  <td style ="text-align:center">
+                                    <input type="file" class="form-control attachment_pi" >
+                                  </td>
+                              </tr>
+                              `;
+                        }
+                        data_total= ` <tr style="text-align:center;background-color:yellow">
+                                    <td></td>
+                                    <td style="font-weight:bold"> Total </td>
+                                    <td style="font-weight:bold">${formatRupiah(total)} </td>
+                                    <td></td>
+                                    
+                                </tr>`
+                              
+                $('#total_array').val(total)
+                $('#'+ name +' > tbody:first').html(data);
+                $('#'+ name).DataTable({
+                    scrollX  : false,
+                    language: {
+                    'paginate': {
+                    'previous': '<span class="prev-icon"><i class="fa-solid fa-arrow-left"></i></span>',
+                    'next': '<span class="next-icon"><i class="fa-solid fa-arrow-right"></i></span>'
+                    }
+                },
+                    ordering : false
+                }).columns.adjust()
+              
+                $('#quantity_product').val('')
+                $('#quantity_request').val('')
+                $('#select_product').val('')
+                $('#select_product').select2().trigger('change')
+                $('#select_category').prop('disabled', true)
+                $('#select_location').prop('disabled', true)
+                $('#itemListContainer').prop('hidden',false)
+        }
+        function mappingArrayTablePIChecking(name,response){
+            var data =''
+            var total = 0
+            var total_payment = 0
+                $('#'+ name).DataTable().clear();
+                $('#'+ name).DataTable().destroy();
+                var data_total='';
+                        for(i = 0; i < response.length; i++ )
+                        {
+                            var output = response[i].attachment.split('/').pop();
+                            total += response[i].subcategory_amount
+                            total_payment += response[i].payment
+                                data += `<tr style="text-align: center;">
+                                  
+                                  <td style="text-align:center;">${i + 1}</td>
+                                  <td style="text-align:left;width:30%">${response[i].subcategory_name}</td>
+                                  <td style="text-align:left;width:20%">${formatRupiah(response[i].subcategory_amount)}</td>
+                                  <td style="text-align:left;width:20%">${formatRupiah(response[i].payment)}</td>
+                                  <td style="text-align:left;width:20%">
+                                    <a target="_blank" href="{{URL::asset('${response[i].attachment}')}}" style="color:blue;">
+                                            <i class="far fa-file" style="color: red;font-size: 20px;margin-top:-15px"></i>
+                                            ${output}
+                                        </a>
+                                    </td>
+                                
+                              </tr>
+                              `;
+                        }
+                        data_total= ` <tr style="text-align:center;background-color:yellow">
+                                    <td></td>
+                                    <td style="font-weight:bold"> Total </td>
+                                    <td style="font-weight:bold !important;text-align:left">${formatRupiah(total)} </td>
+                                    <td style="font-weight:bold !important;text-align:left">${formatRupiah(total_payment)} </td>
+                                    <td></td>
+                                    
+                                </tr>`
+                        data += data_total
+                              
+                $('#total_array').val(total)
+                $('#'+ name +' > tbody:first').html(data);
+                $('#'+ name).DataTable({
+                    scrollX  : false,
+                    language: {
+                    'paginate': {
+                    'previous': '<span class="prev-icon"><i class="fa-solid fa-arrow-left"></i></span>',
+                    'next': '<span class="next-icon"><i class="fa-solid fa-arrow-right"></i></span>'
+                    }
+                },
+                    ordering : false
+                }).columns.adjust()
+         
         }
     // Function
 </script>

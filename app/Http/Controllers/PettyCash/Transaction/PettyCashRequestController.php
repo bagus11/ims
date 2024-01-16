@@ -8,10 +8,13 @@ use App\Http\Requests\StorePettyCashRequest;
 use App\Models\MasterLocation;
 use App\Models\PettyCash\Master\ApprovalPCModel;
 use App\Models\PettyCash\Master\MasterApproverPC;
+use App\Models\PettyCash\Transaction\PaymentInstructionDetail;
+use App\Models\PettyCash\Transaction\PaymentInstructionModel;
 use App\Models\PettyCash\Transaction\PettyCashDetail;
 use App\Models\PettyCash\Transaction\PettyCashRequest;
 use App\Models\PettyCash\Transaction\PettyCashSubcategory;
 use App\Models\PettyCashModel;
+use Faker\Provider\ar_EG\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use NumConvert;
@@ -43,7 +46,11 @@ class PettyCashRequestController extends Controller
             'location_id'       => $detail->location_id,
             'department_id'     => $detail->department
         ])->count();
-        $data = PettyCashSubcategory::where('pc_code',$detail->pc_code)->get();
+        if($detail->status == 3){
+            $data = PaymentInstructionDetail::where('pc_code',$detail->pc_code)->get();
+        }else{
+            $data = PettyCashSubcategory::where('pc_code',$detail->pc_code)->get();
+        }
         return response()->json([
             'detail'=>$detail,
             'data'=>$data,
@@ -124,7 +131,7 @@ class PettyCashRequestController extends Controller
                 'creator'           => auth()->user()->id,
                 'location_id'       => auth()->user()->kode_kantor
             ];
-
+            
            DB::transaction(function() use($post_log,$post,$request,$array_post,$attachmentLabel) {
             PettyCashRequest::create($post);
             PettyCashDetail::create($post_log);

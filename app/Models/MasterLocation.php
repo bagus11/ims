@@ -10,4 +10,6 @@ class MasterLocation extends Model
     use HasFactory;
     protected $table = 'master_kantor';
     protected $connection = 'mysql2';
+
+    
 }

@@ -269,7 +269,7 @@
 
 
     // Case Mapping Table Item 
-    function mappingTableItem(response,id){
+        function mappingTableItem(response,id){
             var data =''
                 $('#'+id).DataTable().clear();
                 $('#'+id).DataTable().destroy();
@@ -384,40 +384,40 @@
     // Format Number
 
     // Case Petty cash get mapping array table 
-    function mappingArrayTable(name,response){
+        function mappingArrayTable(name,response){
             var data =''
             var total = 0
                 $('#'+ name).DataTable().clear();
                 $('#'+ name).DataTable().destroy();
                 var data_total='';
-                  
+                
                         for(i = 0; i < response.length; i++ )
                         {
                             total += response[i].amount
                             if(name == 'detail_req_table'){
                                 data += `<tr style="text-align: center;">
-                                  
-                                  <td style="text-align:center;">${i + 1}</td>
-                                  <td style="text-align:left;width:50%">${response[i].subcategory_name}</td>
-                                  <td style="text-align:center;">${formatRupiah(response[i].amount)}</td>
-                              </tr>
-                              `;
+                                
+                                <td style="text-align:center;">${i + 1}</td>
+                                <td style="text-align:left;width:50%">${response[i].subcategory_name}</td>
+                                <td style="text-align:center;">${formatRupiah(response[i].amount)}</td>
+                            </tr>
+                            `;
                             }else{
                                 data += `<tr style="text-align: center;">
-                                  
-                                  <td style="text-align:center;">${i + 1}</td>
-                                  <td style="text-align:left;width:50%">${response[i].subcategory}</td>
-                                  <td style="text-align:center;">${formatRupiah(response[i].amount)}</td>
-                                  <td style ="text-align:center">
-                                      <button class="btn btn-sm btn-info edit" data-id ="${i}">
-                                          <i class="fas fa-edit"></i>
-                                      </button>
-                                      <button class="btn btn-sm btn-danger delete" data-id ="${i}">
-                                          <i class="fas fa-trash"></i>
-                                      </button>
-                                  </td>
-                              </tr>
-                              `;
+                                
+                                <td style="text-align:center;">${i + 1}</td>
+                                <td style="text-align:left;width:50%">${response[i].subcategory}</td>
+                                <td style="text-align:center;">${formatRupiah(response[i].amount)}</td>
+                                <td style ="text-align:center">
+                                    <button class="btn btn-sm btn-info edit" data-id ="${i}">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger delete" data-id ="${i}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            `;
                             }
                         }
                         data_total= ` <tr style="text-align:center;background-color:yellow">
@@ -440,7 +440,7 @@
                 },
                     ordering : false
                 }).columns.adjust()
-              
+            
                 $('#quantity_product').val('')
                 $('#quantity_request').val('')
                 $('#select_product').val('')

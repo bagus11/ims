@@ -33,6 +33,7 @@
     </div>
 </div>
 
+@include('pettycash.transaction.pettycash_request.modal.add-paymentInstruction')
 @include('pettycash.transaction.pettycash_request.modal.add-pettycash_request')
 @include('pettycash.transaction.pettycash_request.modal.detail-pettycash_request')
 @endsection

@@ -22,7 +22,7 @@ class AssignmentPettyCashController extends Controller
             'picRelation',
             'locationRelation',
             'categoryRelation',
-        ])->whereIn('status', [0,1])->where('approval_id', auth()->user()->id)->get();
+        ])->whereIn('status', [0,1,3])->where('approval_id', auth()->user()->id)->get();
         return response()->json([
             'data'=>$data,
         ]); 
