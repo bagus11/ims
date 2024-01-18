@@ -69,6 +69,7 @@ class PaymentInstructionController extends Controller
             $post_pc =[
                 'status'                    => $pettCash->status + 1,
                 'approval_id'               => $approval_id,
+                'step_app_pi'               => 1,
             ];
             $post_pc_log =[
                  

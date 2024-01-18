@@ -67,6 +67,28 @@
                                 <div class="col-9">
                                     <p id="remark_label"></p>
                                 </div>
+                                <div class="col-1">
+                                    <div class="btn-group" style="float:right">
+                                        <button type="button" class="btn btn-tool btn-info dropdown-toggle" id="btn_history_remark" title="Remark History" style="margin-top:3px" data-toggle="dropdown">
+                                            <i class="fa-solid fa-comments"></i>
+                                        </button>
+                                        <input type="hidden" name="pc_code_id_pi" id="pc_code_id_pi">
+                                        <div class="dropdown-menu dropdown-menu-left" role="menu" style="width: 390px !important">
+                                            <div class="container">
+                                                <div class="mx-auto mb-4 mt-4">
+                                                    <div class="loader" id="loading" hidden></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 col-sm-12 col-12">
+                                                        <div class="direct-chat-messages" id="logMessage">
+        
+                                                        </div>   
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                
                             </div>
                            
@@ -94,11 +116,44 @@
                                             <th  style="text-align: center">No</th>
                                             <th  style="text-align: center">Category</th>
                                             <th  style="text-align: center">Amount</th>
-                                            <th  style="text-align: center">Payment</th>
+                                            <th  style="text-align: center">Paid</th>
                                             <th  style="text-align: center">Attachment</th>
                                         </tr>
                                     </thead>
                                 </table>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mx-4" id="detail_transaction_card_after">
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <p>Amount Request</p>
+                                            </div>
+                                            <div class="col-3">
+                                                <p id="amount_req_label"></p>
+                                            </div>
+                                            <div class="col-3">
+                                                <p>Approved Amount</p>
+                                            </div>
+                                            <div class="col-3">
+                                                <p id="approved_amount_label"></p>
+                                            </div>
+                                            <div class="col-3">
+                                                <p>Start Date</p>
+                                            </div>
+                                            <div class="col-3">
+                                                <p id="start_date_label"></p>
+                                            </div>
+                                            <div class="col-3">
+                                                <p>End Date</p>
+                                            </div>
+                                            <div class="col-3">
+                                                <p id="end_date"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                        </div>

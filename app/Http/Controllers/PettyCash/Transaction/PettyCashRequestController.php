@@ -46,7 +46,7 @@ class PettyCashRequestController extends Controller
             'location_id'       => $detail->location_id,
             'department_id'     => $detail->department
         ])->count();
-        if($detail->status == 3){
+        if($detail->status >= 3){
             $data = PaymentInstructionDetail::where('pc_code',$detail->pc_code)->get();
         }else{
             $data = PettyCashSubcategory::where('pc_code',$detail->pc_code)->get();

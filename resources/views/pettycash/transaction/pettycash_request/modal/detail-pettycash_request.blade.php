@@ -68,14 +68,13 @@
                                 </div>
                                 <div class="col-9">
                                     <p id="remark_label"></p>
-                                    <input type="hidden" id="pc_code_id">
                                 </div>
                                 <div class="col-1">
                                     <div class="btn-group" style="float:right">
                                         <button type="button" class="btn btn-tool btn-info dropdown-toggle" id="btn_history_remark" title="Remark History" style="margin-top:3px" data-toggle="dropdown">
                                             <i class="fa-solid fa-comments"></i>
                                         </button>
-                                        <input type="hidden" name="pc_code_id" id="pc_code_id">
+                                        <input type="hidden" name="pc_code_id_pi" id="pc_code_id_pi">
                                         <div class="dropdown-menu dropdown-menu-left" role="menu" style="width: 390px !important">
                                             <div class="container">
                                                 <div class="mx-auto mb-4 mt-4">

@@ -55,12 +55,12 @@
                                 <div class="col-4">
                                     <p id="loc_label_pi"></p>
                                 </div>
-                                <div class="col-2" id="ca_label_pi">
+                                {{-- <div class="col-2" id="ca_label_pi">
                                     <p>Current Approval</p>
                                 </div>
                                 <div class="col-4">
                                     <p id="current_approval_label_pi"></p>
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="row">
                                 <div class="col-2">
@@ -135,20 +135,7 @@
                                     </tr>
                                 </thead>
                             </table>
-                            <div class="row mt-2">
-                                <div class="col-2 mt-2">
-                                    <p>Paid By</p>
-                                </div>
-                                <div class="col-4">
-                                    <select name="select_paid" id="select_paid" class="select2">
-                                        <option value="">Choose Payment By</option>
-                                        <option value="1">Cash</option>
-                                        <option value="2">Cheque</option>
-                                        <option value="3">Giro</option>
-                                    </select>
-                                    <input type="hidden" id="paid_id">
-                                </div>
-                            </div>
+                         
                             <div class="row mt-2">
                                 <div class="col-2 mt-2">
                                     <p>Remark</p>

@@ -173,7 +173,7 @@
                         status = 'On Progress'
                         $('#detail_transaction_card').prop('hidden', false)
                     }else if(response.detail.status == 3){
-                        status = 'Checking'
+                        status = 'On Review'
                     }else if(response.detail.status == 4){
                         status = 'DONE'
                     }else{
@@ -237,7 +237,7 @@
                             status = 'On Progress'
                         
                         }else if(response.detail.status == 3){
-                            status = 'Checking'
+                            status = 'On Review'
                         }else if(response.detail.status == 4){
                             status = 'DONE'
                         }else{
@@ -311,9 +311,11 @@
                         $('#btn_history_remark_pi').on('click', function(){
                             $('#loading').prop('hidden', false)
                             var data ={
-                                'pc_code' : $('#pc_code_id').val()
+                                'pc_code' : $('#pc_code_id_pi').val()
                             }
+                          
                             getCallbackNoSwal('getHistoryRemark',data, function(response){
+                                console.log(response.data)
                                 $('#loading').prop('hidden', true)
                                 $('#logMessagePI').empty()
                                 var data =''
@@ -340,7 +342,7 @@
                                     `;
                                     }
                         
-                                    $('#logMessage').append(data)
+                                    $('#logMessagePI').append(data)
                                     
                                 })
                         })
@@ -400,7 +402,7 @@
                             var color =''
                             if(response[i].status ==0){
                                 status ='NEW'
-                                color = 'info'
+                                color = 'secondary'
                             }else if(response[i].status == 1){
                                 status ='Partially Approved'
                                 color = 'warning'
@@ -408,9 +410,12 @@
                                 color = 'primary'
                                 status = 'On Progress'
                             }else if(response[i].status == 3){
-                                color = 'secondary'
-                                status = 'Checking'
+                                color = 'purple'
+                                status = 'On Review'
                             }else if(response[i].status == 4){
+                                color = 'orange'
+                                status = 'Finalization'
+                            }else if(response[i].status == 5){
                                 color = 'success'
                                 status = 'DONE'
                             }else{
@@ -418,7 +423,8 @@
                                 color = 'danger'
                             }     
                             var btnPaymentInstruction = ''
-                            if(response[i].status == 2){
+                            var authId = $('#authId').val()
+                            if(response[i].status == 2 && response[i].user_id == authId){
                                 btnPaymentInstruction =` 
                                         <button title="Detail" class="add-pi btn btn-sm btn-warning rounded"data-id="${response[i]['id']}" data-toggle="modal" data-target="#paymentInstructionModal">
                                             <i class="fas fa-solid fa-edit"></i>
@@ -429,7 +435,7 @@
                                         <td style="text-align:center;">${response[i].pc_code}</td>
                                         <td style="text-align:left;">${response[i].category_relation.name}</td>
                                         <td style="text-align:left;">${formatRupiah(response[i].amount)}</td>
-                                        <td style="text-align:center;"><b style ="font-size:12px"><span class="badge badge-${color}">${status}</span></b></td>
+                                        <td style="text-align:center;"><b style ="font-size:13px"><span class="badge badge-${color}">${status}</span></b></td>
                                         <td style="text-align:left;">${response[i].pic_relation.name}</td>
                                         <td style="width:25%;text-align:center">
                                         

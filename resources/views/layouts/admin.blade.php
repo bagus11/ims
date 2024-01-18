@@ -170,6 +170,14 @@
   .selectOption2{
     font-size:9px;
   }
+  .badge-orange{
+    background-color: #FE7A36;
+    color : black
+  }
+  .badge-purple{
+    background-color: #5D3587;
+    color : white
+  }
   .toast{
     width:100%; 
     margin : auto !important;

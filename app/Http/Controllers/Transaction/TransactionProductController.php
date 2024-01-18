@@ -98,12 +98,28 @@ class TransactionProductController extends Controller
         //     'recordsFiltered'   => intval($totalData),
         //     'data'              => $data
         // ]);
-            $productCode = '';
-            if($request->productFilter){
-                $productFilter = ProductModel::find($request->productFilter);
-                $productCode = $productFilter->product_code;
-            }
+        $productCode = '';
+        if($request->productFilter){
+            $productFilter = ProductModel::find($request->productFilter);
+            $productCode = $productFilter->product_code;
+        }
+        if(auth()->user()->hasPermissionTo('get-only_gm-master_product')){
             
+            $data = HistoryProduct_model::with([
+                'itemRelation',
+                'desLocationRelation',
+                'transactionRelation.userRelation',
+                'locationRelation',
+                'transactionRelation',
+            ])
+            ->whereBetween(DB::raw('DATE(created_at)'), [$request->from, $request->to])
+            ->where('source_location','like','%'.$request->officeFilter.'%')
+            ->where('product_code','like','%'.$productCode.'%')
+            ->whereHas('transactionRelation',function($query) use($request){
+                $query->where('user_id', 'like', '%'.$request->reqFilter .'%');
+            })
+            ->orderBy('id', 'desc')->get();
+        }else{
             $data = HistoryProduct_model::with([
                 'itemRelation',
                 'desLocationRelation',
@@ -121,13 +137,31 @@ class TransactionProductController extends Controller
                 $query->where('department_id', auth()->user()->departement);
             })
             ->orderBy('id', 'desc')->get();
+        }
+         
+            
+           
             return response()->json([
                 'data'      => $data
             ]);
     }
     function getHistoryProductDashboard(Request $request) {
      
-      
+        if(auth()->user()->hasPermissionTo('get-only_gm-master_product')){
+            $data = HistoryProduct_model::with([
+                'itemRelation',
+                'desLocationRelation',
+                'transactionRelation.userRelation',
+                'locationRelation',
+                'transactionRelation',
+            ])
+            ->whereBetween(DB::raw('DATE(created_at)'), [$request->from, $request->to])
+            ->whereHas('itemRelation',function($query) use($request){
+                $query->where('department_id', 'like','%%');
+            })
+            ->orderBy('id', 'desc')->get();
+        }else
+        {
             $data = HistoryProduct_model::with([
                 'itemRelation',
                 'desLocationRelation',
@@ -140,6 +174,8 @@ class TransactionProductController extends Controller
                 $query->where('department_id', auth()->user()->departement);
             })
             ->orderBy('id', 'desc')->get();
+        }
+           
             return response()->json([
                 'data'      => $data
             ]);

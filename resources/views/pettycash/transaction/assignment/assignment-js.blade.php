@@ -36,7 +36,20 @@
                     }
               
                     getCallback('detailPettyCashRequest',data,function(response){
-                        response.count == response.detail.step ? $('#detail_transaction_card').prop('hidden', false) : $('#detail_transaction_card').prop('hidden', true)
+                        if(response.detail.step > 0){
+                            alert('test')
+                            if(response.detail.status >= 3){
+                                $('#detail_transaction_card').prop('hidden', false)
+                                $('#detail_transaction_card_after').prop('hidden', true)
+                            }else{
+                                $('#detail_transaction_card').prop('hidden', true)
+                                $('#detail_transaction_card_after').prop('hidden', false)
+                            }
+                        }else{
+                            $('#detail_transaction_card').prop('hidden', true)
+                            $('#detail_transaction_card_after').prop('hidden', false)
+                        }
+                       
                         swal.close()
                         var status =''
                       
@@ -47,7 +60,7 @@
                     }else if(response.detail.status == 2){
                         status = 'On Progress'
                     }else if(response.detail.status == 3){
-                        status = 'Checking'
+                        status = 'On Review'
                     }else if(response.detail.status == 4){
                         status = 'DONE'
                     }else{
@@ -63,30 +76,30 @@
                         }
                         var output = response.detail.attachment.split('/').pop();
                         $('#pc_code_id').val(response.detail.pc_code)
-                       $('#pc_code_label').html(': ' + response.detail.pc_code)
-                       $('#amount_total_detail').val(response.detail.amount)
-                       $('#status_label').html(': ' + status)
-                       $('#request_label').html(': ' + response.detail.requester_relation.name)
-                       $('#pic_label').html(': ' + response.detail.pic_relation.name)
-                       $('#category_label').html(': ' + response.detail.category_relation.name)
-                       $('#attachment_label').html(`:  <a target="_blank" href="{{URL::asset('${response.detail.attachment}')}}" style="color:blue;">
-                                            <i class="far fa-file" style="color: red;font-size: 20px;margin-top:-15px"></i>
-                                            ${output}
-                                        </a>`)
-                        $('#remark_label').html(': ' +  response.detail.remark)
-                        $('#current_approval_label').html(': ' +  response.detail.approval_relation? response.detail.approval_relation.name : '')
-                        $('#location_label').html(': ' +  response.detail.location_relation.name)
+                        $('#pc_code_label').html(': ' + response.detail.pc_code)
+                        $('#amount_total_detail').val(response.detail.amount)
+                        $('#status_label').html(': ' + status)
+                        $('#request_label').html(': ' + response.detail.requester_relation.name)
+                        $('#pic_label').html(': ' + response.detail.pic_relation.name)
+                        $('#category_label').html(': ' + response.detail.category_relation.name)
+                        $('#attachment_label').html(`:  <a target="_blank" href="{{URL::asset('${response.detail.attachment}')}}" style="color:blue;">
+                                                        <i class="far fa-file" style="color: red;font-size: 20px;margin-top:-15px"></i>
+                                                        ${output}
+                                                    </a>`)
+                            $('#remark_label').html(': ' +  response.detail.remark)
+                            $('#current_approval_label').html(': ' +  response.detail.approval_relation? response.detail.approval_relation.name : '')
+                            $('#location_label').html(': ' +  response.detail.location_relation.name)
 
-                        if(response.detail.status == 3){
-                            $('#detail_req_table_pi_container').prop('hidden', false)
-                            $('#detail_req_table_container').prop('hidden', true)
-                            mappingArrayTablePIChecking('detail_req_table_pi',response.data)
-                            // console.log(response.data)
-                        }else{
-                            $('#detail_req_table_container').prop('hidden', false)
-                            $('#detail_req_table_pi_container').prop('hidden', true)
-                            mappingArrayTable('detail_req_table',response.data)
-                        }
+                            if(response.detail.status >= 3){
+                                $('#detail_req_table_pi_container').prop('hidden', false)
+                                $('#detail_req_table_container').prop('hidden', true)
+                                mappingArrayTablePIChecking('detail_req_table_pi',response.data)
+                                // console.log(response.data)
+                            }else{
+                                $('#detail_req_table_container').prop('hidden', false)
+                                $('#detail_req_table_pi_container').prop('hidden', true)
+                                mappingArrayTable('detail_req_table',response.data)
+                            }
                         
                     })
         })
@@ -104,16 +117,17 @@
                 const d = new Date(response.data[i].created_at)
                 const date = d.toISOString().split('T')[0];
                 const time = d.toTimeString().split(' ')[0];
+                var name_img = response.data[i].creator_relation.gender == 1 ? 'profile.png' : 'female_final.png';
                 data +=`
                         <div class="direct-chat-msg ${response.data[i].creator_relation.id == $('#authId').val() ?'right':''}">
                             <div class="direct-chat-infos clearfix">
-                                <span class="direct-chat-name ${response.data[i].creator_relation.id == $('#authId').val() ?'float-right':'float-left'}">${response.data[i].creator_relation == null ?'':response.data[i].creator_relation.name}</span>
-                                <span class="direct-chat-timestamp ${response.data[i].creator_relation.id == $('#authId').val() ?'float-left':'float-right'}">${formatDate(date)} ${time}</span>
+                                <span class="direct-chat-name ${response.data[i].creator_relation.id == $('#authId').val() ?'float-right':'float-left'}" style='font-size:12px;'>${response.data[i].creator_relation == null ?'':response.data[i].creator_relation.name}</span>
+                                <span style='font-size:9px;' class="direct-chat-timestamp ${response.data[i].creator_relation.id == $('#authId').val() ?'float-left':'float-right'}">${formatDate(date)} ${time}</span>
                             </div>
                             
-                                <img class="direct-chat-img" src="{{URL::asset('profile.png')}}" alt="message user image">
+                                <img class="direct-chat-img" src="{{URL::asset('${name_img}')}}" alt="message user image">
                         
-                            <div class="direct-chat-text">
+                            <div class="direct-chat-text" style='font-size:9px;'>
                                 ${response.data[i].remark}
                             </div>
                         
@@ -171,7 +185,7 @@
                             var color =''
                             if(response[i].status ==0){
                                 status ='NEW'
-                                color = 'info'
+                                color = 'secondary'
                             }else if(response[i].status == 1){
                                 status ='Partially Approved'
                                 color = 'warning'
@@ -179,15 +193,18 @@
                                 color = 'primary'
                                 status = 'On Progress'
                             }else if(response[i].status == 3){
-                                color = 'secondary'
-                                status = 'Checking'
+                                color = 'purple'
+                                status = 'On Review'
                             }else if(response[i].status == 4){
+                                color = 'orange'
+                                status = 'Finalization'
+                            }else if(response[i].status == 5){
                                 color = 'success'
                                 status = 'DONE'
                             }else{
                                 status = 'Reject'
                                 color = 'danger'
-                            }                 
+                            } 
                             data += `<tr style="text-align: center;">
                                     
                                         <td style="text-align:center;">${response[i].pc_code}</td>

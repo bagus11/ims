@@ -21,6 +21,7 @@
                                 <option value="get-only_user">Only User</option>
                                 <option value="get-only_staff">Only Staff</option>
                                 <option value="get-only_admin">Only Admin</option>
+                                <option value="get-only_gm">Only GM</option>
                                 <option value="create">Create</option>
                                 <option value="update">Update</option>
                                 <option value="delete">Delete</option>

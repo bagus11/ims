@@ -20,7 +20,13 @@ class MasterProductController extends Controller
     }
     function getProduct() {
         // dd(auth()->user()->departement);
-        $data = ProductModel::with(['typeRelation','categoryRelation','locationRelation','departmentRelation'])->where('department_id',auth()->user()->departement)->get();
+    
+        if(auth()->user()->hasPermissionTo('get-only_gm-master_product')){
+            $data = ProductModel::with(['typeRelation','categoryRelation','locationRelation','departmentRelation'])->get();
+        }else{
+           
+            $data = ProductModel::with(['typeRelation','categoryRelation','locationRelation','departmentRelation'])->where('department_id',auth()->user()->departement)->get();
+        }
         return response()->json([
             'data'=>$data,  
         ]);  
