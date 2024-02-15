@@ -142,7 +142,7 @@ class AssignmentController extends Controller
                     'quantity_result' =>$finalItem,
                 ];
             }
-            
+           
             DB::transaction(function() use($post,$post_log,$request,$postLogProduct,$dataOld, $updateProduct, $updatePost,$post_array,$finalItem) {
                 if($dataOld->status == 4 && $request->approval_id == 1){
                     if($dataOld->request_type == 4){

@@ -65,7 +65,7 @@
                     if(total <=  min){
                         if(total < 0){
                             $('#quantity_request').val('')
-                            toastr['danger']('quantity is not enough, please contact accounting staff');  
+                            toastr['error']('quantity is not enough, please contact accounting staff');  
                             return false
                         }else{
                             toastr['warning']('quantity is low, please review your item balances');  

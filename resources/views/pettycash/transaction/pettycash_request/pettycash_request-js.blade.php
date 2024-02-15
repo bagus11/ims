@@ -1,12 +1,46 @@
 <script>
     var array_item = []
     var total = 0
+    
     $('#pc_req_table').prop('hidden', true)
     $('#btn_update_array_pc').prop('hidden', true)
     // Call Function
-        getCallback('getPettyCashRequest',null,function(response){
-            swal.close()
+    getCallback('getPettyCashRequest',null,function(response){
+        swal.close()
             mappingTable(response.data)
+        })
+        getCallback('getActivePettyCashBank',null,function(response){
+            $('#bank_container').empty()
+            var data =''
+            var color =[
+                'core','danger','success','warning'
+            ]
+            for(i =0; i < response.data.length ; i++){
+                var icon = response.data[i].location_id == 1 ?'building':'house-laptop'
+
+                data +=`
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-${color[i]} elevation-1"><i class="fas fa-${icon}"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">${response.data[i].location_relation.initial}</span>
+                                <span class="info-box-number">
+                                    <small>${formatRupiah(response.data[i].total_petty_cash)}</small>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            $('#bank_container').append(data)
+
+        })
+        $('#btn_refresh').on('click', function(){
+            getCallback('getPettyCashRequest',null,function(response){
+                swal.close()
+                mappingTable(response.data)
+            })
+
         })
     // Call Function
 
@@ -21,7 +55,7 @@
                     $('#total_array').val(0)
                     $('#attachment').val('')
                     getActiveItemTransaction('getActiveCategoryPC',null,'select_category', 'Category')
-                    getActiveItems('getUser',null,'select_pic', 'PIC')
+                    getActiveItems('getUserDepartment',null,'select_pic', 'PIC')
                 })
                 $(document).ready(function(){
                     $('#select_category').on('change', function(){
@@ -171,10 +205,12 @@
                         status ='Partially Approved'
                     }else if(response.detail.status == 2){
                         status = 'On Progress'
-                        $('#detail_transaction_card').prop('hidden', false)
+                     
                     }else if(response.detail.status == 3){
                         status = 'On Review'
                     }else if(response.detail.status == 4){
+                        status = 'Finalization'
+                    }else if(response.detail.status == 5){
                         status = 'DONE'
                     }else{
                         status = 'Reject'
@@ -186,12 +222,18 @@
                         $('#ca_label').prop('hidden', false)
                         $('#current_approval_label').prop('hidden', false)
 
-                    }       
+                    }    
+                    if(response.detail.status >= 3){
+                        $('#detail_transaction_card').prop('hidden', false)
+                    }   
                         var output = response.detail.attachment.split('/').pop();
                        $('#pc_code_label').html(': ' + response.detail.pc_code)
                        $('#pc_code_id').val( response.detail.pc_code)
                        $('#status_label').html(': ' + status)
                        $('#amount_req_label').html(': ' + formatRupiah(response.detail.amount))
+                       $('#approved_amount_label').html(': ' + formatRupiah(response.detail.amount_approve))
+                        $('#start_date_label').html(': ' + response.detail.start_date)
+                        $('#end_date_label').html(': ' + response.detail.end_date)
                        $('#request_label').html(': ' + response.detail.requester_relation.name)
                        $('#pic_label').html(': ' + response.detail.pic_relation.name)
                        $('#category_label').html(': ' + response.detail.category_relation.name)
@@ -204,7 +246,7 @@
                             $('#current_approval_label').html(': ' +  response.detail.approval_relation.name)
                         }
                         $('#loc_label').html(': ' +  response.detail.location_relation === null ? '' : ': ' + response.detail.location_relation.name)
-                        if(response.detail.status == 3){
+                        if(response.detail.status >= 3){
                             $('#detail_req_table_pi_container').prop('hidden', false)
                             $('#detail_req_table_container').prop('hidden', true)
                             mappingArrayTablePIChecking('detail_req_table_pi',response.data)
@@ -301,8 +343,8 @@
                                 swal.close()
                                 $('.message_error').html('')
                                 toastr['success'](response.meta.message);
-                                $('#addPCModal').modal('hide')
-                                getCallback('getMasterPC',null,function(response){
+                                $('#paymentInstructionModal').modal('hide')
+                                getCallback('getPettyCashRequest',null,function(response){
                                     swal.close()
                                     mappingTable(response.data)
                                 })
@@ -315,7 +357,7 @@
                             }
                           
                             getCallbackNoSwal('getHistoryRemark',data, function(response){
-                                console.log(response.data)
+                              
                                 $('#loading').prop('hidden', true)
                                 $('#logMessagePI').empty()
                                 var data =''
@@ -354,6 +396,7 @@
                         'pc_code' : $('#pc_code_id').val()
                     }
                     getCallbackNoSwal('getHistoryRemark',data, function(response){
+                       
                         $('#loading').prop('hidden', true)
                         $('#logMessage').empty()
                         var data =''
@@ -385,6 +428,16 @@
                         })
                 })
         // Edit Request 
+        // Export to PDF
+                $('#pettycash_request_table').on('click','.report', function(){
+                 var pc_code = $(this).data('pc')
+                 window.open(`exportPI/${pc_code}`,'_blank');
+                })
+                $('#pettycash_request_table').on('click','.reportPC', function(){
+                 var pc_code = $(this).data('pc')
+                 window.open(`exportPC/${pc_code}`,'_blank');
+                })
+        // Export to PDF
     // Operation
 
     // Function
@@ -423,13 +476,23 @@
                                 color = 'danger'
                             }     
                             var btnPaymentInstruction = ''
+                            var btnReportPI = ''
                             var authId = $('#authId').val()
                             if(response[i].status == 2 && response[i].user_id == authId){
                                 btnPaymentInstruction =` 
-                                        <button title="Detail" class="add-pi btn btn-sm btn-warning rounded"data-id="${response[i]['id']}" data-toggle="modal" data-target="#paymentInstructionModal">
+                                        <button title="Payment Instruction" class="add-pi btn btn-sm btn-warning rounded"data-id="${response[i]['id']}" data-toggle="modal" data-target="#paymentInstructionModal">
                                             <i class="fas fa-solid fa-edit"></i>
                                         </button> `
-                            }            
+                            }   
+                            if(response[i].status == 5){
+                                replace = response[i].pc_code.replaceAll('/','_');
+                                btnReportPI = `
+                                        <button title="Report PI" class="report btn btn-sm btn-danger rounded"data-id="${response[i]['id']}" data-pc ="${replace}" type="button">
+                                            <i class="fa-solid fa-file-pdf"></i>
+                                        </button> 
+                                `;
+                            }         
+                            replacePC = response[i].pc_code.replaceAll('/','_');
                             data += `<tr style="text-align: center;">
                                     
                                         <td style="text-align:center;">${response[i].pc_code}</td>
@@ -437,12 +500,17 @@
                                         <td style="text-align:left;">${formatRupiah(response[i].amount)}</td>
                                         <td style="text-align:center;"><b style ="font-size:13px"><span class="badge badge-${color}">${status}</span></b></td>
                                         <td style="text-align:left;">${response[i].pic_relation.name}</td>
-                                        <td style="width:25%;text-align:center">
-                                        
+                                        <td style="width:25%;text-align:left">
+                                       
                                         <button title="Detail" class="edit btn btn-sm btn-primary rounded"data-id="${response[i]['id']}" data-toggle="modal" data-target="#detailPettycashRequst">
                                             <i class="fas fa-solid fa-eye"></i>
                                         </button> 
+                                        <button title="Report Petty Cash" class="reportPC btn btn-sm btn-success rounded"data-id="${response[i]['id']}" data-pc ="${replacePC}" type="button">
+                                            <i class="fa-solid fa-print"></i>
+                                        </button> 
                                         ${btnPaymentInstruction}
+                                        ${btnReportPI}
+                                      
                                         
                                 </td>
                                     </tr>

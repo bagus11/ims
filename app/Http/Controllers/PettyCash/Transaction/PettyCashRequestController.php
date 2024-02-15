@@ -8,6 +8,7 @@ use App\Http\Requests\StorePettyCashRequest;
 use App\Models\MasterLocation;
 use App\Models\PettyCash\Master\ApprovalPCModel;
 use App\Models\PettyCash\Master\MasterApproverPC;
+use App\Models\PettyCash\Master\PettyCashBank;
 use App\Models\PettyCash\Transaction\PaymentInstructionDetail;
 use App\Models\PettyCash\Transaction\PaymentInstructionModel;
 use App\Models\PettyCash\Transaction\PettyCashDetail;
@@ -131,11 +132,15 @@ class PettyCashRequestController extends Controller
                 'creator'           => auth()->user()->id,
                 'location_id'       => auth()->user()->kode_kantor
             ];
-            
-           DB::transaction(function() use($post_log,$post,$request,$array_post,$attachmentLabel) {
+            $getBank = PettyCashBank::where('location_id', auth()->user()->kode_kantor)->first();
+            $postBuffer =[
+                'buffer'    => $getBank->buffer + $total_amount
+            ];
+           DB::transaction(function() use($post_log,$post,$request,$array_post,$attachmentLabel,$postBuffer) {
             PettyCashRequest::create($post);
             PettyCashDetail::create($post_log);
             PettyCashSubcategory::insert($array_post);
+            PettyCashBank::where('location_id', auth()->user()->kode_kantor)->update($postBuffer);
             if($request->file('attachment')){
                 $request->file('attachment')->storeAs('/pr',$attachmentLabel .'.pdf');
             }

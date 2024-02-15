@@ -18,6 +18,7 @@ class TransactionProductController extends Controller
         return view('transaction.history_product.history_product-index');
     }
     function getHistoryProduct(Request $request) {
+        ini_set('max_execution_time','3000');
         // $totalData      = HistoryProduct_model::with([
         //     'itemRelation',
         //     'desLocationRelation',

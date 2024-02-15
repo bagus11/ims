@@ -54,6 +54,7 @@ Route::group(['middleware' => ['auth']], function() {
                 Route::get('user_access', [UserAccessController::class, 'index'])->name('user_access');
                 Route::get('getRoleUser', [UserAccessController::class, 'getRoleUser'])->name('getRoleUser');
                 Route::get('getUser', [UserAccessController::class, 'getUser'])->name('getUser');
+                Route::get('getUserDepartment', [UserAccessController::class, 'getUserDepartment'])->name('getUserDepartment');
                 Route::post('addRoleUser', [UserAccessController::class, 'addRoleUser'])->name('addRoleUser');
                 Route::get('detailRoleUser', [UserAccessController::class, 'detailRoleUser'])->name('detailRoleUser');
                 Route::post('updateRoleUser', [UserAccessController::class, 'updateRoleUser'])->name('updateRoleUser');
@@ -147,6 +148,7 @@ Route::group(['middleware' => ['auth']], function() {
                 Route::get('setting_password', [SettingController::class, 'index'])->name('setting_password');
                 Route::post('update_user', [SettingController::class, 'update_user'])->name('update_user');
                 Route::post('change_password', [SettingController::class, 'change_password'])->name('change_password');
+                Route::post('updateSignature', [SettingController::class, 'updateSignature'])->name('updateSignature');
             
             // Setting Password
         // Transaction
@@ -157,6 +159,7 @@ Route::group(['middleware' => ['auth']], function() {
             Route::get('master_pettycash', [MasterPettyCashController::class, 'index'])->name('master_pettycash');
             Route::get('getMasterPC', [MasterPettyCashController::class, 'getMasterPC'])->name('getMasterPC');
             Route::get('getActiveBank', [MasterPettyCashController::class, 'getActiveBank'])->name('getActiveBank');
+            Route::get('getActivePettyCashBank', [MasterPettyCashController::class, 'getActivePettyCashBank'])->name('getActivePettyCashBank');
             Route::post('addMasterPC', [MasterPettyCashController::class, 'addMasterPC'])->name('addMasterPC');
             Route::post('activatePC', [MasterPettyCashController::class, 'activatePC'])->name('activatePC');
         // Master
@@ -209,7 +212,8 @@ Route::group(['middleware' => ['auth']], function() {
                 
             // Payment Instruction
                 Route::post('addPaymentInstruction', [PaymentInstructionController::class, 'addPaymentInstruction'])->name('addPaymentInstruction');
-
+                Route::get('exportPI/{pc_code}',[PaymentInstructionController::class, 'exportPI']);
+                Route::get('exportPC/{pc_code}',[PaymentInstructionController::class, 'exportPC']);
             // Payment Instruction
             
         // Transaction

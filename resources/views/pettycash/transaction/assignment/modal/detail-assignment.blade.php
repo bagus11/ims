@@ -75,8 +75,9 @@
                                         <input type="hidden" name="pc_code_id_pi" id="pc_code_id_pi">
                                         <div class="dropdown-menu dropdown-menu-left" role="menu" style="width: 390px !important">
                                             <div class="container">
+                                                
                                                 <div class="mx-auto mb-4 mt-4">
-                                                    <div class="loader" id="loading" hidden></div>
+                                                    <div class="loader" id="loading" hidden style="margin: auto !important"></div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-12 col-sm-12 col-12">
@@ -149,7 +150,7 @@
                                                 <p>End Date</p>
                                             </div>
                                             <div class="col-3">
-                                                <p id="end_date"></p>
+                                                <p id="end_date_label"></p>
                                             </div>
                                         </div>
                                     </div>

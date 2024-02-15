@@ -37,6 +37,12 @@ class UserAccessController extends Controller
             'data'=>$data,
         ]); 
     }
+    function getUserDepartment(){
+        $data = User::where('departement', auth()->user()->departement)->get();
+        return response()->json([
+            'data'=>$data,
+        ]); 
+    }
     function addRoleUser(Request $request, StoreRoleUserRequest $storeRoleUserRequest) {
         try {
             $storeRoleUserRequest->validated();

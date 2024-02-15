@@ -90,7 +90,7 @@ class MasterSubCategoryController extends Controller
         }
     }
     function getActiveSubCategory(Request $request) {
-        $data = MasterSubCategory::where('category_id',$request->id)->get();
+        $data = MasterSubCategory::where('category_id',$request->id)->where('status',1)->get();
         return response()->json([
             'data'=>$data,
         ]);  

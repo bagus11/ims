@@ -11,6 +11,29 @@
     $('#update_profile').on('click', function(){
         update_user()
     })
+    $('#btnSignatureModal').on('click', function(){
+        $('#signatureContainer').empty()
+        $('#signatureContainer').prop('hidden', true)
+        var signature = $('#signaturePad').val()
+      
+        if(signature == null || signature ==''){
+           
+            $('#signatureContainer').empty()
+            $('#signatureContainer').prop('hidden', true)
+        }else if(signature !=''){
+         
+            $('#signatureContainer').prop('hidden', false)   
+            $('#signatureContainer').prepend(
+                `
+                <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">Current Signature</legend>
+                        <img src="${signature}" id="" alt="">
+                    </fieldset>
+                `
+            )
+           
+        }
+    })
    function change_password(){
         var data =
         {
@@ -91,4 +114,26 @@
                 }
             });
     }
+
+    // Update Signature 
+    document.addEventListener('DOMContentLoaded', function() {
+        var canvas = document.getElementById('canvas');
+        var signaturePad = new SignaturePad(canvas);
+        $("#clear").on("click", function () {
+            signaturePad.clear();
+        });
+        $('#btnSaveSignature').on('click', function(){
+            // Convert to 
+            var canvas = signaturePad._canvas;
+            var dataURL = canvas.toDataURL(); 
+            var imageElement = document.createElement('img');
+            imageElement.src = dataURL;
+            document.body.appendChild(imageElement);
+            var data ={
+                'signature'  : dataURL,
+            }
+            saveHelper('updateSignature', data,'setting_password')
+        })
+    });
+    // Update Signature 
 </script>

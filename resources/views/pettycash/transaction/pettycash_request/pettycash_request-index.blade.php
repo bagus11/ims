@@ -2,12 +2,18 @@
 @section('title', 'PettyCash Request')
 @section('content')
 <div class="pl-2 pr-2">
+    <div class="row" id="bank_container">
+
+    </div>
     <div class="row">
             <div class="col-md-12">
                 <div class="card card-radius">
                     <div class="card-header bg-core">
                         <b class="headerTitle">PettyCash List</b>
                       <div class="card-tools">
+                        <button class="btn btn-primary btn-sm" id="btn_refresh" type="button" >
+                            <i class="fas fa-refresh"></i>
+                        </button>
                         <button class="btn btn-success btn-sm" id="btn_add_pr" data-toggle="modal" type="button" data-target="#addPettycashRequst">
                             <i class="fas fa-plus"></i>
                         </button>

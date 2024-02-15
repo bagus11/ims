@@ -74,7 +74,7 @@
                                         <button type="button" class="btn btn-tool btn-info dropdown-toggle" id="btn_history_remark" title="Remark History" style="margin-top:3px" data-toggle="dropdown">
                                             <i class="fa-solid fa-comments"></i>
                                         </button>
-                                        <input type="hidden" name="pc_code_id_pi" id="pc_code_id_pi">
+                                        <input type="hidden" name="pc_code_id" id="pc_code_id">
                                         <div class="dropdown-menu dropdown-menu-left" role="menu" style="width: 390px !important">
                                             <div class="container">
                                                 <div class="mx-auto mb-4 mt-4">
@@ -147,7 +147,7 @@
                                     <p>End Date</p>
                                 </div>
                                 <div class="col-3">
-                                    <p id="end_date"></p>
+                                    <p id="end_date_label"></p>
                                 </div>
                             </div>
                         </div>

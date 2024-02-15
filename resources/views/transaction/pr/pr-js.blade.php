@@ -73,7 +73,7 @@
                 $('#btn_edit_array_item').prop('hidden', true)
                 var product_id= $('#product_id').val()
                 var quantity_request= $('#quantity_request').val()
-               
+                console.log(product_id + '==' + quantity_request)
                 if(product_id =='' || quantity_request == ''){
                     toastr['error']('item and quantity cannot be null');
                     return false
@@ -317,7 +317,6 @@
                             }
                             var buttonChecking = ''
                             var authId = $('#authId').val()
-                            console.log(authId)
                             if(response[i].status == 3 || response[i].status == 5){
                                 if(response[i].user_id == authId){
                                     buttonChecking = `

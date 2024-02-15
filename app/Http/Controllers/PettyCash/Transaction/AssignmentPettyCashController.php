@@ -6,6 +6,8 @@ use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateAssignmentPCRequest;
 use App\Models\PettyCash\Master\ApprovalPCModel;
+use App\Models\PettyCash\Master\MasterPettyCash;
+use App\Models\PettyCash\Master\PettyCashBank;
 use App\Models\PettyCash\Transaction\PettyCashDetail;
 use App\Models\PettyCash\Transaction\PettyCashRequest;
 use Carbon\Carbon;
@@ -40,6 +42,7 @@ class AssignmentPettyCashController extends Controller
             $updateAssignmentPCRequest->validated();
             $dataOld        = PettyCashDetail ::where('pc_code',$request->pc_code)->orderBy('id','desc')->first();
             $dataOld2       = PettyCashRequest ::where('pc_code',$request->pc_code)->first();
+            $getMasterPettyCash = PettyCashBank::where('location_id',$dataOld2->location_id)->first();
             $step_approval  = $dataOld->step == 1 ? $dataOld->step + 1 : $dataOld->step + 1;
             $next_approver  = ApprovalPCModel::where([
                 'department_id'    => $dataOld->department,
@@ -51,7 +54,9 @@ class AssignmentPettyCashController extends Controller
                 'department_id'    => $dataOld->department,
                 'location_id'   => $dataOld->location_id
             ])->count();
+            $post_balance =[];
             $status =0;
+            $post=[];
             $approval_id = $next_approver ? $next_approver->user_id : 0;
             $approval_status = $request->approval_id;
             $step ='';
@@ -62,7 +67,8 @@ class AssignmentPettyCashController extends Controller
                         $status         = $dataOld->status + 1;
                         $end_date       = Carbon::create($request->start_date_input);
                         $subdays        = $end_date->addDays(7);
-
+                        $bufferCut      = $dataOld2->amount - $request->amount_assign;
+                       
                         $post =[
                             'status'            => $status,
                             'approval_id'       => $approval_id,
@@ -72,6 +78,14 @@ class AssignmentPettyCashController extends Controller
                             'step'              => $step_approval,
                             'updated_at'        => date('Y-m-d H:i:s')
                         ];
+                        // $post_balance=[
+                        //     'buffer'            => $getMasterPettyCash->buffer - $bufferCut
+                        // ];
+                        $post_balance =[
+                            'buffer'                => $getMasterPettyCash->buffer - $dataOld2->amount_approve,
+                            'total_petty_cash'      => $getMasterPettyCash->total_petty_cash - $request->amount_assign
+                        ];
+                  
 
                     }else{
                         $status = $dataOld->status;
@@ -110,7 +124,24 @@ class AssignmentPettyCashController extends Controller
                     // Approval Finalisasi ke Cashier
                 }else if($dataOld2->status == 4){
                     // Finalisasi Cashier  
-                    dd('test');
+                        $status = $dataOld->status + 1;
+                        $approval_id =0;
+                        $step_approval =0;
+                        $post =[
+                            'status'            => $status,
+                            'approval_id'       => $approval_id,
+                            'step'              => $step_approval,
+                            'updated_at'        => date('Y-m-d H:i:s'),
+                            'step_app_pi'       => 0
+                        ];
+                        // Pengurangan Buffer && Saldo
+                       
+                        // Pengurangan Buffer && Saldo
+                        $post_balance =[
+                            'buffer'                => $getMasterPettyCash->buffer - $dataOld2->amount_approve,
+                            // 'total_petty_cash'      => $getMasterPettyCash->total_petty_cash - $dataOld2->amount_approve
+                        ];
+                  
                     // Finalisasi Cashier
                 }
                 else{
@@ -124,6 +155,11 @@ class AssignmentPettyCashController extends Controller
                 }
             }else{
                 $status = 5;
+                $amount = $dataOld2->amount_approve == 0 ? $dataOld2->amount : $dataOld2->amount_approve ;
+                $post_balance =[
+                    'buffer'    =>$getMasterPettyCash->buffer - $amount
+                ];
+                // dd($post_balance);
             }
             $post_log =[
                 'pc_code'           => $dataOld->pc_code,
@@ -141,11 +177,26 @@ class AssignmentPettyCashController extends Controller
                 'step'              => $step_approval,
                 'creator'           => auth()->user()->id
             ];
-          
-            // dd($post);
-            DB::transaction(function() use($post,$post_log,$dataOld) {
-                PettyCashRequest::where('pc_code',$dataOld->pc_code)->update($post);
-                PettyCashDetail::create($post_log);
+            // dd($post_balance);
+            // dd($getMasterPettyCash->total_petty_cash.' - '. $request.'='.$getMasterPettyCash->total_petty_cash - $dataOld2->amount_approve);
+           
+            DB::transaction(function() use($post,$post_log,$dataOld,$post_balance,$dataOld2,$request,$count_approval) {
+                // dd($dataOld2->status == 4);
+                if($request->approval_id == 1){
+                    PettyCashRequest::where('pc_code',$dataOld->pc_code)->update($post);
+                    PettyCashDetail::create($post_log);
+                }else{
+                    $post=[
+                        'status' => 6
+                    ];
+                    PettyCashRequest::where('pc_code',$dataOld->pc_code)->update($post);
+                }
+                if($dataOld2->status == 4 || $dataOld->step == $count_approval){
+                    PettyCashBank::where('location_id', $dataOld2->location_id)->update($post_balance);
+                }
+                if($request->approval_id != 1){
+                    PettyCashBank::where('location_id', $dataOld2->location_id)->update($post_balance);
+                }
             });
             return ResponseFormatter::success(   
                 $post,                              

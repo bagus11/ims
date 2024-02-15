@@ -203,6 +203,7 @@ class PurchaseRequestController extends Controller
            $updateProgressRequest->validated();
            $dataOld             = ItemRequestDetail::where('request_code',$request->id)->orderBy('id','desc')->first();
            $purchaseOld         = PurchaseModel::where('request_code',$dataOld->request_code)->first();
+        //    dd($purchaseOld);
             $productCode        = ProductModel::where('product_code',$purchaseOld->product_code)->first();
             $post_array         = [];
             $approval_id = ApprovalModel::where([

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ResponseFormatter;
+use App\Http\Requests\UpdateMasterSignatureRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Rules\MatchOldPassword;
@@ -94,5 +96,25 @@ class SettingController extends Controller
             'message'=>$message,
         ]);
 
+    }
+    function updateSignature(Request $request, UpdateMasterSignatureRequest $updateMasterSignatureRequest) {
+        try {
+            $updateMasterSignatureRequest->validated();
+            $post =[
+                'signature'     => $request->signature
+            ];
+            // dd($request->user_id);
+            User::where('id', auth()->user()->id)->update($post);
+            return ResponseFormatter::success(    
+                $post,                            
+                'Signature successfully updated'
+            );            
+        } catch (\Throwable $th) {
+            return ResponseFormatter::error(
+                $th,
+                'Signature failed to update',
+                500
+            );
+        }
     }
 }

@@ -149,13 +149,13 @@
                         }else{
                             $status ='Revision';
                         }
-                        $remarkLog = str_replace(['<p>', '</p>','&nbsp;'], '', $item->comment);
+                        $remarkLog = str_replace(['<p>', '</p>','&nbsp;','<br>','&amp;'], '', $item->comment);
                   @endphp
                     <tr>
                         <td style="text-align:center;width:15%">{{$item->created_at}}</td>
                         <td style="text-align:left;width:15%">{{$item->creatorRelation->name}}</td>
                         <td style="text-align:left;width:10%">{{$status}}</td> 
-                        <td style="text-align:left;width:60%">{{$remarkLog}}</td>
+                        <td style="text-align:left;width:60%">{{str_replace(['<p>', '</p>','&nbsp;','<br>','&amp;'], '', $item->comment)}}</td>
                     </tr>
                 @php
                     $i++;

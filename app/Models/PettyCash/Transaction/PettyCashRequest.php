@@ -2,6 +2,7 @@
 
 namespace App\Models\PettyCash\Transaction;
 
+use App\Models\MasterDepartment;
 use App\Models\MasterLocation;
 use App\Models\PettyCash\Master\MasterCategoryPC;
 use App\Models\User;
@@ -28,5 +29,8 @@ class PettyCashRequest extends Model
     }
     function approvalRelation() {
         return $this->hasOne(User::class,'id','approval_id');
+    }
+    function departmentRelation() {
+        return $this->hasOne(MasterDepartment::class,'id','department');
     }
 }

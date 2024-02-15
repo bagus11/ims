@@ -4,6 +4,12 @@
             swal.close()
             mappingTable(response.data)
         })
+        $('#btn_refresh').on('click',function(){
+            getCallback('getMasterPC',null,function(response){
+            swal.close()
+            mappingTable(response.data)
+            })
+        })
     // Call Fuction
 
     // Operation

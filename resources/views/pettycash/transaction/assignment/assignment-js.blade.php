@@ -3,6 +3,12 @@
         swal.close()
         mappingTable(response.data)
     })
+    $('#btn_refresh').on('click', function(){
+        getCallback('getAssignmentPC',null, function(response){
+        swal.close()
+        mappingTable(response.data)
+    })
+    })
     // Operation
         $("#amount_assign").on({
             keyup: function() {
@@ -37,15 +43,22 @@
               
                     getCallback('detailPettyCashRequest',data,function(response){
                         if(response.detail.step > 0){
-                            alert('test')
                             if(response.detail.status >= 3){
-                                $('#detail_transaction_card').prop('hidden', false)
-                                $('#detail_transaction_card_after').prop('hidden', true)
-                            }else{
+                              
                                 $('#detail_transaction_card').prop('hidden', true)
                                 $('#detail_transaction_card_after').prop('hidden', false)
+                            }else{
+                                if(response.count == response.detail.step){
+                                    $('#detail_transaction_card').prop('hidden', false)
+                                    $('#detail_transaction_card_after').prop('hidden', true)
+                                
+                                }else{
+                                    $('#detail_transaction_card').prop('hidden', true)
+                                    $('#detail_transaction_card_after').prop('hidden', true)
+                                }
                             }
                         }else{
+                      
                             $('#detail_transaction_card').prop('hidden', true)
                             $('#detail_transaction_card_after').prop('hidden', false)
                         }
@@ -75,11 +88,16 @@
 
                         }
                         var output = response.detail.attachment.split('/').pop();
+                        console.log(response.detail)
                         $('#pc_code_id').val(response.detail.pc_code)
                         $('#pc_code_label').html(': ' + response.detail.pc_code)
                         $('#amount_total_detail').val(response.detail.amount)
                         $('#status_label').html(': ' + status)
                         $('#request_label').html(': ' + response.detail.requester_relation.name)
+                        $('#amount_req_label').html(': ' + formatRupiah(response.detail.amount))
+                        $('#approved_amount_label').html(': ' + formatRupiah(response.detail.amount_approve))
+                        $('#start_date_label').html(': ' + response.detail.start_date)
+                        $('#end_date_label').html(': ' + response.detail.end_date)
                         $('#pic_label').html(': ' + response.detail.pic_relation.name)
                         $('#category_label').html(': ' + response.detail.category_relation.name)
                         $('#attachment_label').html(`:  <a target="_blank" href="{{URL::asset('${response.detail.attachment}')}}" style="color:blue;">
