@@ -267,7 +267,7 @@
                     $('.message_error').html('')
                     toastr['success'](response.meta.message);
                     $('#updateTransacrionModal').modal('hide')
-                    getCallbackNoSwal('getItemRequest',null,function(response){
+                    getCallbackNoSwal('getPurchase',null,function(response){
                         swal.close()
                         mappingTable(response.data)
                     })
