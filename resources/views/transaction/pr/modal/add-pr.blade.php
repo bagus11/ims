@@ -72,7 +72,7 @@
                                 <input type="text" class="form-control" id="quantity_product">
                             </div>
                             <div class="col-md-2 mt-2">
-                                <p style="font-size:9px">pcs</p>
+                                <p style="font-size:9px" class="label_uom">pcs</p>
                             </div>
                             <div class="col-md-2 mt-2">
                                 <p style="font-size:9px">Transaction Quantity</p>
@@ -82,7 +82,7 @@
                                 <span  style="color:red;" class="message_error text-red block quantity_request_error"></span>
                             </div>
                             <div class="col-md-1 mt-2">
-                                <p style="font-size:9px">pcs</p>
+                                <p style="font-size:9px" class="label_uom">pcs</p>
                             </div>
                             <div class="col-md-1">
                                 <button class="btn btn-sm btn-success" id="btn_add_array_item" style="float: right">
