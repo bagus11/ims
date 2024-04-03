@@ -61,7 +61,7 @@
                 var quantity_product = $('#quantity_product').val()
                 var quantity_request = $('#quantity_request').val()
                 var total =  parseInt(quantity_product) + parseInt(quantity_request)
-                
+                console.log(total + ' == ' + max)
                 if(total > max){
                         toastr['warning']('quantity request is more than max quantity, max quantity is' + max);  
                         $('#quantity_request').val('')
