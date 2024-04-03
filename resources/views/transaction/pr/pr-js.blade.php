@@ -61,7 +61,7 @@
                 var quantity_product = $('#quantity_product').val()
                 var quantity_request = $('#quantity_request').val()
                 var total =  parseInt(quantity_product) + parseInt(quantity_request)
-                console.log(total + ' == ' + max)
+                console.log(total + ' == ' + max + ' == ' +quantity_product + ' == ' + quantity_request)
                 if(total > max){
                         toastr['warning']('quantity request is more than max quantity, max quantity is' + max);  
                         $('#quantity_request').val('')
@@ -69,6 +69,7 @@
                 }
             })
             $('#btn_add_array_item').on('click', function(){
+                $('#btn_add_array_item').prop('disabled', true)
                 var item_name = $("#select_product").select2().find(":selected").data("name");
                 var uom = $("#select_product").select2().find(":selected").data("uom");
                 var quantity_product = $('#quantity_product').val()
@@ -78,10 +79,12 @@
                 console.log(product_id + '==' + quantity_request)
                 if(product_id =='' || quantity_request == ''){
                     toastr['error']('item and quantity cannot be null');
+                    $('#btn_add_array_item').prop('disabled', false)
                     return false
+
                 }else{
                     var test = array_item.some(el => el.item_name == item_name)
-                   
+                    $('#btn_add_array_item').prop('disabled', false)
                     if(test == true){
                         toastr['error']('item is already exist');
                         return false
