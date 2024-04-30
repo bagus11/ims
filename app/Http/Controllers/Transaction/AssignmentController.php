@@ -48,12 +48,16 @@ class AssignmentController extends Controller
                 'location_id' => $dataOld->location_id,
                 'category_id' => $productCategory->category_id,
             ])->where('step', $stepApproval)->first();
+            $firstApproval       = ApprovalModel::where([
+                'location_id' => $dataOld->location_id,
+                'category_id' => $productCategory->category_id,
+            ])->where('step', 1)->first();
             $countApproval  =ApprovalModel::where([
                 'location_id' => $dataOld->location_id,
                 'category_id' => $productCategory->category_id,
             ])->orderBy('id','desc')->count();
             $status         = '';
-            $approvalId =$NextApporval ? $NextApporval->user_id:0;
+            $approvalId =$NextApporval ? $NextApporval->user_id:$firstApproval->user_id;
             $approval_status =$request->approval_id;
             $step ='';
             $updateProduct ='';
@@ -67,8 +71,9 @@ class AssignmentController extends Controller
             }else{
                 if($dataOld->status == 1 && $request->approval_id == 1){
                     if($dataOld->step == $countApproval){
+                        // dd("test");
                         $status = 3;
-                        $approvalId = 0;
+                        $approvalId = $firstApproval->user_id;
                         $approval_status = 0;
                     }else{
                         $status = 2;
@@ -142,7 +147,6 @@ class AssignmentController extends Controller
                     'quantity_result' =>$finalItem,
                 ];
             }
-           
             DB::transaction(function() use($post,$post_log,$request,$postLogProduct,$dataOld, $updateProduct, $updatePost,$post_array,$finalItem) {
                 if($dataOld->status == 4 && $request->approval_id == 1){
                     if($dataOld->request_type == 4){

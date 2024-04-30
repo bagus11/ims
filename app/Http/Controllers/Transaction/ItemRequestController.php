@@ -187,51 +187,54 @@ class ItemRequestController extends Controller
             if ($request->hasFile('image')) {
                 $request->file('attachment_req')->storeAs('/attachment/',$fileName);
             }
-            $second_approval = ApprovalModel::where([
-                'category_id'   => $productCode->category_id,
-                'location_id'   => $request->location_id
-            ])->where('step', $approval_id->step + 1)->first();
-            $postLogSecond=[
-                'request_code'         =>$transaction_code,
-                'item_id'              =>$productCode->product_code,
-                'quantity_request'     =>$request->quantity_request,
-                'location_id'          =>$request->location_id,
-                'request_type'         =>$request->transaction_id,
-                'status'               =>2,
-                'checking'             =>0,
-                'approval_status'      =>0,
-                'step'                 =>2,
-                'user_id'              =>auth()->user()->id,
-                'creator'              =>auth()->user()->id,
-                'des_location_id'      =>$request->location_id,
-                'approval_id'          =>$second_approval->user_id,
-                'comment'              =>'this transaction has been approved by system'
-            ];
-            $postSecond =[
-                'request_code'         =>$transaction_code,
-                'item_id'              =>$productCode->product_code,
-                'quantity_request'     =>$request->quantity_request,
-                'location_id'          =>$request->location_id,
-                'des_location_id'      =>$request->location_id,
-                'category_id'          =>$productCode->category_id,
-                'request_type'         =>$request->transaction_id,
-                'remark'                =>$request->comment,
-                'status'               =>2,
-                'checking'             =>0,
-                'approval_status'      =>0,
-                'user_id'              =>auth()->user()->id,
-                'creator'              =>auth()->user()->id,
-                'approval_id'          =>$second_approval->user_id,
-                'step'                 =>2,
-                'attachment'           =>$destinationAttachment,
-            ];
+        
             $post_product =[
                 'quantity_buffer' => $productCode->quantity_buffer + $request->quantity_request
             ];
             // dd($post);
-            DB::transaction(function() use($post,$postLog,$request,$fileName,$approval_id,$postSecond,$postLogSecond,$post_product) {
+            DB::transaction(function() use($post,$postLog,$request,$fileName,$approval_id,$transaction_code,$productCode,$post_product,$destinationAttachment) {
                 ItemRequestDetail::create($postLog);
                 if($approval_id->user_id == auth()->user()->id){
+                    $second_approval = ApprovalModel::where([
+                        'category_id'   => $productCode->category_id,
+                        'location_id'   => $request->location_id
+                    ])->where('step', $approval_id->step + 1)->first();
+                
+                    $postLogSecond=[
+                        'request_code'         =>$transaction_code,
+                        'item_id'              =>$productCode->product_code,
+                        'quantity_request'     =>$request->quantity_request,
+                        'location_id'          =>$request->location_id,
+                        'request_type'         =>$request->transaction_id,
+                        'status'               =>2,
+                        'checking'             =>0,
+                        'approval_status'      =>0,
+                        'step'                 =>2,
+                        'user_id'              =>auth()->user()->id,
+                        'creator'              =>auth()->user()->id,
+                        'des_location_id'      =>$request->location_id,
+                        'approval_id'          =>$second_approval == null ? 0 : $second_approval->user_id,
+                        'comment'              =>'this transaction has been approved by system'
+                    ];
+                    $postSecond =[
+                        'request_code'         =>$transaction_code,
+                        'item_id'              =>$productCode->product_code,
+                        'quantity_request'     =>$request->quantity_request,
+                        'location_id'          =>$request->location_id,
+                        'des_location_id'      =>$request->location_id,
+                        'category_id'          =>$productCode->category_id,
+                        'request_type'         =>$request->transaction_id,
+                        'remark'                =>$request->comment,
+                        'status'               =>2,
+                        'checking'             =>0,
+                        'approval_status'      =>0,
+                        'user_id'              =>auth()->user()->id,
+                        'creator'              =>auth()->user()->id,
+                        'approval_id'          =>$second_approval->user_id,
+                        'step'                 =>2,
+                        'attachment'           =>$destinationAttachment,
+                    ];
+
                     ItemRequestModel::create($postSecond);
                     ItemRequestDetail::create($postLogSecond);
                 }else{

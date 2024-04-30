@@ -464,4 +464,13 @@
 
         return [year, month, day].join('-');
     }
+
+    function findIndexByProperty(array, property, value) {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i][property] === value) {
+            return i;
+        }
+    }
+    return -1; // Return -1 if not found
+}
 </script>
