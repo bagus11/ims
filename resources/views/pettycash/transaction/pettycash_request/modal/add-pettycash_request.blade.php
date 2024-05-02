@@ -55,20 +55,18 @@
                                 </button>
                             </div>
                         </div>
-                            <div class="row mb-2 mt-2">
-                                <div class="col-12">
-                                    <table class="datatable-bordered nowrap display" id="pc_req_table">
-                                        <thead>
-                                            <tr>
-                                                <th  style="text-align: center">No</th>
-                                                <th  style="text-align: center">Category</th>
-                                                <th  style="text-align: center">Amount</th>
-                                                <th  style="text-align: center">Action</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
+                        <div class="container">
+                            <table class="datatable-bordered nowrap display" id="pc_req_table">
+                                <thead>
+                                    <tr>
+                                        <th  style="text-align: center">No</th>
+                                        <th  style="text-align: center">Category</th>
+                                        <th  style="text-align: center">Amount</th>
+                                        <th  style="text-align: center">Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </fieldset>
 
                     <fieldset class="scheduler-border">
@@ -111,11 +109,11 @@
 </div>
 
 <style>
-    .modal-dialog{
-        overflow-y: initial 
+  .modal-dialog {
+        overflow-y: auto !important; 
     }
-    .modal-body{
-        overflow-y : auto
+    .modal-body {
+        overflow-y: auto !important;
     }
     
 </style>

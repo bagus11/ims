@@ -24,6 +24,8 @@
         />
           <!-- Tempus Dominus Styles -->
           <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+          <link href="{{ asset('assets/select2/select2.min.css') }}" rel="stylesheet">
+          <link href="{{ asset('assets/summernote/summernote.css') }}" rel="stylesheet">
     </head>
     <body class="hold-transition sidebar-mini">
         <div class="wrapper">
@@ -49,13 +51,17 @@
       
         <script src="{{asset('js/app.js')}}"></script>
         <script src="{{asset('js/accounting.min.js')}}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        {{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
         <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
         {{-- <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script> --}}
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> 
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        {{-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
+        <script src="{{ asset('assets/sweetalert2/sweetalert.min.js') }}"></script>
+        <script src="{{ asset('assets/summernote/summernote.js') }}"></script>
+        <script src="{{ asset('assets/select2/select2.full.min.js') }}"></script>
+        <script src="{{ asset('assets/select2/select2.full.min.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>

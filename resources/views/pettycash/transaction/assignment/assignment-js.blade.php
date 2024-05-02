@@ -44,11 +44,12 @@
                     getCallback('detailPettyCashRequest',data,function(response){
                         if(response.detail.step > 0){
                             if(response.detail.status >= 3){
-                              
+                            
                                 $('#detail_transaction_card').prop('hidden', true)
                                 $('#detail_transaction_card_after').prop('hidden', false)
                             }else{
                                 if(response.count == response.detail.step){
+                                   
                                     $('#detail_transaction_card').prop('hidden', false)
                                     $('#detail_transaction_card_after').prop('hidden', true)
                                 

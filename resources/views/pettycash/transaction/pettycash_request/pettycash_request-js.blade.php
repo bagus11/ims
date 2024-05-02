@@ -254,7 +254,8 @@
                         }else{
                             $('#detail_req_table_container').prop('hidden', false)
                             $('#detail_req_table_pi_container').prop('hidden', true)
-                            mappingArrayTable('detail_req_table',response.data)
+                            mappingArrayTableDetail('detail_req_table',response.data)
+                            console.log(response.data)
                         }
                     })
                 })
@@ -531,70 +532,93 @@
                     
                 }).columns.adjust()
         }
-        function mappingArrayTable(name,response){
-            var data =''
-            var total = 0
-                $('#'+ name).DataTable().clear();
-                $('#'+ name).DataTable().destroy();
-                var data_total='';
-                  
-                        for(i = 0; i < response.length; i++ )
-                        {
-                            total += response[i].amount
-                            if(name == 'detail_req_table'){
-                                data += `<tr style="text-align: center;">
-                                  
-                                  <td style="text-align:center;">${i + 1}</td>
-                                  <td style="text-align:left;width:50%">${response[i].subcategory_name}</td>
-                                  <td style="text-align:center;">${formatRupiah(response[i].amount)}</td>
-                              </tr>
-                              `;
-                            }else{
-                                data += `<tr style="text-align: center;">
-                                  
-                                  <td style="text-align:center;">${i + 1}</td>
-                                  <td style="text-align:left;width:50%">${response[i].subcategory}</td>
-                                  <td style="text-align:center;">${formatRupiah(response[i].amount)}</td>
-                                  <td style ="text-align:center">
-                                      <button class="btn btn-sm btn-info edit" data-id ="${i}">
-                                          <i class="fas fa-edit"></i>
-                                      </button>
-                                      <button class="btn btn-sm btn-danger delete" data-id ="${i}">
-                                          <i class="fas fa-trash"></i>
-                                      </button>
-                                  </td>
-                              </tr>
-                              `;
-                            }
-                        }
-                        data_total= ` <tr style="text-align:center;background-color:yellow">
-                                    <td></td>
-                                    <td style="font-weight:bold"> Total </td>
-                                    <td style="font-weight:bold">${formatRupiah(total)} </td>
-                                    <td></td>
-                                    
-                                </tr>`
-                                data += data_total
-                $('#total_array').val(total)
-                $('#'+ name +' > tbody:first').html(data);
-                $('#'+ name).DataTable({
-                    scrollX  : false,
-                    language: {
+        function mappingArrayTable(name, response) {
+            var data = '';
+            var total = 0;
+
+            // Build table rows
+            for (var i = 0; i < response.length; i++) {
+                total += response[i].amount;
+                data += `<tr style="text-align: center;">
+                    <td>${i + 1}</td>
+                    <td>${response[i].subcategory}</td>
+                    <td>${formatRupiah(response[i].amount)}</td>
+                    <td>
+                        <button class="btn btn-sm btn-info edit" data-id="${i}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger delete" data-id="${i}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>`;
+            }
+
+            // Display total row
+            var data_total = `<tr style="text-align:center;background-color:yellow">
+                <td></td>
+                <td style="font-weight:bold">Total</td>
+                <td style="font-weight:bold">${formatRupiah(total)}</td>
+                <td></td>
+            </tr>`;
+            data += data_total;
+
+            // Update table content
+            $('#' + name).DataTable().clear().destroy();
+            $('#' + name + ' > tbody:first').html(data);
+            $('#' + name).DataTable({
+                scrollX: false,
+                language: {
                     'paginate': {
-                    'previous': '<span class="prev-icon"><i class="fa-solid fa-arrow-left"></i></span>',
-                    'next': '<span class="next-icon"><i class="fa-solid fa-arrow-right"></i></span>'
+                        'previous': '<span class="prev-icon"><i class="fa-solid fa-arrow-left"></i></span>',
+                        'next': '<span class="next-icon"><i class="fa-solid fa-arrow-right"></i></span>'
                     }
-                },
-                    ordering : false
-                }).columns.adjust()
+                }
+            }).columns.adjust();
+
+            // Clear other form fields
+            // ...
+        }
+        function mappingArrayTableDetail(name, response) {
+            var data = '';
+            var total = 0;
+
+            // Build table rows
+            for (var i = 0; i < response.length; i++) {
               
-                $('#quantity_product').val('')
-                $('#quantity_request').val('')
-                $('#select_product').val('')
-                $('#select_product').select2().trigger('change')
-                $('#select_category').prop('disabled', true)
-                $('#select_location').prop('disabled', true)
-                $('#itemListContainer').prop('hidden',false)
+                total += response[i].amount;
+                data += `<tr style="text-align: center;">
+                    <td>${i + 1}</td>
+                    <td style="text-align:left">${response[i].subcategory_name}</td>
+                    <td style="text-align:left">${formatRupiah(response[i].amount)}</td>
+                   
+                </tr>`;
+            }
+
+            // Display total row
+            var data_total = `<tr style="text-align:center;background-color:yellow">
+                <td></td>
+                <td style="font-weight:bold">Total</td>
+                <td style="font-weight:bold">${formatRupiah(total)}</td>
+                
+            </tr>`;
+            // data += data_total;
+
+            // Update table content
+            $('#' + name).DataTable().clear().destroy();
+            $('#' + name + ' > tbody:first').html(data);
+            $('#' + name).DataTable({
+                scrollX: false,
+                language: {
+                    'paginate': {
+                        'previous': '<span class="prev-icon"><i class="fa-solid fa-arrow-left"></i></span>',
+                        'next': '<span class="next-icon"><i class="fa-solid fa-arrow-right"></i></span>'
+                    }
+                }
+            }).columns.adjust();
+
+            // Clear other form fields
+            // ...
         }
         function mappingArrayTablePI(name,response){
             var data =''
