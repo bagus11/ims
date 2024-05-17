@@ -19,7 +19,7 @@ use NumConvert;
 use Illuminate\Support\Facades\Mail;
 class ItemRequestController extends Controller
 {
-    public function sendMail($title,$to,$message,$subject)
+    public function sendMail($title,$to,$message,$subject,$cc)
     {
         $emails =$to;
     
@@ -30,7 +30,7 @@ class ItemRequestController extends Controller
             'footer' => 'Email otomatis dari PT.Pralon(ICT DEV)'
         ];
         Mail::to($emails)
-        ->cc('bagus.slamet@pralon.com')
+        ->cc($cc)
         ->send(new NotifyEmail($mailData));
     }
     function index() {
@@ -313,7 +313,7 @@ class ItemRequestController extends Controller
             ];
                
             $email_approver = [];
-            $approver = ApprovalModel::with('userRelation')->where('category_id', $itemRequest->category_id)->get();
+            $approver = ApprovalModel::with('userRelation')->where('category_id', $itemRequest->category_id)->where('location_id', $itemRequest->location_id)->get();
             DB::transaction(function() use($post,$post_log,$request,$dataOld,$postLogProduct,$updatePost,$updateProduct,$email_approver, $approver) {
 
                 ItemRequestModel::where('request_code',$request->id)->update($post);
@@ -321,20 +321,24 @@ class ItemRequestController extends Controller
                 $updateProduct->update($updatePost);
                   HistoryProduct_model::create($postLogProduct);
                   $itemValidation = ProductModel :: find($updateProduct->id);
-                if($itemValidation->quantity < $itemValidation->min_quantity){
+                if($itemValidation->quantity <= $itemValidation->min_quantity){
+                   
+                    $cc =[];
+                    $send_cc =[];
+                    $to         = $approver[0]['userRelation']['email'];
+                    $title      = 'Stock Item Reminder ';
+                    $subject    = 'IMS - ' . $dataOld->request_code;
+                    $item      = ProductModel::where('product_code', $dataOld->item_id)->first();  
                     foreach($approver as $row){
-                        // dd($row['userRelation']['email']);
-                        $item      = ProductModel::where('product_code', $dataOld->item_id)->first();  
-                        $title      = 'Stock Item Reminder ';
-                        $subject    = 'IMS - ' . $dataOld->request_code;
-                        $to         = $row['userRelation']['email'];
-                        $dataEmail  = [
-                            'data' => $item,
-                            'user' => $row['userRelation']['name']
-                        ];
-                        $message    = view('email.reminder',$dataEmail);
-                        $this->sendMail($title,$to,$message,$subject);
+                        array_push($send_cc,$row['userRelation']['email']);
                     }
+                    $dataEmail  = [
+                        'data' => $item,
+                        'user' => $approver[0]['userRelation']['name']
+                    ];
+                    array_shift($send_cc);
+                    $message    = view('email.reminder',$dataEmail);
+                    $this->sendMail($title,$to,$message,$subject,$send_cc);
                 }
             });
             return ResponseFormatter::success(   

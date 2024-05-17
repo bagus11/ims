@@ -8,7 +8,7 @@
     getCallback('getPettyCashRequest',null,function(response){
         swal.close()
             mappingTable(response.data)
-        })
+    })
         getCallback('getActivePettyCashBank',null,function(response){
             $('#bank_container').empty()
             var data =''
@@ -87,8 +87,8 @@
                     var total_array = $('#total_array').val()
                     var max_transaction_str = $('#max_transaction_str').val()
                     var subcategory = $("#select_subcategory").select2().find(":selected").data("name");
-                    var amount_string = $('#amount').val()
                     var selectSubcategory = $('#select_subcategory').val()
+                    var amount_string = $('#amount').val()
                     var amount = parseFloat(amount_string.replace(/,/g, ''));
                     var totalPC = parseInt(total_array) + parseInt(amount) 
                     if(subcategory =='' || amount_string == ''||selectSubcategory == ''|| selectSubcategory==undefined ){

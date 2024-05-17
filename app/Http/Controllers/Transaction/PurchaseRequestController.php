@@ -35,7 +35,7 @@ class PurchaseRequestController extends Controller
         ]);  
     }
     function savePurchase(Request $request, StorePurchaseRequest $storePurchaseRequest) {
-        try {
+        // try {
             $storePurchaseRequest->validated();
             $transaction_code ='';
             $increment_code = ItemRequestModel::orderBy('id','desc')->first();
@@ -163,13 +163,13 @@ class PurchaseRequestController extends Controller
                 $post,                              
                 'Your transaction successfully added, please wait for some approval,thanks'
             );            
-        } catch (\Throwable $th) {
-            return ResponseFormatter::error(
-                $th,
-                'Transaction failed to update',
-                500
-            );
-        }
+        // } catch (\Throwable $th) {
+        //     return ResponseFormatter::error(
+        //         $th,
+        //         'Transaction failed to update',
+        //         500
+        //     );
+        // }
     }
     
     function detailPurchaseTransaction(Request $request) {
