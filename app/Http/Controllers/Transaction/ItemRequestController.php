@@ -150,7 +150,7 @@ class ItemRequestController extends Controller
                 'category_id'   => $productCode->category_id,
                 'location_id'   => $request->location_id
             ])->where('step',1)->first();
-            dd($productCode);
+            dd($request);
             $post =[
                 'request_code'         =>$transaction_code,
                 'item_id'              =>$productCode->product_code,
