@@ -132,6 +132,7 @@ Route::group(['middleware' => ['auth']], function() {
             // Multiple Request
                 Route::get('multiple_request', [MultipleRequestController::class, 'index'])->name('multiple_request');
                 Route::post('addMultipleTransaction', [MultipleRequestController::class, 'addMultipleTransaction'])->name('addMultipleTransaction');
+                Route::post('updateProgressMultiple', [MultipleRequestController::class, 'updateProgressMultiple'])->name('updateProgressMultiple');
             // Multiple Request
                 
             // Assignment

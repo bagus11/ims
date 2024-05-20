@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Transaction;
 
+use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePurchaseRequest;
+use App\Http\Requests\UpdateProgressRequest;
 use App\Models\Master\ApprovalModel;
 use App\Models\Master\ProductModel;
+use App\Models\Transaction\HistoryProduct_model;
 use App\Models\Transaction\ItemRequestDetail;
 use App\Models\Transaction\ItemRequestModel;
 use App\Models\Transaction\PurchaseModel;
@@ -167,5 +170,83 @@ class MultipleRequestController extends Controller
                     $request->file('attachment_req')->storeAs('/attachment/',$fileName);
                 }
             });
+            return ResponseFormatter::success(   
+                $post,                              
+                'Transaction successfully updated'
+            );    
+    }
+    function updateProgressMultiple(Request $request, UpdateProgressRequest $updateProgressRequest) {
+        $updateProgressRequest->validated();
+        $dataOld             = ItemRequestDetail::where('request_code',$request->id)->orderBy('id','desc')->first();
+        $purchaseOld         = PurchaseModel::where('request_code',$dataOld->request_code)->first();
+     //    dd($purchaseOld);
+         $productCode        = ProductModel::where('product_code',$purchaseOld->product_code)->first();
+         $post_array         = [];
+         $approval_id = ApprovalModel::where([
+             'category_id'   => $productCode->category_id,
+             'location_id'   => $dataOld->location_id
+         ])->orderBy('step','desc')->first();
+         // dd($approval_id->user_id);
+        $post_log =[
+            'request_code'      => $dataOld->request_code,
+            'item_id'           => $dataOld->item_id,
+            'quantity_request'  => $dataOld->quantity_request,
+            'location_id'       => $dataOld->location_id,
+            'request_type'      => $dataOld->request_type,
+            'status'            => $request->update_approvalId,
+            'checking'          => $request->update_approvalId == 6 ? 2 : 0,
+            'creator'           => auth()->user()->id,
+            'user_id'           => $dataOld->user_id,
+            'approval_status'   => $dataOld->approval_status,
+            'step'              => $dataOld->step,
+            'des_location_id'   => $dataOld->des_location_id,
+            'approval_id'       => $request->update_approvalId == 6 ?$approval_id->user_id: $dataOld->approval_id,
+            'comment'           => $request->update_comment,
+        ];
+        $post =[
+            'creator'           =>auth()->user()->id,
+            'status'            => $request->update_approvalId,
+            'checking'          => $request->update_approvalId == 6 ? 2 : 0,
+            'step'              => $dataOld->step,
+            'approval_id'       => $request->update_approvalId == 6 ?$approval_id->user_id: $dataOld->approval_id,
+            'approval_status'   => $dataOld->approval_status,
+        
+        ];
+        
+        DB::transaction(function() use($post_array,$post_log,$request,$dataOld,$post) {
+         $purchaseItem = PurchaseModel::where('request_code', $dataOld->request_code)->get(); 
+         foreach($purchaseItem as $row){
+         
+              $productModel = ProductModel :: where('product_code',$row->product_code)->first();
+              $finalBuffer        = $dataOld->request_type == 1 || $dataOld->request_type == 3 ?  $productModel->quantity_buffer - $row['quantity_request'] : $productModel->quantity + $dataOld->quantity_request;
+              $finalResult =  $dataOld->request_type == 1 || $dataOld->request_type == 3 ? $productModel->quantity - $row->quantity_request : $productModel->quantity + $row->quantity_request;
+            //   dd($finalBuffer);
+              $postLogProduct =[
+                  'product_code'         =>$row->product_code,
+                  'request_code'         =>$request->id,
+                  'source_location'      =>$dataOld->location_id,
+                  'destination_location' =>$dataOld->des_location_id,
+                  'quantity_request'     =>$row->quantity_request,
+                  'quantity'             =>$productModel->quantity,
+                  'quantity_result'      =>$finalResult,
+                  'created_at'           =>date('Y-m-d H:i:s')   
+              ];
+              array_push($post_array,$postLogProduct);
+             
+              ProductModel::where('product_code',$row->product_code)->update([
+                'quantity'=>$finalResult,
+                'quantity_buffer'=>$finalBuffer
+            
+            ]);
+             }
+             ItemRequestModel::where('request_code',$dataOld->request_code)->update($post);
+             HistoryProduct_model::insert($post_array);
+             ItemRequestDetail::create($post_log);
+           
+        });
+        return ResponseFormatter::success(   
+            $post,                              
+            'Transaction successfully updated'
+        );    
     }
 }

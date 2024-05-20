@@ -22,6 +22,7 @@
                     }
                    
                     getCallback('detailPurchaseTransaction',data,function(response){
+                        console.log(response)
                         swal.close()
                         var status ='';
                         if(response.detail.status == 1){
@@ -40,29 +41,33 @@
                             status ='Reject'
 
                         }
-                        if(response.detail.request_type == 4 ){
+                        if(response.detail.item_relation == null){
                             mappingTableItem(response.log_item,'detail_item_table')
                         }else{
                             var result = 0;
                            
-                            if(response.detail.request_type != 2){
-                               
-                                result = parseInt(response.detail.item_relation.quantity) - parseInt(response.detail.quantity_request)
-                            }else{
-                                result = parseInt(response.detail.item_relation.quantity) + parseInt(response.detail.quantity_request)
-                            }
-                           
-                            var array_push =[]
-                            var data ={
-                                'item_name' : response.detail.item_relation.name,
-                                'quantity' : response.detail.item_relation.quantity,
-                                'quantity_request' : response.detail.quantity_request,
-                                'quantity_result' : result,
-                                'uom' : response.detail.item_relation.uom,
-                            }
-                            array_push.push(data)
-                            mappingTableItem(array_push,'detail_item_table')
+                           if(response.detail.request_type != 2){
+                              
+                               result = parseInt(response.detail.item_relation.quantity) - parseInt(response.detail.quantity_request)
+                           }else{
+                               result = parseInt(response.detail.item_relation.quantity) + parseInt(response.detail.quantity_request)
+                           }
+                          
+                           var array_push =[]
+                           var data ={
+                               'item_name' : response.detail.item_relation.name,
+                               'quantity' : response.detail.item_relation.quantity,
+                               'quantity_request' : response.detail.quantity_request,
+                               'quantity_result' : result,
+                               'uom' : response.detail.item_relation.uom,
+                           }
+                           array_push.push(data)
+                           mappingTableItem(array_push,'detail_item_table')
                         }
+                        // if(response.detail.request_type == 4 ){
+                        // }else{
+                       
+                        // }
                         $('#transaction_code').val(response.detail.request_code)
                         $('#detail_transaction_code').html(': '+ response.detail.request_code)
                         $('#detail_location_id').html(': '+response.detail.location_relation.name)

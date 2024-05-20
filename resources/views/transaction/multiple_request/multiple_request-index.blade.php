@@ -37,8 +37,8 @@
 </div>
 @endsection
 @include('transaction.multiple_request.modal.add-request')
-@include('transaction.ir.modal.detail-ir')
-@include('transaction.ir.modal.update-ir')
+@include('transaction.multiple_request.modal.detail-request')
+@include('transaction.multiple_request.modal.update-request')
 @push('custom-js')
 @include('transaction.multiple_request.multiple_request-js')
 @endpush

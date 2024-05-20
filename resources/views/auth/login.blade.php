@@ -5,7 +5,11 @@
 		<h2 class="form-title" id="signup">IMS</h2>
         <div class="card card-radius-shadow">
             <div class="card-header">
-
+                <div class="card-tools">
+                    <a target="_blank" href="{{asset('storage/manualBook/DokumentasiAlurSistemUser.pdf')}}" class="btn btn-info btn-sm" title="Download manual book here">
+                        <i class="fas fa-book"></i>
+                    </a>
+                </div>
             </div>
             <div class="card-body" style="font-size: 11px">
                 IMS merupakan sistem manajemen informasi barang barang operasional perusahaan yang menyediakan

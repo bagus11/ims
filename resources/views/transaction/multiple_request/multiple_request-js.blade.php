@@ -149,13 +149,12 @@
                             'category_id':$('#category_id').val(),
                         }
                         postCallback('addMultipleTransaction',data, function(response){
-                            swal.close()
                             $('.message_error').html('');
-                            $('#addPrModal').modal('hide')
+                            swal.close()
                             toastr['success'](response.meta.message);
-                            getCallback('getPurchase',null,function(res){
-                                swal.close()
-                                mappingTable(res.data)
+                            $('#addRequestModal').modal('hide')
+                            getCallbackNoSwal('getItemRequest',null,function(response){
+                                mappingTable(response.data)
                             })
                         })
                     }else{
@@ -164,6 +163,135 @@
                     }
                 
                 })
+            $('#request_table').on('click', '.stepApproval', function(){
+                        var data = {
+                        'id':$(this).data('tc') ,
+                        'des':$(this).data('des') ,
+                    }
+                   
+                    getCallback('detailTransaction',data,function(response){
+                        swal.close()
+                        var fileName = response.detail.attachment.split('/')
+                        var attachment = ''
+                        if(fileName[2] == ''){
+                            attachment ='-'
+                        }else{
+                            attachment =` <a target="_blank" href="{{URL::asset('${response.detail.attachment}')}}" style="color:blue;font-size:9.5px">
+                                            <i class="far fa-file" style="color: red;font-size: 10px;"></i>
+                                            ${fileName[2]} </a>`
+                        }
+                       
+                        var status ='';
+                        if(response.detail.status == 1){
+                            status ='NEW'
+                        }else if(response.detail.status == 2){
+                            status ='On Queue'
+                        }else if( response.detail.status == 3){
+                            status ='On Progress'
+                        }else if( response.detail.status == 4){
+                            status ='DONE'
+                        }else if(response.detail.status == 5){
+                            status ='Reject'
+                        }
+                        var approverName = response.detail.approval_id == 0 ?' - ': response.detail.approval_relation.name
+                        $('#detail_transaction_code').html(': '+ response.detail.request_code)
+                        $('#detail_location_id').html(': '+response.detail.location_relation.name)
+                        $('#detail_des_location').html(': '+response.detail.des_location_relation.name)
+                        // $('#detail_product').html(': '+response.detail.item_relation.name)
+                        // $('#detail_quantity_request').html(': '+response.detail.quantity_request+ ' ' + response.detail.item_relation.uom)
+                        $('#detail_user_id').html(': ' + response.detail.user_relation.name)
+                        $('#detail_approval_id').html(': ' + approverName )
+                        $('#detail_status').html(': ' + status)
+                        $('#detail_attachment').empty()
+                        $('#detail_attachment').append(`: ${attachment}`)
+                        mappingTableLog(response.log,response.count)
+                        if(response.detail.item_relation == null){
+                            mappingTableItem(response.log_item,'detail_item_table')
+                        }else{
+                            var result = 0;
+                           
+                           if(response.detail.request_type != 2){
+                              
+                               result = parseInt(response.detail.item_relation.quantity) - parseInt(response.detail.quantity_request)
+                           }else{
+                               result = parseInt(response.detail.item_relation.quantity) + parseInt(response.detail.quantity_request)
+                           }
+                          
+                           var array_push =[]
+                           var data ={
+                               'item_name' : response.detail.item_relation.name,
+                               'quantity' : response.detail.item_relation.quantity,
+                               'quantity_request' : response.detail.quantity_request,
+                               'quantity_result' : result,
+                               'uom' : response.detail.item_relation.uom,
+                           }
+                           array_push.push(data)
+                           mappingTableItem(array_push,'detail_item_table')
+                           
+                        }
+                    })
+            })
+            $('#request_table').on('click','.updateProgress', function(){
+                var data = {
+                        'id':$(this).data('tc') ,
+                        'des':$(this).data('des') ,
+                    }
+                   
+                    getCallback('detailPurchaseTransaction',data,function(response){
+                        swal.close()
+                        var fileName = response.detail.attachment.split('/')
+                        var attachment = ''
+                        if(fileName[2] == ''){
+                            attachment ='-'
+                        }else{
+                            attachment =` <a target="_blank" href="{{URL::asset('${response.detail.attachment}')}}" style="color:blue;font-size:9.5px">
+                                            <i class="far fa-file" style="color: red;font-size: 10px;"></i>
+                                            ${fileName[2]} </a>`
+                        }
+                       
+                        var status ='';
+                        if(response.detail.status == 1){
+                            status ='NEW'
+                        }else if(response.detail.status == 2){
+                            status ='On Queue'
+                        }else if( response.detail.status == 3){
+                            status ='On Progress'
+                        }else if( response.detail.status == 4){
+                            status ='DONE'
+                        }else if(response.detail.status == 5){
+                            status ='Reject'
+                        }
+                        var approverName = response.detail.approval_id == 0 ?' - ': response.detail.approval_relation.name
+                        $('#update_transaction_code').html(': '+ response.detail.request_code)
+                        $('#update_location_id').html(': '+response.detail.location_relation.name)
+                        $('#update_des_location').html(': '+response.detail.des_location_relation.name)
+                        $('#update_user_id').html(': ' + response.detail.user_relation.name)
+                        $('#update_approval_id').html(': ' + approverName )
+                        $('#update_status').html(': ' + status)
+                        $('#update_attachment').empty()
+                        $('#update_attachment').append(`: ${attachment}`)
+                        $('#update_comment').summernote('code',response.detail.remark)
+                        $('#update_transaction_id').val(response.detail.request_code)
+                        mappingTableItem(response.log_item,'update_item_table')
+                    })
+            })
+            onChange('select_update_approval_id','update_approvalId')
+            $('#btn_update_progress').on('click', function(){
+                var data ={
+                    'id'                    : $('#update_transaction_id').val(),
+                    'update_approvalId'     : $('#update_approvalId').val(),
+                    'update_comment'        : $('#update_comment').val(),
+                }
+                postCallback('updateProgressMultiple',data,function(response){
+                    swal.close();
+                    $('.message_error').html('')
+                    toastr['success'](response.meta.message);
+                    $('#updateProgressModal').modal('hide')
+                    getCallbackNoSwal('getItemRequest',null,function(response){
+                        mappingTable(response.data)
+                    })
+                })
+            })
     // Function
         function mappingTable(response){
             var data =''
@@ -291,5 +419,66 @@
                 $('#select_location').prop('disabled', true)
                 $('#itemListContainer').prop('hidden',false)
         }
+        function mappingTableLog(response,count){
+                var last_comment=''
+                var data =''
+                $('#ir_detail_table').DataTable().clear();
+                $('#ir_detail_table').DataTable().destroy();
+                        for(i = 0; i < response.length; i++ )
+                        {
+                            var status ='';
+                            if(response[i].status == 1){
+                                status ='NEW'
+                            }else if(response[i].status == 2){
+                                if(response[i].step == 1){
+                                    status = 'On Queue 1'
+                                }else if(response[i].step == 2){
+                                    status = 'On Queue 2'
+                                }else if(response[i].step == 3){
+                                    status = 'On Queue 3'
+                                }
+                            }else if( response[i].status == 3){
+                                status ='On Progress'
+                            }else if( response[i].status == 4){
+                                status ='Checking'
+                            }else if(response[i].status == 5){
+                                status ='Revision'
+                            }else if(response[i].status == 6){
+                               if(response[i].checking == 1){
+                                    status ='Checking'
+                               }else{
+                                    status ='DONE'
+                               }
+                            }else if(response[i].status == 7){
+                                status ='Reject'
+                            }
+                            var status_approval =''
+                            if(response[i].approval_status == 1 ){
+                                status_approval = 'Approve'
+                            }else if(response[i].approval_status == 2){
+                                status_approval = 'Reject'
+                            }else{
+                                status_approval = '-'
+                            }
+                            const d = new Date(response[i].created_at)
+                            const date = d.toISOString().split('T')[0];
+                            const time = d.toTimeString().split(' ')[0];
+                            data += `<tr style="text-align: center;">
+                                        <td style="width:5%">${date} ${time}</td>
+                                        <td style="text-align:left;">${response[i].creator_relation.name}</td>
+                                        <td style="text-align:left;">${status}</td>
+                                        <td style="text-align:center;">${status_approval}</td>
+                                    </tr>
+                                `;
+                            last_comment = response[i].comment
+                        }
+                $('#ir_detail_table > tbody:first').html(data);
+                $('#ir_detail_table').DataTable({
+                    scrollX  : true,
+                }).columns.adjust()
+             
+               
+        }
+
     // Function
 </script>

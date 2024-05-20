@@ -13,6 +13,7 @@ use App\Models\MasterLocation;
 use App\Models\Transaction\HistoryProduct_model;
 use App\Models\Transaction\ItemRequestDetail;
 use App\Models\Transaction\ItemRequestModel;
+use App\Models\Transaction\PurchaseModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use NumConvert;
@@ -99,6 +100,12 @@ class ItemRequestController extends Controller
             'approvalRelation',
         ])->where('request_code',$request->id)->first();
         $countApproval = ApprovalModel::where('location_id',$request->des)->count();
+        $log_item = PurchaseModel::with(
+            [
+                'itemRelation',
+                'transactionRelation'
+            ]
+        )->where('request_code', $detail->request_code)->get();
         $log = ItemRequestDetail::with([
             'userRelation',
             'creatorRelation',
@@ -107,6 +114,7 @@ class ItemRequestController extends Controller
             'detail'=>$detail,  
             'countApproval'=>$countApproval,  
             'log'=>$log,  
+            'log_item'=>$log_item,  
         ]);  
     }
     function addTransaction(Request $request, AddTransactionRequest $addTransactionRequest) {
