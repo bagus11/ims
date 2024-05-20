@@ -20,6 +20,8 @@ use App\Http\Controllers\Transaction\TransactionProductController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\Transaction\MultipleRequestController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -126,6 +128,11 @@ Route::group(['middleware' => ['auth']], function() {
                 Route::get('detailTransaction', [ItemRequestController::class, 'detailTransaction'])->name('detailTransaction');
                 Route::post('updateProgress', [ItemRequestController::class, 'updateProgress'])->name('updateProgress');
             // Item Request
+
+            // Multiple Request
+                Route::get('multiple_request', [MultipleRequestController::class, 'index'])->name('multiple_request');
+                Route::post('addMultipleTransaction', [MultipleRequestController::class, 'addMultipleTransaction'])->name('addMultipleTransaction');
+            // Multiple Request
                 
             // Assignment
                 Route::get('assignment', [AssignmentController::class, 'index'])->name('assignment');

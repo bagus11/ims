@@ -90,7 +90,7 @@
                     $('#'+id).empty()
                     $('#'+id).append('<option value ="">Choose '+ name +'</option>');
                     $.each(response.data,function(i,data){
-                        $('#'+id).append('<option data-max ="'+ data.max_transaction +'" data-name="'+ data.name +'" value="'+data.id+'">' + data.name +'</option>');
+                        $('#'+id).append('<option data-min ="'+ data.min_transaction +'" data-name="'+ data.name +'" data-max ="'+ data.max_transaction +'" data-name="'+ data.name +'" value="'+data.id+'">' + data.name +'</option>');
                     });
                 },
                 error: function(response) {
