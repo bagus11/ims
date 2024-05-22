@@ -156,17 +156,17 @@
                                         </button>`
                         
                         data += `<tr style="text-align: center;">
-                                <td style="width:5%">${i + 1}</td>
-                                <td style="width:10%">${response[i].product_code}</td>
+                                <td style="width:1%">${i + 1}</td>
+                                <td style="width:10%;text-align:left">${response[i].product_code}</td>
                                 <td style="width:10%">${response[i].location_relation.name}</td>
-                                <td style="width:45%;text-align:left">${response[i].name}</td>
+                                <td style="width:25%;text-align:left">${response[i].name}</td>
                                 <td style="width:10%;text-align:left">${response[i].type_relation.name}</td>
-                                <td style="width:15%;text-align:left">${response[i].category_relation.name}</td>
-                                <td style="width:15%;text-align:left">${response[i].department_relation.name}</td>
-                                <td style="width:15%;text-align:right">${response[i].quantity}</td>
-                                <td style="width:15%;text-align:center">${response[i].uom}</td>
+                                <td style="width:10%;text-align:left">${response[i].category_relation.name}</td>
+                                <td style="width:10%;text-align:left">${response[i].department_relation.name}</td>
+                                <td style="width:5%;text-align:right">${response[i].quantity}</td>
+                                <td style="width:5%;text-align:center">${response[i].uom}</td>
                                 @can('get-only_staff-master_product')
-                                <td style="width:15%;text-align:center">
+                                <td style="width:10%;text-align:center">
                                         <button title="Detail" class="editProduct btn btn-sm btn-primary rounded"data-id="${response[i]['id']}" data-toggle="modal" data-target="#editProductModal">
                                             <i class="fas fa-solid fa-eye"></i>
                                         </button>
@@ -177,15 +177,16 @@
                             `;
                     }
             $('#product_table > tbody:first').html(data);
-            $('#product_table').DataTable({
-                scrollX  : true,
+           var table =  $('#product_table').DataTable({
+                scrollX  : false,
                 language: {
                     'paginate': {
                     'previous': '<span class="prev-icon"><i class="fa-solid fa-arrow-left"></i></span>',
                     'next': '<span class="next-icon"><i class="fa-solid fa-arrow-right"></i></span>'
                     }
                 },
-            }).columns.adjust()
+            })
+            autoAdjustColumns(table)
         
         }
         function mappingBufferLogTable(response){
