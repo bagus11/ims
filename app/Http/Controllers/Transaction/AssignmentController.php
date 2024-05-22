@@ -36,7 +36,7 @@ class AssignmentController extends Controller
             $updateAssignmentRequest->validated();
             $dataOld            = ItemRequestDetail::where('request_code',$request->id)->orderBy('id','desc')->first();
             // setup Type
-                if($dataOld->item_id == null){
+                if($dataOld->item_id == null || $dataOld->item_id='-'){
                     $purchaseModel      =  PurchaseModel::where('request_code', $request->id)->first();
                     $productCategory    = ProductModel::where('product_code',$purchaseModel->product_code)->first();
                 }else{
