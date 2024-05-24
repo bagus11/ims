@@ -39,7 +39,7 @@ class AssignmentController extends Controller
                 if($dataOld->item_id == null || $dataOld->item_id='-'){
                     $purchaseModel      =  PurchaseModel::where('request_code', $request->id)->first();
                     $productCategory    = ProductModel::where('product_code',$purchaseModel->product_code)->first();
-                }else{
+                }else if($dataOld->item_id != '' || $dataOld->item_id != '-'){
                     $productCategory    = ProductModel::where('product_code',$dataOld->item_id)->first();
                 }
             // setup Type
