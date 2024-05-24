@@ -35,6 +35,7 @@ class AssignmentController extends Controller
         // try {
             $updateAssignmentRequest->validated();
             $dataOld            = ItemRequestDetail::where('request_code',$request->id)->orderBy('id','desc')->first();
+            dd($dataOld);
             // setup Type
                 if($dataOld->item_id == null || $dataOld->item_id='-'){
                     $purchaseModel      =  PurchaseModel::where('request_code', $request->id)->first();
