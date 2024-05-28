@@ -25,7 +25,10 @@ class MasterProductController extends Controller
             $data = ProductModel::with(['typeRelation','categoryRelation','locationRelation','departmentRelation'])->get();
         }else{
            
-            $data = ProductModel::with(['typeRelation','categoryRelation','locationRelation','departmentRelation'])->where('department_id',auth()->user()->departement)->get();
+            $data = ProductModel::with(['typeRelation','categoryRelation','locationRelation','departmentRelation'])
+                                ->where('department_id',auth()->user()->departement)
+                                ->where('location_id',auth()->user()->kode_kantor)
+                                ->get();
         }
         return response()->json([
             'data'=>$data,  

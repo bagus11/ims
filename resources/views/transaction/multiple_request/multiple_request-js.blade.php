@@ -211,7 +211,6 @@
                             var result = 0;
                            
                            if(response.detail.request_type != 2){
-                              
                                result = parseInt(response.detail.item_relation.quantity) - parseInt(response.detail.quantity_request)
                            }else{
                                result = parseInt(response.detail.item_relation.quantity) + parseInt(response.detail.quantity_request)
