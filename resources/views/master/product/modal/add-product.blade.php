@@ -58,6 +58,7 @@
                             <select name="select_uom" class="select2" id="select_uom">
                                 <option value="">Choose UOM</option>
                                 <option value="pcs">pcs</option>
+                                <option value="set">set</option>
                                 <option value="rim">rim</option>
                                 <option value="liter">liter</option>
                                 <option value="box">box</option>
