@@ -100,13 +100,12 @@ class TransactionProductController extends Controller
         //     'data'              => $data
         // ]);
         $productCode = '';
-        if($request->productFilter !=''){
+        if($request->productFilter){
             $productFilter = ProductModel::find($request->productFilter);
             $productCode = $productFilter->product_code;
         }
-     
         if(auth()->user()->hasPermissionTo('get-only_gm-master_product')){
-            $whereProduct = $productCode == ''?"'like',$productCode.'%'" : $productCode;
+            
             $data = HistoryProduct_model::with([
                 'itemRelation',
                 'desLocationRelation',
@@ -116,14 +115,12 @@ class TransactionProductController extends Controller
             ])
             ->whereBetween(DB::raw('DATE(created_at)'), [$request->from, $request->to])
             ->where('source_location','like','%'.$request->officeFilter.'%')
-            ->where('product_code',$whereProduct)
+            ->where('product_code','like','%'.$productCode.'%')
             ->whereHas('transactionRelation',function($query) use($request){
                 $query->where('user_id', 'like', '%'.$request->reqFilter .'%');
             })
             ->orderBy('id', 'desc')->get();
         }else{
-        //    dd($productCode);
-            $whereProduct = $productCode == ''?"'like',$productCode.'%'" : $productCode;
             $data = HistoryProduct_model::with([
                 'itemRelation',
                 'desLocationRelation',
@@ -133,7 +130,7 @@ class TransactionProductController extends Controller
             ])
             ->whereBetween(DB::raw('DATE(created_at)'), [$request->from, $request->to])
             ->where('source_location','like','%'.$request->officeFilter.'%')
-            ->where('product_code',$whereProduct)
+            ->where('product_code','like','%'.$productCode.'%')
             ->whereHas('transactionRelation',function($query) use($request){
                 $query->where('user_id', 'like', '%'.$request->reqFilter .'%');
             })
@@ -141,7 +138,6 @@ class TransactionProductController extends Controller
                 $query->where('department_id', auth()->user()->departement);
             })
             ->orderBy('id', 'desc')->get();
-           
         }
          
             
