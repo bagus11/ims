@@ -74,7 +74,7 @@
                     toastr['error']('Failed to get data, please contact ICT Developer');
                 }
             });
-    }
+}
     function update_user(){
         var data ={
             'user_name':$('#user_name').val(),

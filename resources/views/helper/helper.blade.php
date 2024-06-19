@@ -487,4 +487,25 @@
         }
         return -1; // Return -1 if not found
     }
+    function convertDate(inputDate) {
+    // Parse the input date string
+    const dateParts = inputDate.split("-");
+    const year = parseInt(dateParts[0]);
+    const month = parseInt(dateParts[1]);
+    const day = parseInt(dateParts[2]);
+
+    // Create a Date object
+    const date = new Date(year, month - 1, day);
+
+    // Define month names
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+
+    // Format the date
+    const formattedDate = day + " " + monthNames[month - 1] + " " + year;
+
+    return formattedDate;
+}
+
 </script>

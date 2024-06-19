@@ -103,7 +103,7 @@
                         const time = d.toTimeString().split(' ')[0];
                         data += `<tr style="text-align: center;">
 
-                                    <td style="width:10%">${date} ${time}</td>
+                                    <td style="width:10%">${convertDate(date)} ${time}</td>
                                     <td style="width:10%">${response[i].request_code}</td>
                                     <td style="width:10%;text-align:left">${response[i].item_relation.name}</td>
                                     <td style="width:10%;text-align:left">${response[i].location_relation.name}</td>

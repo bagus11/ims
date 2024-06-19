@@ -178,7 +178,7 @@
                         <td style="width:10%; text-align:center;">${i + 1}</td>
                         <td style="width:90%">
                             <select name="${selectTitle}" class="select2 select_approver" style="font-size:9px;" id="${selectTitle}">
-                                <option >
+                                <option>
                                 </option>
                             </select>
                         </td>
