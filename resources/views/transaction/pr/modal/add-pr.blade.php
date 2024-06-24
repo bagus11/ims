@@ -44,7 +44,14 @@
                         </fieldset>
                         <fieldset class="scheduler-border">
                             <legend class="scheduler-border"> Item List</legend>
-                           <div class="row">
+                            <div class="row">
+                                <div class="col-12">
+                                    <button class="btn btn-sm btn-info" id="refresh_product" style="float: right">
+                                        <i class="fa-solid fa-arrows-rotate"></i>
+                                    </button>
+                                </div>
+                            </div>
+                           <div class="row mt-2">
                             <div class="col-md-2 mt-2">
                                 <p>Category</p>
                             </div>

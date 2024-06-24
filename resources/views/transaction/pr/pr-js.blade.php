@@ -18,6 +18,7 @@
         })
         // Add PR
             $('#btn_add_pr').on('click', function(){
+                $('#refresh_product').prop('hidden', true)
                 $('#btn_edit_array_item').prop('hidden', true)
                 $('#itemListContainer').prop('hidden',true)
                 $('#select_category').prop('disabled', false)
@@ -63,10 +64,20 @@
                 var total =  parseInt(quantity_product) + parseInt(quantity_request)
                 console.log(total + ' == ' + max + ' == ' +quantity_product + ' == ' + quantity_request)
                 if(total > max){
-                        toastr['warning']('quantity request is more than max quantity, max quantity is' + max);  
+                        toastr['warning']('quantity request is more than max quantity, max quantity is ' + max);  
                         $('#quantity_request').val('')
+                        $('#refresh_product').prop('hidden', false)
                         return false
+                }else{
+                    $('#refresh_product').prop('hidden', true)
                 }
+            })
+            $('#refresh_product').on('click', function(){
+                var data ={
+                    'id':$('#select_location').val(),
+                    'category_id':$('#select_category').val(),
+                }
+                getProductItems('getActiveProduct',data,'select_product','Product')
             })
             $('#btn_add_array_item').on('click', function(){
                 $('#btn_add_array_item').prop('disabled', true)
