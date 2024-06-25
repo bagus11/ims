@@ -95,41 +95,50 @@
             $('#product_table').DataTable().clear();
             $('#product_table').DataTable().destroy();
 
-            var data=''
-                    for(i = 0; i < response.length; i++ )
-                    {
-                        const d = new Date(response[i].created_at)
-                        const date = d.toISOString().split('T')[0];
-                        const time = d.toTimeString().split(' ')[0];
-                        data += `<tr style="text-align: center;">
+            var data = '';
+            for (var i = 0; i < response.length; i++) {
+                const d = new Date(response[i].created_at);
+                const date = d.toISOString().split('T')[0];
+                const time = d.toTimeString().split(' ')[0];
 
-                                    <td style="width:10%">${convertDate(date)} ${time}</td>
-                                    <td style="width:10%">${response[i].request_code}</td>
-                                    <td style="width:10%;text-align:left">${response[i].item_relation.name}</td>
-                                    <td style="width:10%;text-align:left">${response[i].location_relation.name}</td>
-                                    <td style="width:10%;text-align:left">${response[i].des_location_relation.name}</td>
-                                    <td style="width:5%">${response[i].quantity}</td>
-                                    <td style="width:5%">${response[i].quantity_request}</td>
-                                    <td style="width:5%">${response[i].quantity_result}</td>
-                                    <td style="width:5%;text-align:center">${response[i].item_relation.uom}</td>
-                                    <td style="width:40%;text-align:left">${response[i].transaction_relation.user_relation.name}</td>
-                                  
-                                </tr>
-                            `;
+                data += `<tr style="text-align: center;">
+                            <td style="width:10%">${date} ${time}</td>
+                            <td style="width:10%">${response[i].request_code}</td>
+                            <td style="width:10%;text-align:left">${response[i].item_relation.name}</td>
+                            <td style="width:10%;text-align:left">${response[i].location_relation.name}</td>
+                            <td style="width:10%;text-align:left">${response[i].des_location_relation.name}</td>
+                            <td style="width:5%">${response[i].quantity}</td>
+                            <td style="width:5%">${response[i].quantity_request}</td>
+                            <td style="width:5%">${response[i].quantity_result}</td>
+                            <td style="width:5%;text-align:center">${response[i].item_relation.uom}</td>
+                            <td style="width:40%;text-align:left">${response[i].transaction_relation.user_relation.name}</td>
+                        </tr>`;
+            }
+
+            $('#product_table > tbody:first').html(data);
+
+            var table = $('#product_table').DataTable({
+                scrollX: true,
+                ordering: true,
+                language: {
+                    'paginate': {
+                        'previous': '<span class="prev-icon"><i class="fa-solid fa-arrow-left"></i></span>',
+                        'next': '<span class="next-icon"><i class="fa-solid fa-arrow-right"></i></span>'
                     }
-                    $('#product_table > tbody:first').html(data);
-                    $('#product_table').DataTable({
-                        scrollX  : true,
-                        ordering: true,
-                        language: {
-                            'paginate': {
-                            'previous': '<span class="prev-icon"><i class="fa-solid fa-arrow-left"></i></span>',
-                            'next': '<span class="next-icon"><i class="fa-solid fa-arrow-right"></i></span>'
-                            }
-                        },
-                        order: [[0, 'desc']]
-                        // autoWidth: true
-                    }).columns.adjust()
+                },
+                columns: [
+                    { type: 'date' }, // Assuming the first column is date-like
+                    null, // Assuming other columns don't need special sorting
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ]
+            });
         
         }
      

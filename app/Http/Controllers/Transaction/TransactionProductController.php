@@ -18,7 +18,7 @@ class TransactionProductController extends Controller
         return view('transaction.history_product.history_product-index');
     }
     function getHistoryProduct(Request $request) {
-        ini_set('max_execution_time','3000');
+        ini_set('max_execution_time','60000');
         // $totalData      = HistoryProduct_model::with([
         //     'itemRelation',
         //     'desLocationRelation',
@@ -129,7 +129,7 @@ class TransactionProductController extends Controller
                     $query->where('department_id', $user->departement);
                 });
             }
-            $data = $query->orderBy('id', 'desc')->get();
+            $data = $query->orderBy('created_at', 'desc')->get();
             return response()->json([
                 'data' => $data
             ]);
@@ -169,6 +169,9 @@ class TransactionProductController extends Controller
         ]);
     }
     function print_stock_move($from,$to,$productFilter,$officeFilter,$reqFilter) {
+        ini_set('memory_limit', '900000M');
+        ini_set("pcre.backtrack_limit", "2000000");
+        set_time_limit(60000);
         $productCode = '';
             if($productFilter != '*'){
                 $productFilter = ProductModel::find($productFilter);
