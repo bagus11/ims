@@ -283,13 +283,12 @@
                                         <td style="text-align:right; width:10%;">${response[i].quantity_request}</td>
                                         <td style="text-align:right; width:10%;">${result}</td>
                                         <td style="text-align:center; width:5%;">${response[i].item_relation == null ? response[i].uom : response[i].item_relation.uom}</td>
-                                        
                                     </tr>
                                 `;
                         }
                 var table = $('#'+ id +' > tbody:first').html(data);
                 $('#'+id).DataTable({
-                    scrollX  : true,
+                    scrollX  : false,
                 }).columns.adjust()
                 autoAdjustColumns(table)
         }
