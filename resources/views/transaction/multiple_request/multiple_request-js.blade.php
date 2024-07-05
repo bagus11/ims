@@ -4,7 +4,7 @@
             mappingTable(response.data)
         })
         $('#btn_refresh').on('click', function(){
-            getCallback('getPurchase',null,function(response){
+            getCallback('getItemRequest',null,function(response){
                 swal.close()
                 mappingTable(response.data)
             }) 
