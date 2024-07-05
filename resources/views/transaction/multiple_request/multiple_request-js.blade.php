@@ -185,7 +185,7 @@
                         if(response.detail.status == 1){
                             status ='NEW'
                         }else if(response.detail.status == 2){
-                            status ='On Queue'
+                            status ='Partialy Approve'
                         }else if( response.detail.status == 3){
                             status ='On Progress'
                         }else if( response.detail.status == 4){
@@ -252,7 +252,7 @@
                         if(response.detail.status == 1){
                             status ='NEW'
                         }else if(response.detail.status == 2){
-                            status ='On Queue'
+                            status ='Partialy Approve'
                         }else if( response.detail.status == 3){
                             status ='On Progress'
                         }else if( response.detail.status == 4){
@@ -303,11 +303,11 @@
                                 status ='NEW'
                             }else if(response[i].status == 2){
                                 if(response[i].step == 1){
-                                    status = 'On Queue 1'
+                                    status = 'Partialy Approve'
                                 }else if(response[i].step == 2){
-                                    status = 'On Queue 2'
+                                    status = 'Partialy Approve'
                                 }else if(response[i].step == 3){
-                                    status = 'On Queue 3'
+                                    status = 'Partialy Approve'
                                 }
                             }else if( response[i].status == 3){
                                 status ='On Progress'
@@ -430,11 +430,11 @@
                                 status ='NEW'
                             }else if(response[i].status == 2){
                                 if(response[i].step == 1){
-                                    status = 'On Queue 1'
+                                    status = 'Partialy Approve'
                                 }else if(response[i].step == 2){
-                                    status = 'On Queue 2'
+                                    status = 'Partialy Approve'
                                 }else if(response[i].step == 3){
-                                    status = 'On Queue 3'
+                                    status = 'Partialy Approve'
                                 }
                             }else if( response[i].status == 3){
                                 status ='On Progress'
