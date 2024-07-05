@@ -473,7 +473,7 @@
                         }
                 $('#ir_detail_table > tbody:first').html(data);
                 var table = $('#ir_detail_table').DataTable({
-                    scrollX  : true,
+                    scrollX  : false,
                 }).columns.adjust()
                 autoAdjustColumns(table)
                
