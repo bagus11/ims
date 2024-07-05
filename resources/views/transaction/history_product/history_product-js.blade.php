@@ -139,6 +139,7 @@
                     null
                 ]
             });
+            autoAdjustColumns(table)
         
         }
      
