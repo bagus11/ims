@@ -287,10 +287,11 @@
                                     </tr>
                                 `;
                         }
-                $('#'+ id +' > tbody:first').html(data);
+                var table = $('#'+ id +' > tbody:first').html(data);
                 $('#'+id).DataTable({
                     scrollX  : true,
                 }).columns.adjust()
+                autoAdjustColumns(table)
         }
     // Case Mapping Table Item 
 
