@@ -472,10 +472,10 @@
                             last_comment = response[i].comment
                         }
                 $('#ir_detail_table > tbody:first').html(data);
-                $('#ir_detail_table').DataTable({
+                var table = $('#ir_detail_table').DataTable({
                     scrollX  : true,
                 }).columns.adjust()
-             
+                autoAdjustColumns(table)
                
         }
 
