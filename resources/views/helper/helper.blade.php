@@ -290,7 +290,7 @@
                 $('#'+id).DataTable({
                     scrollX  : false,
                 }).columns.adjust()
-                autoAdjustColumns(table)
+               
         }
     // Case Mapping Table Item 
 
