@@ -274,7 +274,9 @@
                 $('#'+id).DataTable().destroy();
                         for(i = 0; i < response.length; i++ )
                         {
-                            var result =response[i].item_relation == null ? response[i].quantity_result :response[i].item_relation.quantity + response[i].quantity_request
+                            var type = response[i].request_code.split('/');
+
+                            var result =type[1] == 'PUR' ? response[i].item_relation.quantity + response[i].quantity_request :response[i].item_relation.quantity - response[i].quantity_request
                            
                             data += `<tr style="text-align: center;">
                                         <td style="width:5%">${i + 1}</td>

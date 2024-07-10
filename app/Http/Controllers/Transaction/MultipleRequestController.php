@@ -128,7 +128,7 @@ class MultipleRequestController extends Controller
                     $postLogSecond=[
                         'request_code'         =>$transaction_code,
                         'item_id'              =>'-',
-                        'quantity_request'     =>$request->quantity_request,
+                        'quantity_request'     =>0,
                         'location_id'          =>$request->location_id,
                         'request_type'         =>$request->transaction_id,
                         'status'               =>2,
@@ -144,7 +144,7 @@ class MultipleRequestController extends Controller
                     $postSecond =[
                         'request_code'         =>$transaction_code,
                         'item_id'              =>'-',
-                        'quantity_request'     =>$request->quantity_request,
+                        'quantity_request'     =>0,
                         'location_id'          =>$request->location_id,
                         'des_location_id'      =>$request->location_id,
                         'category_id'          =>$request->category_id,
