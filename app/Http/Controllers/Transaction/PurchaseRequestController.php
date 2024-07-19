@@ -124,12 +124,12 @@ class PurchaseRequestController extends Controller
                 'des_location_id'      =>$request->location_id,
                 'request_type'         =>$request->transaction_id,
                 'category_id'          => $request->category_id,
-                'status'               =>2,
+                'status'               =>$second_step == null ? 3:2,
                 'approval_status'      =>0,
                 'user_id'              =>auth()->user()->id,
                 'creator'              =>auth()->user()->id,
                 'remark'               =>$request->comment,
-                'approval_id'          =>$second_step->user_id,
+                'approval_id'          =>$second_step == null ? 0 : $second_step->user_id,
                 'step'                 =>2,
                 'attachment'           =>$destinationAttachment,
             ];
@@ -139,13 +139,13 @@ class PurchaseRequestController extends Controller
                 'quantity_request'     =>0,
                 'location_id'          =>$request->location_id,
                 'request_type'         =>$request->transaction_id,
-                'status'               =>2,
+                'status'               =>$second_step == null ? 3:2,
                 'approval_status'      =>0,
                 'step'                 =>2,
                 'user_id'              =>auth()->user()->id,
                 'creator'              =>auth()->user()->id,
                 'des_location_id'      =>$request->location_id,
-                'approval_id'          =>$second_step->user_id,
+                'approval_id'          =>$second_step == null ? 0 : $second_step->user_id,
                 'comment'              => $request->comment
             ];
             DB::transaction(function() use($post,$postLog,$request,$fileName,$array_item,$approval_id,$postSecond,$postLogSecond) {

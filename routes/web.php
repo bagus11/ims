@@ -122,7 +122,10 @@ Route::group(['middleware' => ['auth']], function() {
 
             // Purchase Request
             // Item Request  
+            Route::group(['middleware' => ['permission:view-item_request']], function () {
                 Route::get('item_request', [ItemRequestController::class, 'index'])->name('item_request');
+            });
+              
                 Route::get('getItemRequest', [ItemRequestController::class, 'getItemRequest'])->name('getItemRequest');
                 Route::post('addTransaction', [ItemRequestController::class, 'addTransaction'])->name('addTransaction');
                 Route::get('detailTransaction', [ItemRequestController::class, 'detailTransaction'])->name('detailTransaction');

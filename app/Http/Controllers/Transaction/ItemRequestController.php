@@ -156,9 +156,8 @@ class ItemRequestController extends Controller
             $productCode = ProductModel::find($request->product_id);
             $approval_id = ApprovalModel::where([
                 'category_id'   => $productCode->category_id,
-                'location_id'   => $request->location_id
+                'location_id'   => $request->location_id8
             ])->where('step',1)->first();
-            // dd($request);
             $post =[
                 'request_code'         =>$transaction_code,
                 'item_id'              =>$productCode->product_code,
