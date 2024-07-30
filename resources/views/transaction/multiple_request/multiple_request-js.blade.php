@@ -53,7 +53,12 @@
             var min = $("#select_product").select2().find(":selected").data("min");
             var quantity_product = $('#quantity_product').val()
             var quantity_request = $('#quantity_request').val()
-            var total =  parseInt(quantity_product) + parseInt(quantity_request)
+            var select_transaction_type = $('#select_transaction_type').val()
+            if(select_transaction_type !== 3){
+                var total =  parseInt(quantity_product) - parseInt(quantity_request)
+            }else{
+                var total =  parseInt(quantity_product) + parseInt(quantity_request)
+            }
             console.log(total + ' == ' + min + ' == ' +quantity_product + ' == ' + quantity_request)
             if(total <= min){
                 if(total <=  min){
