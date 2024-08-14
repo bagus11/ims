@@ -51,7 +51,14 @@
                                 <div class="col-md-9 mt-2">
                                     <span style="font-size:11px" id="detail_approval_id"></span>
                                 </div>
-
+                            </div>
+                            <div class="row">
+                                <div class="col-3 mt-2">
+                                    <p>Additional Info</p>
+                                </div>
+                                <div class="col-9 mt-2">
+                                    <p id="detail_remark"></p>
+                                </div>
                             </div>
                         </div>
                     </fieldset>

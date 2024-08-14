@@ -145,26 +145,31 @@
             // Delete Array Table
 
             $('#btn_save_transaction').on('click', function(){
-                    if(array_item.length > 0){
-                        var data ={
-                            'array_item':array_item,
-                            'transaction_id':$('#transaction_id').val(),
-                            'location_id':$('#location_id').val(),
-                            'comment':$('#comment').val(),
-                            'category_id':$('#category_id').val(),
-                        }
-                        postCallback('addMultipleTransaction',data, function(response){
-                            $('.message_error').html('');
-                            swal.close()
-                            toastr['success'](response.meta.message);
-                            $('#addRequestModal').modal('hide')
-                            getCallbackNoSwal('getItemRequest',null,function(response){
-                                mappingTable(response.data)
-                            })
-                        })
+                    var comment = $('#comment').val()
+                    if(comment == '' || comment == null){
+                        toastr['error']('Comment is required')
                     }else{
-                        toastr['error']('item and quantity cannot be null');
-                        return false;
+                        if(array_item.length > 0){
+                            var data ={
+                                'array_item':array_item,
+                                'transaction_id':$('#transaction_id').val(),
+                                'location_id':$('#location_id').val(),
+                                'comment':$('#comment').val(),
+                                'category_id':$('#category_id').val(),
+                            }
+                            postCallback('addMultipleTransaction',data, function(response){
+                                $('.message_error').html('');
+                                swal.close()
+                                toastr['success'](response.meta.message);
+                                $('#addRequestModal').modal('hide')
+                                getCallbackNoSwal('getItemRequest',null,function(response){
+                                    mappingTable(response.data)
+                                })
+                            })
+                        }else{
+                            toastr['error']('item and quantity cannot be null');
+                            return false;
+                        }
                     }
                 
                 })
