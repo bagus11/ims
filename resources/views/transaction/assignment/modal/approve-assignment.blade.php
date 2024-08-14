@@ -57,7 +57,8 @@
                                     <p>Additional Info</p>
                                 </div>
                                 <div class="col-9 mt-2">
-                                    <p id="detail_remark"></p>
+                                    <textarea name="detail_remark" class="summernote" id="detail_remark" cols="30" rows="10"></textarea>
+                                    <span  style="color:red;font-size:9px" class="message_error text-red block comment_error"></span>
                                 </div>
                             </div>
                         </div>

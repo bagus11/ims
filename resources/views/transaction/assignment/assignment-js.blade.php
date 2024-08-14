@@ -71,7 +71,7 @@
                         $('#detail_transaction_code').html(': '+ response.detail.request_code)
                         $('#detail_location_id').html(': '+response.detail.location_relation.name)
                         $('#detail_des_location').html(': '+response.detail.des_location_relation.name)
-                        $('#detail_remark').html(': ' + response.detail.remark)
+                        $('#detail_remark').summernote('code',response.detail.remark)
                         $('#detail_user_id').html(': ' + response.detail.user_relation.name)
                         $('#detail_approval_id').html(': ' + response.detail.approval_relation.name)
                         $('#detail_status').html(': ' + status)
