@@ -24,7 +24,7 @@
         />
           <!-- Tempus Dominus Styles -->
           <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-          <link href="{{ asset('assets/select2/select2.min.css') }}" rel="stylesheet">
+          {{-- <link href="{{ asset('assets/select2/select2.min.css') }}" rel="stylesheet"> --}}
           <link href="{{ asset('assets/summernote/summernote.css') }}" rel="stylesheet">
     </head>
     <body class="hold-transition sidebar-mini">
@@ -60,8 +60,9 @@
         {{-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
         <script src="{{ asset('assets/sweetalert2/sweetalert.min.js') }}"></script>
         <script src="{{ asset('assets/summernote/summernote.js') }}"></script>
-        <script src="{{ asset('assets/select2/select2.full.min.js') }}"></script>
-        <script src="{{ asset('assets/select2/select2.full.min.js') }}"></script>
+        {{-- <script src="{{ asset('assets/select2/select2.full.min.js') }}"></script> --}}
+        {{-- <script src="{{ asset('assets/select2/select2.full.min.js') }}"></script> --}}
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
@@ -81,7 +82,7 @@
         <script>
             $(document).ready(function(){
                 $(".select2").select2();
-                $('.select2').select2({ dropdownCssClass: "selectOption2" });
+                $('.select2').select2({ dropdownCssClass: "selectOption2"});
                 $.ajaxSetup({
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 })
@@ -173,9 +174,29 @@
         font-family: poppins !important;
         font-size: 1.2em !important;
     } */
-  .selectOption2{
-    font-size:9px;
-  }
+ /* Font size for the Select2 container */
+.select2-container--default .select2-selection--single {
+    font-size: 9px; /* Adjust font size for the selected item */
+}
+
+/* Font size for the dropdown search input */
+.select2-container--default .select2-search__field {
+    font-size: 9px; /* Adjust font size for the search input field */
+}
+
+/* Font size for dropdown options */
+.select2-container--default .select2-results__option {
+    font-size: 9px; /* Adjust font size for dropdown options */
+}
+
+/* Font size for no results found message */
+.select2-container--default .select2-results__message {
+    font-size: 9px; /* Adjust font size for no results found message */
+}
+.select2-dropdown {
+    z-index: 1050; /* Make sure it appears above other elements */
+}
+
   .badge-orange{
     background-color: #FE7A36;
     color : black

@@ -125,11 +125,14 @@ class TransactionProductController extends Controller
                     $query->where('department_id', 'like', '%%');
                 });
             } else {
+                // dd('test');
                 $query->whereHas('itemRelation', function($query) use ($user) {
                     $query->where('department_id', $user->departement);
+                })->whereHas('itemRelation', function($query) use($user) {
+                    $query->where('location_id', $user->kode_kantor);
                 });
             }
-            $data = $query->orderBy('created_at', 'desc')->get();
+            $data = $query->orderBy('id', 'desc')->get();
             return response()->json([
                 'data' => $data
             ]);

@@ -9,6 +9,14 @@
                 mappingTable(response.data)
             }) 
         })
+        $(document).ready(function() {
+            $('#addRequestModal').on('shown.bs.modal', function () {
+                $('#select_product').select2({
+                    dropdownParent: $('#addRequestModal'),
+                    dropdownCssClass: 'selectOption2'
+                });
+            });
+        });
         var array_item =[];
         $('#btn_add_request').on('click',function(){
             var array_item =[];

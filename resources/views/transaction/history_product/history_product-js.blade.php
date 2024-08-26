@@ -127,7 +127,7 @@
                     }
                 },
                 columns: [
-                    { type: 'date' }, // Assuming the first column is date-like
+                    { type: 'datetime' }, // Assuming the first column is date-like
                     null, // Assuming other columns don't need special sorting
                     null,
                     null,

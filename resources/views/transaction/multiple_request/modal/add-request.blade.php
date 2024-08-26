@@ -1,4 +1,4 @@
-<div class="modal fade" id="addRequestModal">
+<div class="modal fade" id="addRequestModal" role="dialog" aria-labelledby="addRequestModal" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-core">

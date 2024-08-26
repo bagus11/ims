@@ -55,14 +55,14 @@ class ItemRequestController extends Controller
                 'data'=>$data,  
             ]);  
         }else if(auth()->user()->hasPermissionTo('get-only_admin-item_request')){
-            //  dd(auth()->user()->id);
+            //  dd($request);
             $data = ItemRequestModel::with([
                 'userRelation',
                 'itemRelation',
                 'stepRelation',
                 'locationRelation',
                 'approvalRelation',
-                ])->where('location_id','like','%'.$request->id.'%')
+                ])->where('location_id','like','%'.auth()->user()->kode_kantor.'%')
                 ->whereHas('stepRelation',function($q){
                     $q->where('user_id', auth()->user()->id);
                 })
