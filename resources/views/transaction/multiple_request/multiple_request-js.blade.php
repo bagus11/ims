@@ -9,6 +9,7 @@
                 mappingTable(response.data)
             }) 
         })
+     
         $(document).ready(function() {
             $('#addRequestModal').on('shown.bs.modal', function () {
                 $('#select_product').select2({
@@ -16,7 +17,9 @@
                     dropdownCssClass: 'selectOption2'
                 });
             });
+           
         });
+     
         var array_item =[];
         $('#btn_add_request').on('click',function(){
             var array_item =[];
@@ -36,6 +39,7 @@
             $('#des_location_id').val('')
             getActiveItems('getLocation',null,'select_location','Location')
             getActiveItems('getActiveCategory',null,'select_category','Category')
+            $('#addRequestModal').modal({backdrop: 'static', keyboard: false})  
         })
         onChange('select_transaction_type','transaction_id')
         onChange('select_location','location_id')
