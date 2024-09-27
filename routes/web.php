@@ -127,6 +127,7 @@ Route::group(['middleware' => ['auth']], function() {
             });
               
                 Route::get('getItemRequest', [ItemRequestController::class, 'getItemRequest'])->name('getItemRequest');
+                Route::get('getFinalizeItem', [ItemRequestController::class, 'getFinalizeItem'])->name('getFinalizeItem');
                 Route::post('addTransaction', [ItemRequestController::class, 'addTransaction'])->name('addTransaction');
                 Route::get('detailTransaction', [ItemRequestController::class, 'detailTransaction'])->name('detailTransaction');
                 Route::post('updateProgress', [ItemRequestController::class, 'updateProgress'])->name('updateProgress');

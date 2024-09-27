@@ -91,6 +91,26 @@ class ItemRequestController extends Controller
             ]);   
         }
     }
+
+    function getFinalizeItem() {
+        $data = ItemRequestModel::with([
+            'userRelation',
+            'itemRelation',
+            'stepRelation',
+            'locationRelation',
+            'categoryRelation',
+            'approvalRelation',
+        ])->where('location_id',auth()->user()->kode_kantor)
+            ->where('status',3)
+            ->whereHas('categoryRelation', function($query) {
+                $query->where('department_id', auth()->user()->departement);
+            })
+            ->orderBy('id', 'desc')
+            ->get();
+        return response()->json([
+            'data'=>$data,  
+        ]);   
+    }
     function detailTransaction(Request $request) {
         $detail = ItemRequestModel::with([
             'userRelation',

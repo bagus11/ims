@@ -3,8 +3,10 @@
 namespace App\Models\Transaction;
 
 use App\Models\Master\ApprovalModel;
+use App\Models\Master\CategoryModel;
 use App\Models\Master\ProductModel;
 use App\Models\MasterLocation;
+use App\Models\PettyCash\Master\MasterCategoryPC;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -34,5 +36,8 @@ class ItemRequestModel extends Model
     }
     function stepRelation() {
         return $this->hasOne(ApprovalModel::class,'category_id','category_id');
+    }
+    function categoryRelation() {
+        return $this->hasOne(CategoryModel::class,'id','category_id');
     }
 }

@@ -62,6 +62,32 @@
         </div>
         <div class="col-12 col-sm-12 col-md-4 col-xd-4">
             <div class="card card-radius-shadow card-outline">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-9">
+                            <h5 style="font-weight: bold">Finalize</h5>
+                        </div>
+                        <div class="col-3" style="text-align: center">
+                            <i style="color:#6B92A4 " class="fa-solid fa-star fa-2xl"></i>
+                        </div>
+                    </div>
+                    <hr>
+                    <table class="table" id="finalize_table">
+                        <thead>
+                            <tr>
+                                <th  style="text-align: center">Created At</th>
+                                <th  style="text-align: center">Request Code</th>
+                                <th  style="text-align: center">PIC</th>
+                                <th  style="text-align: center">Action</th>
+                            </tr>
+                        </thead>
+                        
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-xd-12">
+            <div class="card card-radius-shadow card-outline">
                 {{-- <div class="card-header">
                     Current Stock Product
                 </div> --}}
@@ -100,6 +126,8 @@
        
    </div>
 </div>
+@include('transaction.multiple_request.modal.update-request')
+@include('transaction.assignment.modal.approve-assignment')
 @endsection
 @push('custom-js')
 @include('home-js')

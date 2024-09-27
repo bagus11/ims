@@ -16,6 +16,9 @@
             swal.close()
             mappingTableStock(response.data)
         })
+        getCallbackNoSwal('getFinalizeItem', null, function(response){
+            mappingTableFinal(response.data)
+        })
     //Call Function
 
     // Operation
@@ -39,6 +42,155 @@
                 mappingTableStock(response.data)
             })
         })
+
+        // FInalized
+        $('#finalize_table').on('click','.updateProgress', function(){
+                var data = {
+                        'id':$(this).data('tc') ,
+                        'des':$(this).data('des') ,
+                    }
+                   
+                    getCallback('detailPurchaseTransaction',data,function(response){
+                        swal.close()
+                        var fileName = response.detail.attachment.split('/')
+                        var attachment = ''
+                        if(fileName[2] == ''){
+                            attachment ='-'
+                        }else{
+                            attachment =` <a target="_blank" href="{{URL::asset('${response.detail.attachment}')}}" style="color:blue;font-size:9.5px">
+                                            <i class="far fa-file" style="color: red;font-size: 10px;"></i>
+                                            ${fileName[2]} </a>`
+                        }
+                       
+                        var status ='';
+                        if(response.detail.status == 1){
+                            status ='NEW'
+                        }else if(response.detail.status == 2){
+                            status ='Partialy Approve'
+                        }else if( response.detail.status == 3){
+                            status ='On Progress'
+                        }else if( response.detail.status == 4){
+                            status ='DONE'
+                        }else if(response.detail.status == 5){
+                            status ='Reject'
+                        }
+                        var approverName = response.detail.approval_id == 0 ?' - ': response.detail.approval_relation.name
+                        $('#update_transaction_code').html(': '+ response.detail.request_code)
+                        $('#update_location_id').html(': '+response.detail.location_relation.name)
+                        $('#update_des_location').html(': '+response.detail.des_location_relation.name)
+                        $('#update_user_id').html(': ' + response.detail.user_relation.name)
+                        $('#update_approval_id').html(': ' + approverName )
+                        $('#update_status').html(': ' + status)
+                        $('#update_attachment').empty()
+                        $('#update_attachment').append(`: ${attachment}`)
+                        $('#update_comment').summernote('code',response.detail.remark)
+                        $('#update_transaction_id').val(response.detail.request_code)
+                        mappingTableItem(response.log_item,'update_item_table')
+                    })
+            })
+            onChange('select_update_approval_id','update_approvalId')
+            $('#btn_update_progress').on('click', function(){
+                var data ={
+                    'id'                    : $('#update_transaction_id').val(),
+                    'update_approvalId'     : $('#update_approvalId').val(),
+                    'update_comment'        : $('#update_comment').val(),
+                }
+                postCallback('updateProgressMultiple',data,function(response){
+                    swal.close();
+                    $('.message_error').html('')
+                    toastr['success'](response.meta.message);
+                    $('#updateProgressModal').modal('hide')
+                    getCallbackNoSwal('getFinalizeItem', null, function(response){
+                        mappingTableFinal(response.data)
+                    })
+                })
+            })
+        // FInalized
+
+        // Assignment
+        $('#assignment_table').on('click','.approvalTransaction', function(){
+            $('#approve_comment').summernote('reset');
+            $('#select_approval').val('').trigger('change')
+            var data = {
+                        'id':$(this).data('tc') ,
+                        'des':$(this).data('des') ,
+                    }
+                   
+                    getCallback('detailPurchaseTransaction',data,function(response){
+                        console.log(response)
+                        swal.close()
+                        var status ='';
+                        if(response.detail.status == 1){
+                            status ='NEW'
+                        }else if(response.detail.status == 2){
+                            status ='On Queue'
+                        }else if( response.detail.status == 3){
+                            status ='On Progress'
+                        }else if( response.detail.status == 4){
+                            status ='Checking'
+                        }else if(response.detail.status == 5){
+                            status ='Revision'
+                        }else if(response.detail.status == 6){
+                            status ='Done'
+                        }else{
+                            status ='Reject'
+
+                        }
+                        if(response.detail.item_relation == null){
+                            mappingTableItem(response.log_item,'detail_item_table')
+                        }else{
+                            var result = 0;
+                           if(response.detail.request_type != 2){
+                              
+                               result = parseInt(response.detail.item_relation.quantity) - parseInt(response.detail.quantity_request)
+                           }else{
+                               result = parseInt(response.detail.item_relation.quantity) + parseInt(response.detail.quantity_request)
+                           }
+                          
+                           var array_push =[]
+                           var data ={
+                               'item_name' : response.detail.item_relation.name,
+                               'quantity' : response.detail.item_relation.quantity,
+                               'quantity_request' : response.detail.quantity_request,
+                               'quantity_result' : result,
+                               'uom' : response.detail.item_relation.uom,
+                           }
+                           array_push.push(data)
+                           mappingTableItem(array_push,'detail_item_table')
+                        }
+                        // if(response.detail.request_type == 4 ){
+                        // }else{
+                       
+                        // }
+                        $('#transaction_code').val(response.detail.request_code)
+                        $('#detail_transaction_code').html(': '+ response.detail.request_code)
+                        $('#detail_location_id').html(': '+response.detail.location_relation.name)
+                        $('#detail_des_location').html(': '+response.detail.des_location_relation.name)
+                        $('#detail_remark').summernote('code',response.detail.remark)
+                        $('#detail_user_id').html(': ' + response.detail.user_relation.name)
+                        $('#detail_approval_id').html(': ' + response.detail.approval_relation.name)
+                        $('#detail_status').html(': ' + status)
+
+                    })
+        })
+        onChange('select_approval','approval_id')
+        $('#btn_save_approval').on('click', function(){
+            $('.message_error').html('')
+            var data ={
+                'id' : $('#transaction_code').val(),
+                'approval_id' : $('#approval_id').val(),
+                'approve_comment' : $('#approve_comment').val(),
+            }
+            postCallback('updateAssignment',data, function(response){
+                swal.close()
+                $('#approvalTransactionModal').modal('hide')
+                    toastr['success'](response.meta.message);
+                    getCallbackNoSwal('getAssignment',null,function(res){
+                        mappingTableAssignment(res.data)
+                    })
+            })
+        })
+        // Assignment
     // Operation
 
     // Function
@@ -104,10 +256,9 @@
                                     <td style="width:25%;text-align:left">${response[i].request_code}</td>
                                     <td style="text-align:left;widht:35%">${response[i].user_relation.name}</td>
                                     <td style="width:15%;text-align:center">
-                                     
-                                            <a class="btn btn-success btn-sm" target="_blank" href="assignment" style="color:white;font-size:9.5px">
-                                                <i class="fa-solid fa-share"></i>
-                                            </a>
+                                           <button title="Detail" class="approvalTransaction btn btn-sm btn-info rounded" data-tc="${response[i].request_code}"   data-des="${response[i].des_location_id}" data-toggle="modal" data-target="#approvalTransactionModal">
+                                                <i class="fa-solid fa-tag"></i>
+                                            </button>
                                        
                                     </td>
                                 </tr>
@@ -115,6 +266,51 @@
                     }
             $('#assignment_table > tbody:first').html(data);
             $('#assignment_table').DataTable({
+                dom: 'rtip',
+                scrollX  : true,
+                language: {
+                    'paginate': {
+                    'previous': '<span class="prev-icon"><i class="fa-solid fa-arrow-left"></i></span>',
+                    'next': '<span class="next-icon"><i class="fa-solid fa-arrow-right"></i></span>'
+                    }
+                },
+                searching :true,
+                pagingType: "simple",
+                iDisplayLength:10,
+                scrollY:300
+                
+            }).columns.adjust()
+        
+        }
+        function mappingTableFinal(response){
+            var data =''
+            $('#finalize_table').DataTable().clear();
+            $('#finalize_table').DataTable().destroy();
+
+            var data=''
+                    for(i = 0; i < response.length; i++ )
+                    {
+                        const d = new Date(response[i].created_at)
+                        const date = d.toISOString().split('T')[0];
+                        const time = d.toTimeString().split(' ')[0];
+                        var editBuffer =` <button title="Edit Buffer" class="editBufferProduct btn btn-sm btn-secondary rounded" data-code="${response[i]['product_code']}" data-id="${response[i]['id']}" data-toggle="modal" data-target="#editBufferProductModal">
+                                            <i class="fas fa-solid fa-gears"></i>
+                                        </button>`
+                        
+                        data += `<tr style="text-align: center;">
+                                    <td style="width:25%;text-align:center">${date} ${time}</td>
+                                    <td style="width:25%;text-align:left">${response[i].request_code}</td>
+                                    <td style="text-align:left;widht:35%">${response[i].user_relation.name}</td>
+                                    <td style="width:15%;text-align:center">
+                                            <button title="Update Progress" class="updateProgress btn btn-sm btn-warning rounded" data-tc="${response[i].request_code}"   data-des="${response[i].des_location_id}" data-toggle="modal" data-target="#updateProgressModal">
+                                                    <i class="fas fa-solid fa-edit"></i>
+                                                </button>                                       
+                                    </td>
+                                </tr>
+                            `;
+                    }
+            $('#finalize_table > tbody:first').html(data);
+            $('#finalize_table').DataTable({
                 dom: 'rtip',
                 scrollX  : true,
                 language: {
