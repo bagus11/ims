@@ -126,6 +126,7 @@
        
    </div>
 </div>
+@include('transaction.multiple_request.modal.detail-request')
 @include('transaction.multiple_request.modal.update-request')
 @include('transaction.assignment.modal.approve-assignment')
 @endsection

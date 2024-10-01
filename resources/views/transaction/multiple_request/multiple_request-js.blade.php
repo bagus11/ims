@@ -9,7 +9,7 @@
                 mappingTable(response.data)
             }) 
         })
-     
+        var array_item =[];
         $(document).ready(function() {
             $('#addRequestModal').on('shown.bs.modal', function () {
                 $('#select_product').select2({
@@ -17,10 +17,16 @@
                     dropdownCssClass: 'selectOption2'
                 });
             });
+            if(array_item.length == 0){
+                toastr['info']('array is clear')
+            }else{
+                toastr['danger']('error, please contact ICT DEV')
+
+            }
            
         });
      
-        var array_item =[];
+      
         $('#btn_add_request').on('click',function(){
             var array_item =[];
             $('#btn_edit_array_item').prop('hidden', true)
@@ -174,6 +180,7 @@
                                 swal.close()
                                 toastr['success'](response.meta.message);
                                 $('#addRequestModal').modal('hide')
+                                array_item = []
                                 getCallbackNoSwal('getItemRequest',null,function(response){
                                     mappingTable(response.data)
                                 })

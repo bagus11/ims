@@ -1,4 +1,5 @@
 <script>
+      var authId = $('#authId').val()
     function saveHelper(url,data,route){
         $.ajax({
             headers: {
