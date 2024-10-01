@@ -175,6 +175,7 @@
         // FInalized
 
         // Assignment
+        onChange('select_approval','approval_id')
         $('#assignment_table').on('click','.approvalTransaction', function(){
             $('#approve_comment').summernote('reset');
             $('#select_approval').val('').trigger('change')
@@ -204,7 +205,7 @@
 
                         }
                         if(response.detail.item_relation == null){
-                            mappingTableItem(response.log_item,'detail_item_table')
+                            mappingTableItem(response.log_item,'assignment_item_table')
                         }else{
                             var result = 0;
                            if(response.detail.request_type != 2){
@@ -223,24 +224,24 @@
                                'uom' : response.detail.item_relation.uom,
                            }
                            array_push.push(data)
-                           mappingTableItem(array_push,'detail_item_table')
+                           mappingTableItem(array_push,'assignment_item_table')
                         }
                         // if(response.detail.request_type == 4 ){
                         // }else{
                        
                         // }
                         $('#transaction_code').val(response.detail.request_code)
-                        $('#detail_transaction_code').html(': '+ response.detail.request_code)
-                        $('#detail_location_id').html(': '+response.detail.location_relation.name)
-                        $('#detail_des_location').html(': '+response.detail.des_location_relation.name)
-                        $('#detail_remark').summernote('code',response.detail.remark)
-                        $('#detail_user_id').html(': ' + response.detail.user_relation.name)
-                        $('#detail_approval_id').html(': ' + response.detail.approval_relation.name)
-                        $('#detail_status').html(': ' + status)
+                        $('#assignment_transaction_code').html(': '+ response.detail.request_code)
+                        $('#assignment_location_id').html(': '+response.detail.location_relation.name)
+                        $('#assignment_des_location').html(': '+response.detail.des_location_relation.name)
+                        $('#assignment_remark').summernote('code',response.detail.remark)
+                        $('#assignment_user_id').html(': ' + response.detail.user_relation.name)
+                        $('#assignment_approval_id').html(': ' + response.detail.approval_relation.name)
+                        $('#assignment_status').html(': ' + status)
 
                     })
         })
-        onChange('select_approval','approval_id')
+
         $('#btn_save_approval').on('click', function(){
             $('.message_error').html('')
             var data ={

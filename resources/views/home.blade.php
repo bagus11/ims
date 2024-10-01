@@ -128,7 +128,7 @@
 </div>
 @include('transaction.multiple_request.modal.detail-request')
 @include('transaction.multiple_request.modal.update-request')
-@include('transaction.assignment.modal.approve-assignment')
+@include('modal.approve-assignment')
 @endsection
 @push('custom-js')
 @include('home-js')

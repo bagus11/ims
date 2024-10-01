@@ -17,18 +17,20 @@
                     dropdownCssClass: 'selectOption2'
                 });
             });
+          
+           
+        });
+        var array_item =[];
+      
+        $('#btn_add_request').on('click',function(){
+            array_item = []
+            array_item.length = 0
             if(array_item.length == 0){
                 toastr['info']('array is clear')
             }else{
                 toastr['danger']('error, please contact ICT DEV')
 
             }
-           
-        });
-     
-      
-        $('#btn_add_request').on('click',function(){
-            var array_item =[];
             $('#btn_edit_array_item').prop('hidden', true)
             $('#itemListContainer').prop('hidden',true)
             $('#select_category').prop('disabled', false)
@@ -40,6 +42,7 @@
             $('#select_product').empty()
             $('#select_product').append('<option value="">Choose Source Location First</option>')
             $('#product_id').val('')
+            $('#category_id').val('')
             $('#location_id').val('')
             $('#quantity_request').val('')
             $('#des_location_id').val('')
