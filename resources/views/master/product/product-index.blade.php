@@ -39,6 +39,7 @@
     </div>
 </div>
 @include('master.product.modal.add-product')
+@include('master.product.modal.history-product')
 @include('master.product.modal.edit-product')
 @include('master.product.modal.editBuffer-product')
 @endsection

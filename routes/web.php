@@ -99,6 +99,9 @@ Route::group(['middleware' => ['auth']], function() {
                 Route::get('logBufferProduct', [MasterProductController::class, 'logBufferProduct'])->name('logBufferProduct');
                 Route::post('updateProduct', [MasterProductController::class, 'updateProduct'])->name('updateProduct');
                 Route::post('updateBuffer', [MasterProductController::class, 'updateBuffer'])->name('updateBuffer');
+
+
+                Route::get('trackRequestHistory', [MasterProductController::class, 'trackRequestHistory'])->name('trackRequestHistory');
             // Product
             // Approver
                 Route::get('approver', [MasterApproverController::class, 'index'])->name('approver');

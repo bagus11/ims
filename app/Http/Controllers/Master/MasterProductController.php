@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\Master\BufferLog;
 use App\Models\Master\ProductModel;
 use App\Models\Master\TypeModel;
+use App\Models\Transaction\HistoryProduct_model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -162,5 +163,31 @@ class MasterProductController extends Controller
                 500
             );
         }
+    }
+
+    function trackRequestHistory(Request $request){
+        $user = auth()->user();
+        $query = HistoryProduct_model::with([
+            'itemRelation',
+            'desLocationRelation',
+            'transactionRelation.userRelation',
+            'locationRelation',
+            'transactionRelation',
+        ]);
+        $product = ProductModel::find($request->product_id);
+        
+        $query->whereBetween(DB::raw('DATE(created_at)'), [$request->from, $request->to]);
+        // $query->where('source_location', $user->kode_kantor);
+        $query->where('product_code', $product->product_code);
+        $query->whereHas('itemRelation', function($query) use ($user) {
+            $query->where('location_id', $user->kode_kantor);
+        })->whereHas('transactionRelation',function($query) use($request){
+            $query->where('request_type',$request->request_type);
+        });
+        
+        $data = $query->orderBy('id', 'desc')->get();
+        return response()->json([
+            'data' => $data
+        ]);
     }
 }

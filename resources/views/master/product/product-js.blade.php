@@ -140,7 +140,83 @@
                 })
             })
         // Edit Buffer
+            
+        // History Product
+            $('#product_table').on('click', '.history', function(){
+                var id = $(this).data('id')
+                $('#history_id').val(id)
+                $('#request_type').val(1)
+                var data ={
+                    'product_id'    : $('#history_id').val(),
+                    'from'          : $('#from').val(),
+                    'to'            : $('#to').val(),
+                    'request_type'  : $('#request_type').val()
+                }
+                getCallback('trackRequestHistory', data, function(response){
+                    swal.close()
+                   mappingTableHistory('in_table', response.data)
+                })
+            })
+
+            $('#custom-tabs-one-home-tab').on('click', function(response){
+                $('#request_type').val(1)
+                var data ={
+                    'product_id'    : $('#history_id').val(),
+                    'from'          : $('#from').val(),
+                    'to'            : $('#to').val(),
+                    'request_type'  : $('#request_type').val()
+                }
+                getCallback('trackRequestHistory', data, function(response){
+                    swal.close()
+                   mappingTableHistory('in_table', response.data)
+                })
+
+            })
+            $('#custom-tabs-one-profile-tab').on('click', function(response){
+                $('#request_type').val(4)
+                var data ={
+                    'product_id'    : $('#history_id').val(),
+                    'from'          : $('#from').val(),
+                    'to'            : $('#to').val(),
+                    'request_type'  : $('#request_type').val()
+                }
+                getCallback('trackRequestHistory', data, function(response){
+                    swal.close()
+                   mappingTableHistory('out_table', response.data)
+                })
+            })
+
+            $('#from').on('change', function(){
+                var request_type = $('#request_type').val()
+                var data ={
+                    'product_id'    : $('#history_id').val(),
+                    'from'          : $('#from').val(),
+                    'to'            : $('#to').val(),
+                    'request_type'  : $('#request_type').val()
+                }
+                getCallback('trackRequestHistory', data, function(response){
+                    swal.close()
+                    request_type == 1 ? mappingTableHistory('in_table', response.data) :  mappingTableHistory('out_table', response.data)
+                  
+                })
+            })
+            $('#to').on('change', function(){
+                var request_type = $('#request_type').val()
+                var data ={
+                    'product_id'    : $('#history_id').val(),
+                    'from'          : $('#from').val(),
+                    'to'            : $('#to').val(),
+                    'request_type'  : $('#request_type').val()
+                }
+                getCallback('trackRequestHistory', data, function(response){
+                    swal.close()
+                    request_type == 1 ? mappingTableHistory('in_table', response.data) :  mappingTableHistory('out_table', response.data)
+                  
+                })
+            })
+        // History Product
     // Operation
+    
 
     // Function
         function mappingTable(response){
@@ -171,6 +247,9 @@
                                             <i class="fas fa-solid fa-eye"></i>
                                         </button>
                                         ${editBuffer}
+                                        <button title="History Product" class="history btn btn-sm btn-info rounded"data-id="${response[i]['id']}" data-toggle="modal" data-target="#historyProductModal">
+                                            <i class="fas fa-solid fa-clock-rotate-left"></i>
+                                        </button>
                                 </td>
                                 @endcan
                             </tr>
@@ -219,6 +298,60 @@
                 scrollX  : true,
                 order: [[0, 'desc']]
             }).columns.adjust()
+        }
+
+        function mappingTableHistory(name , response){
+            var data =''
+            $('#'+name).DataTable().clear();
+            $('#'+name).DataTable().destroy();
+
+            var data = '';
+            for (var i = 0; i < response.length; i++) {
+                const d = new Date(response[i].item_relation.created_at);
+                console.log(response[i].item_relation)
+                const date = d.toISOString().split('T')[0];
+                const time = d.toTimeString().split(' ')[0];
+
+                data += `<tr style="text-align: center;">
+                            <td style="width:10%">${date} ${time}</td>
+                            <td style="width:10%">${response[i].request_code}</td>
+                            <td style="width:10%;text-align:left">${response[i].item_relation.name}</td>
+                            <td style="width:10%;text-align:left">${response[i].location_relation.name}</td>
+                            <td style="width:10%;text-align:left">${response[i].des_location_relation.name}</td>
+                            <td style="width:5%">${response[i].quantity}</td>
+                            <td style="width:5%">${response[i].quantity_request}</td>
+                            <td style="width:5%">${response[i].quantity_result}</td>
+                            <td style="width:5%;text-align:center">${response[i].item_relation.uom}</td>
+                            <td style="width:40%;text-align:left">${response[i].transaction_relation.user_relation.name}</td>
+                        </tr>`;
+            }
+
+            $(`#${name}> tbody:first`).html(data);
+
+            var table = $('#'+name).DataTable({
+                scrollX: true,
+                ordering: true,
+                language: {
+                    'paginate': {
+                        'previous': '<span class="prev-icon"><i class="fa-solid fa-arrow-left"></i></span>',
+                        'next': '<span class="next-icon"><i class="fa-solid fa-arrow-right"></i></span>'
+                    }
+                },
+                columns: [
+                    { type: 'datetime' }, // Assuming the first column is date-like
+                    null, // Assuming other columns don't need special sorting
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ]
+            });
+            autoAdjustColumns(table)
+        
         }
     // Function
 </script>
