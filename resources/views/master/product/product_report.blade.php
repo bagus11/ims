@@ -8,7 +8,7 @@
     <title>Report Product {{date('Y-m-d')}}</title>
 </head>
 <body>
-        <h6 style="text-align: center">Report Product {{$data[0]->departmentRelation->name}}</h6>
+        <h6 style="text-align: center">Report Product {{date('d F Y')}}</h6>
         <table class="table-stepper">
             <thead>
                 <tr>

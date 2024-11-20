@@ -194,7 +194,14 @@ class MasterProductController extends Controller
     }
     function exportMasterProductReport($location, $category){
         if(auth()->user()->hasPermissionTo('get-only_gm-master_product')){
-            $data_report = ProductModel::with(['typeRelation','categoryRelation','locationRelation','departmentRelation'])->get();
+           $category_test =$category == 0 ? '' : $category;
+           $location_test =$location == 0 ? '' : $location;
+            $data_report = ProductModel::with(['typeRelation','categoryRelation','locationRelation','departmentRelation'])
+                                        ->where('location_id','like','%' . $location_test . '%')
+                                        ->where('category_id','like','%' . $category_test . '%')
+                                        ->orderBy('category_id', 'asc')
+                                        ->get();
+            // dd($data_report);
         }else{
             $category = CategoryModel::where('department_id', auth()->user()->departement)->first();
             $data_report = ProductModel::with(['typeRelation','categoryRelation','locationRelation','departmentRelation'])

@@ -221,10 +221,13 @@
         // Export Product
             $('#btn_export_product').on('click', function(){
                
-                    var select_category_filter =  $('#select_category_filter').val()
+                    var select_category_filter =  $('#select_category_filter').val() 
                     var select_location_filter =  $('#select_location_filter').val()
+
+                    var location = select_location_filter !== '' ?select_location_filter :0 
+                    var category = select_category_filter !== '' ?select_category_filter :0 
                 
-                window.open(`exportMasterProductReport/${select_location_filter}/ ${select_category_filter}`, '_blank');
+                window.open(`exportMasterProductReport/${location}/${category}`, '_blank');
             })
         // Export Product
     // Operation
