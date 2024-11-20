@@ -80,6 +80,9 @@
         <!--Tempusdominus CSS CDN-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
         <script>
+            $(document).on('click', '.dropdown-menu', function (e) {
+              e.stopPropagation();
+            });
             $(document).ready(function(){
                 $(".select2").select2();
                 $('.select2').select2({ dropdownCssClass: "selectOption2"});

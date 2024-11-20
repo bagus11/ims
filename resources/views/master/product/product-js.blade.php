@@ -4,6 +4,8 @@
             swal.close()
             mappingTable(response.data)
         })
+        getActiveItems('getActiveCategory', null, 'select_category_filter', 'Category')
+        getActiveItems('getLocation', null, 'select_location_filter', 'Location')
     // Call Function
 
     // Operation
@@ -215,6 +217,16 @@
                 })
             })
         // History Product
+
+        // Export Product
+            $('#btn_export_product').on('click', function(){
+               
+                    var select_category_filter =  $('#select_category_filter').val()
+                    var select_location_filter =  $('#select_location_filter').val()
+                
+                window.open(`exportMasterProductReport/${select_location_filter}/ ${select_category_filter}`, '_blank');
+            })
+        // Export Product
     // Operation
     
 

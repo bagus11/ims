@@ -34,5 +34,5 @@
     .card-radius-shadow{
       border-radius: 15px;
       /* box-shadow: 5px 5px rgb(0 0 0 / 0.2); */
-      f
+    }
 </style>

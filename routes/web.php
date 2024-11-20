@@ -102,6 +102,7 @@ Route::group(['middleware' => ['auth']], function() {
 
 
                 Route::get('trackRequestHistory', [MasterProductController::class, 'trackRequestHistory'])->name('trackRequestHistory');
+                Route::get('exportMasterProductReport/{location}/{category}',[MasterProductController::class, 'exportMasterProductReport']);
             // Product
             // Approver
                 Route::get('approver', [MasterApproverController::class, 'index'])->name('approver');
@@ -156,6 +157,7 @@ Route::group(['middleware' => ['auth']], function() {
                 Route::get('print_stock_move/{from}/{date}/{productFilter}/{officeFilter}/{reqFilter}',[TransactionProductController::class, 'print_stock_move']);
                 Route::get('print_ir/{request_code}',[TransactionProductController::class, 'print_ir']);
                 Route::get('print_pr/{request_code}',[TransactionProductController::class, 'print_pr']);
+              
             // Hisrory Product
 
             // Setting Password

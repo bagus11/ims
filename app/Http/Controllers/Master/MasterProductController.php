@@ -8,11 +8,13 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\updateBufferRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Master\BufferLog;
+use App\Models\Master\CategoryModel;
 use App\Models\Master\ProductModel;
 use App\Models\Master\TypeModel;
 use App\Models\Transaction\HistoryProduct_model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use \Mpdf\Mpdf as PDF;
 
 class MasterProductController extends Controller
 {
@@ -189,5 +191,67 @@ class MasterProductController extends Controller
         return response()->json([
             'data' => $data
         ]);
+    }
+    function exportMasterProductReport($location, $category){
+        if(auth()->user()->hasPermissionTo('get-only_gm-master_product')){
+            $data_report = ProductModel::with(['typeRelation','categoryRelation','locationRelation','departmentRelation'])->get();
+        }else{
+            $category = CategoryModel::where('department_id', auth()->user()->departement)->first();
+            $data_report = ProductModel::with(['typeRelation','categoryRelation','locationRelation','departmentRelation'])
+                                ->where('location_id',auth()->user()->kode_kantor)
+                                ->where('category_id',$category->id)
+                                ->get();
+        }
+       
+        $data =[
+            'data' => $data_report
+        ];
+        $cetak              = view('master.product.product_report', $data);
+        $imageLogo          = '<img src="'.public_path('icon.png').'" width="70px" style="float: right;"/>';
+        $header             = '';
+        $header             .= '<table width="100%">
+                                    <tr>
+                                        <td style="padding-left:10px;">
+                                            <span style="font-size: 16px; font-weight: bold;"> PT PRALON</span>
+                                            <br>
+                                            <span style="font-size:9px;">Synergy Building #08-08 Tangerang 15143 - Indonesia +62 21 304 38808</span>
+                                        </td>
+                                        <td style="width:33%"></td>
+                                            <td style="width: 50px; text-align:right;">'.$imageLogo.'
+                                        </td>
+                                    </tr>
+                                    
+                                </table>
+                                <hr>';
+        
+                                $footer             = '<hr>
+                                <table width="100%" style="font-size: 8px;margin-top:-5px">
+                                <tr>
+                                <td width="90%" align="left"><b>Disclaimer</b><br>this document is strictly private, confidential and personal to recipients and should not be copied, distributed or reproduced in whole or in part, not passed to any third party.</td>
+                                        <td width="10%" style="text-align: right;"> {PAGENO}</td>
+                                    </tr>
+                                </table>';
+
+        
+            $mpdf           = new PDF();
+            $mpdf->SetHTMLHeader($header);
+            $mpdf->SetHTMLFooter($footer);
+            $mpdf->AddPage(
+                'P', // L - landscape, P - portrait 
+                '',
+                '',
+                '',
+                '',
+                2, // margin_left
+                2, // margin right
+                18, // margin top
+                18, // margin bottom
+                2, // margin header
+                0
+            ); // margin footer
+            $mpdf->WriteHTML($cetak);
+            // Output a PDF file directly to the browser
+            ob_clean();
+            $mpdf->Output('Report Stock'.'('.date('Y-m-d').').pdf', 'I');
     }
 }
