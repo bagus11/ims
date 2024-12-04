@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Master;
 
+use App\Exports\MasterProductExport;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
@@ -14,6 +15,7 @@ use App\Models\Master\TypeModel;
 use App\Models\Transaction\HistoryProduct_model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use \Mpdf\Mpdf as PDF;
 
 class MasterProductController extends Controller
@@ -191,6 +193,29 @@ class MasterProductController extends Controller
         return response()->json([
             'data' => $data
         ]);
+    }
+    function exportExcellMasterProduct($location, $category) {
+      
+        if (auth()->user()->hasPermissionTo('get-only_gm-master_product')) {
+            $category_test = $category == 0 ? '' : $category;
+            $location_test = $location == 0 ? '' : $location;
+
+            $data_report = ProductModel::with(['typeRelation', 'categoryRelation', 'locationRelation', 'departmentRelation'])
+                ->where('location_id', 'like', '%' . $location_test . '%')
+                ->where('category_id', 'like', '%' . $category_test . '%')
+                ->orderBy('category_id', 'asc')
+                ->get();
+        } else {
+            $category_model = CategoryModel::where('department_id', auth()->user()->departement)->first();
+            $data_report = ProductModel::with(['typeRelation', 'categoryRelation', 'locationRelation', 'departmentRelation'])
+                ->where('location_id', auth()->user()->kode_kantor)
+                ->where('category_id', $category_model->id)
+                ->get();
+        }
+
+        // Pass data to the export class
+        return Excel::download(new MasterProductExport($data_report), 'MasterProduct'.date('Y-m-d H:i:s').'.xlsx');
+    
     }
     function exportMasterProductReport($location, $category){
         if(auth()->user()->hasPermissionTo('get-only_gm-master_product')){

@@ -229,6 +229,17 @@
                 
                 window.open(`exportMasterProductReport/${location}/${category}`, '_blank');
             })
+            $('#btn_export_excell').on('click', function () {
+                var select_category_filter = $('#select_category_filter').val();
+                var select_location_filter = $('#select_location_filter').val();
+
+                var location = select_location_filter !== '' ? select_location_filter : 0;
+                var category = select_category_filter !== '' ? select_category_filter : 0;
+
+                window.open(`exportExcellMasterProduct/${location}/${category}`, '_blank');
+                // Redirect to export route
+            });
+
         // Export Product
     // Operation
     

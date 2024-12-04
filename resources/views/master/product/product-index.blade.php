@@ -48,6 +48,9 @@
                                             <button class="btn btn-danger btn-block" style="font-size: 10px" id="btn_export_product">
                                                 <i class="fa-solid fa-file-pdf"></i> Export to PDF
                                             </button>
+                                            <button class="btn btn-success btn-block" style="font-size: 10px" id="btn_export_excell">
+                                                <i class="fa-solid fa-file-excel"></i> Export to Excell
+                                            </button>
                                         </div>
                                       
                                     </div>

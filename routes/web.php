@@ -103,6 +103,7 @@ Route::group(['middleware' => ['auth']], function() {
 
                 Route::get('trackRequestHistory', [MasterProductController::class, 'trackRequestHistory'])->name('trackRequestHistory');
                 Route::get('exportMasterProductReport/{location}/{category}',[MasterProductController::class, 'exportMasterProductReport']);
+                Route::get('exportExcellMasterProduct/{location}/{category}',[MasterProductController::class, 'exportExcellMasterProduct']);
             // Product
             // Approver
                 Route::get('approver', [MasterApproverController::class, 'index'])->name('approver');
