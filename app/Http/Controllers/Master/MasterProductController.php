@@ -39,6 +39,23 @@ class MasterProductController extends Controller
             'data'=>$data,  
         ]);  
     }
+    function getProductDashboard() {
+        // dd(auth()->user()->departement);
+    
+        if(auth()->user()->hasPermissionTo('get-only_gm-master_product')){
+            $data = ProductModel::with(['typeRelation','categoryRelation','locationRelation','departmentRelation'])->get();
+        }else{
+           
+            $data = ProductModel::with(['typeRelation','categoryRelation','locationRelation','departmentRelation'])
+                                ->where('department_id',auth()->user()->departement)
+                                ->where('location_id',auth()->user()->kode_kantor)
+                                ->orderBy('quantity','asc')
+                                ->get();
+        }
+        return response()->json([
+            'data'=>$data,  
+        ]);  
+    }
     function getActiveProduct(Request $request) {
         $data = ProductModel::with(['typeRelation','categoryRelation','locationRelation'])
                             ->where('location_id',$request->id)

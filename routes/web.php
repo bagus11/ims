@@ -93,6 +93,7 @@ Route::group(['middleware' => ['auth']], function() {
             // Product
                 Route::get('master_product', [MasterProductController::class, 'index'])->name('master_product');
                 Route::get('getProduct', [MasterProductController::class, 'getProduct'])->name('getProduct');
+                Route::get('getProductDashboard', [MasterProductController::class, 'getProductDashboard'])->name('getProductDashboard');
                 Route::get('getActiveProduct', [MasterProductController::class, 'getActiveProduct'])->name('getActiveProduct');
                 Route::post('addProduct', [MasterProductController::class, 'addProduct'])->name('addProduct');
                 Route::get('detailProduct', [MasterProductController::class, 'detailProduct'])->name('detailProduct');
