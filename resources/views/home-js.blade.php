@@ -262,48 +262,55 @@
     // Operation
 
     // Function
-        function mappingTable(response){
-            var data =''
-            $('#product_table').DataTable().clear();
-            $('#product_table').DataTable().destroy();
+    function mappingTable(response) {
+        var data = '';
+        $('#product_table').DataTable().clear();
+        $('#product_table').DataTable().destroy();
 
-            var data=''
-            for(i = 0; i < response.length; i++ )
-            {
-                        var css ='';
-                        if(response[i].quantity <= response[i].min_quantity){
-                            css ='color : red; font-weight:bold'
-                        }
+        for (i = 0; i < response.length; i++) {
+            var css = '';
+            if (response[i].quantity <= response[i].min_quantity) {
+                css = 'color : red; font-weight:bold';
+            }
 
-                        var editBuffer =` <button title="Edit Buffer" class="editBufferProduct btn btn-sm btn-secondary rounded" data-code="${response[i]['product_code']}" data-id="${response[i]['id']}" data-toggle="modal" data-target="#editBufferProductModal">
-                                            <i class="fas fa-solid fa-gears"></i>
-                                        </button>`
-                        
-                        data += `<tr style="text-align: center;">
-                                    <td style="width:45%;text-align:left;${css}">${response[i].name}</td>
-                                    <td style="width:15%;text-align:center;${css}">${response[i].quantity}</td>
-                                    <td style="width:15%;text-align:center;${css}">${response[i].uom}</td>
-                                </tr>
-                            `;
-                    }
-            $('#product_table > tbody:first').html(data);
-            $('#product_table').DataTable({
-                dom: 'rtip',
-                scrollX  : true,
-                language: {
-                    'paginate': {
+            var editBuffer = `
+                <button title="Edit Buffer" class="editBufferProduct btn btn-sm btn-secondary rounded" 
+                    data-code="${response[i]['product_code']}" 
+                    data-id="${response[i]['id']}" 
+                    data-toggle="modal" 
+                    data-target="#editBufferProductModal">
+                    <i class="fas fa-solid fa-gears"></i>
+                </button>
+            `;
+
+            data += `
+                <tr style="text-align: center;">
+                    <td style="width:45%;text-align:left;${css}">${response[i].name}</td>
+                    <td style="width:15%;text-align:center;${css}">${response[i].quantity}</td>
+                    <td style="width:15%;text-align:center;${css}">${response[i].uom}</td>
+                </tr>
+            `;
+        }
+
+        $('#product_table > tbody:first').html(data);
+        $('#product_table').DataTable({
+            dom: 'rtip',
+            scrollX: true,
+            language: {
+                'paginate': {
                     'previous': '<span class="prev-icon"><i class="fa-solid fa-arrow-left"></i></span>',
                     'next': '<span class="next-icon"><i class="fa-solid fa-arrow-right"></i></span>'
-                    }
-                },
-                searching :true,
-                pagingType: "simple",
-                iDisplayLength:10,
-                scrollY:300
-                
-            }).columns.adjust()
-        
-        }
+                }
+            },
+            searching: true,
+            pagingType: "simple",
+            iDisplayLength: 10,
+            scrollY: 300,
+            order: [[1, 'asc']] // Column index 1 (quantity) ordered ascending
+        }).columns.adjust();
+    }
+
+
         function mappingTableAssignment(response){
             var data =''
             $('#assignment_table').DataTable().clear();
