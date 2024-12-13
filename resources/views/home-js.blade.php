@@ -1,6 +1,6 @@
 <script>
     //Call Function
-        getCallback('getProduct',null,function(response){
+        getCallback('getProductDashboard',null,function(response){
             swal.close()
             mappingTable(response.data)
         })
