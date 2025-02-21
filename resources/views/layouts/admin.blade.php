@@ -16,7 +16,7 @@
 
         <!-- UNPKG -->
         <link href="https://unpkg.com/css.gg/icons/icons.css" rel="stylesheet" />
-
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- JSDelivr -->
         <link
           href="https://cdn.jsdelivr.net/npm/css.gg/icons/icons.css"
@@ -25,6 +25,7 @@
           <!-- Tempus Dominus Styles -->
           <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
           {{-- <link href="{{ asset('assets/select2/select2.min.css') }}" rel="stylesheet"> --}}
+
           <link href="{{ asset('assets/summernote/summernote.css') }}" rel="stylesheet">
     </head>
     <body class="hold-transition sidebar-mini">
