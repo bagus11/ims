@@ -15,6 +15,7 @@
         "laravel/ui": "3.2",
         "maatwebsite/excel": "^3.1",
         "mpdf/mpdf": "^8.2",
+        "phpoffice/phpspreadsheet": "^1.29",
         "spatie/laravel-permission": "*"
     },
     "require-dev": {

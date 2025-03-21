@@ -21,6 +21,10 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Transaction\MultipleRequestController;
+use App\Exports\ProductsExportTemplate;
+use App\Http\Controllers\Master\InventoryAdjustmentController;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,12 +104,24 @@ Route::group(['middleware' => ['auth']], function() {
                 Route::get('logBufferProduct', [MasterProductController::class, 'logBufferProduct'])->name('logBufferProduct');
                 Route::post('updateProduct', [MasterProductController::class, 'updateProduct'])->name('updateProduct');
                 Route::post('updateBuffer', [MasterProductController::class, 'updateBuffer'])->name('updateBuffer');
+                Route::post('uploadProduct', [MasterProductController::class, 'uploadProduct'])->name('uploadProduct');
+
+                Route::get('/downloadTemplateProduct/{location}/{category}', function ($location, $category) {
+                    return Excel::download(new ProductsExportTemplate($location, $category), 'products.xlsx');
+                });
 
 
                 Route::get('trackRequestHistory', [MasterProductController::class, 'trackRequestHistory'])->name('trackRequestHistory');
                 Route::get('exportMasterProductReport/{location}/{category}',[MasterProductController::class, 'exportMasterProductReport']);
                 Route::get('exportExcellMasterProduct/{location}/{category}',[MasterProductController::class, 'exportExcellMasterProduct']);
             // Product
+
+            // Inventory Adjusmnt
+                Route::get('inventory_adjustment', [InventoryAdjustmentController::class, 'index'])->name('inventory_adjustment');
+                Route::get('getInventoryAdjustment', [InventoryAdjustmentController::class, 'getInventoryAdjustment'])->name('getInventoryAdjustment');
+                Route::get('detailInventoryAdjustment', [InventoryAdjustmentController::class, 'detailInventoryAdjustment'])->name('detailInventoryAdjustment');
+
+            // Inventory Adjusmnt
             // Approver
                 Route::get('approver', [MasterApproverController::class, 'index'])->name('approver');
                 Route::get('getApproval', [MasterApproverController::class, 'getApproval'])->name('getApproval');
@@ -115,7 +131,7 @@ Route::group(['middleware' => ['auth']], function() {
                 Route::get('getStepApproval', [MasterApproverController::class, 'getStepApproval'])->name('getStepApproval');
                 Route::post('updateApprover', [MasterApproverController::class, 'updateApprover'])->name('updateApprover');
                 
-                // Approver
+            // Approver
                 // Master
                 
         // Transaction

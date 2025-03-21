@@ -1,12 +1,12 @@
 @extends('layouts.admin')
-@section('title', 'Master Product')
+@section('title', 'Inventory Adjustment')
 @section('content')
 <div class="pl-2 pr-2">
     <div class="row">
             <div class="col-md-12">
                 <div class="card card-radius">
                     <div class="card-header bg-core">
-                     Master Product
+                     Inventory Adjustment List
                         <div class="card-tools">
                             <div class="btn-group" style="float:right">
                                 <button type="button" class="btn btn-sm btn-tool dropdown-toggle" 
@@ -70,21 +70,14 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="datatable-bordered nowrap display" id="product_table">
+                        <table class="datatable-bordered nowrap display" id="inventory_adjustment_table">
                             <thead>
                                 <tr>
-                                    <th  style="text-align: center">No</th>
-                                    <th  style="text-align: center">Product Code</th>
+                                    <th  style="text-align: center">Created At</th>
+                                    <th  style="text-align: center">Transaction Code</th>
                                     <th  style="text-align: center">Location</th>
-                                    <th  style="text-align: center">Name</th>
-                                    <th  style="text-align: center">Type</th>
                                     <th  style="text-align: center">Category</th>
-                                    <th  style="text-align: center">Department</th>
-                                    <th  style="text-align: center">Quantity</th>
-                                    <th  style="text-align: center">UOM</th>
-                                    @can('get-only_staff-master_product')
                                     <th  style="text-align: center">Action</th>
-                                    @endcan
                                 </tr>
                             </thead>
                         </table>
@@ -94,13 +87,10 @@
             </div>
     </div>
 </div>
-
-@include('master.product.modal.add-product')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+@include('master.inventory_adjustment.modal.detail-adjustment')
 @include('master.product.modal.upload-product')
-@include('master.product.modal.history-product')
-@include('master.product.modal.edit-product')
-@include('master.product.modal.editBuffer-product')
 @endsection
 @push('custom-js')
-  @include('master.product.product-js')
+  @include('master.inventory_adjustment.inventory_adjustment-js')
 @endpush

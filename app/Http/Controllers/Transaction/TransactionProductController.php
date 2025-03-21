@@ -173,7 +173,8 @@ class TransactionProductController extends Controller
     }
     function print_stock_move($from,$to,$productFilter,$officeFilter,$reqFilter) {
         ini_set('memory_limit', '900000M');
-        ini_set("pcre.backtrack_limit", "2000000");
+        ini_set('pcre.backtrack_limit', '5000000');
+        ini_set('pcre.recursion_limit', '5000000');        
         set_time_limit(60000);
         $productCode = '';
             if($productFilter != '*'){

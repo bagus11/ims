@@ -3,20 +3,26 @@
 namespace App\Http\Controllers\Master;
 
 use App\Exports\MasterProductExport;
+use App\Exports\ProductExport;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AdjustProductQuantityRequest;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\updateBufferRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Master\BufferLog;
 use App\Models\Master\CategoryModel;
+use App\Models\Master\InventoryAdjustment;
 use App\Models\Master\ProductModel;
 use App\Models\Master\TypeModel;
+use App\Models\MasterLocation;
 use App\Models\Transaction\HistoryProduct_model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use \Mpdf\Mpdf as PDF;
+
 
 class MasterProductController extends Controller
 {
@@ -303,4 +309,136 @@ class MasterProductController extends Controller
             ob_clean();
             $mpdf->Output('Report Stock'.'('.date('Y-m-d').').pdf', 'I');
     }
+    
+    function uploadProduct(Request $request, AdjustProductQuantityRequest $adjustProductQuantityRequest) {
+        DB::beginTransaction();
+        try {
+            $adjustProductQuantityRequest->validated();
+            $file = $request->file('upload_file');
+            $data = Excel::toArray([], $file);
+            $location = MasterLocation::find($request->select_upload_location);
+            $getLastTicket = InventoryAdjustment::orderBy('id', 'desc')->first();
+            $ticket = '';
+    
+            if ($getLastTicket == null) {
+                $ticket = $location->initial . '/' . str_pad($request->select_upload_location, 2, '0', STR_PAD_LEFT) . '/' . str_pad($request->select_upload_category, 3, '0', STR_PAD_LEFT) . '/1';
+            } else {
+                $explodeLastTicket = explode('/', $getLastTicket->transaction_code);
+                $convertIntLastTicket = (int) $explodeLastTicket[3];
+                $ticket = $location->initial . '/' . str_pad($request->select_upload_location, 2, '0', STR_PAD_LEFT) . '/' . str_pad($request->select_upload_category, 3, '0', STR_PAD_LEFT) . '/' . ($convertIntLastTicket + 1);
+            }
+    
+            // Simpan SQL Queries & Data yang diupdate
+            $sqlQueries = [];
+            $updatedProducts = []; // Array untuk menyimpan data yang diupdate
+            if (!empty($data) && isset($data[0])) {
+                array_shift($data[0]); // Hapus header
+                foreach ($data[0] as $row) {
+                    $productCode = $row[0] ?? null;
+                    $quantityAdjust = $row[5] ?? null;
+                    $head = ProductModel::with([
+                        'typeRelation',
+                        'categoryRelation',
+                        'locationRelation',
+                        'departmentRelation'
+                    ])->where('product_code', $productCode)->first();
+                   
+                    if ($head && $head->quantity !== $row[5]) {
+                        if ($productCode !== null && $quantityAdjust !== null) {
+                            // Simpan data lama dan baru
+                            $updatedProducts[] = [
+                                'product_code' => $head->product_code,
+                                'name' => $head->name,
+                                'location_id' => $head->locationRelation->name,
+                                'category_id' => $head->categoryRelation->name,
+                                'quantity_before' => $head->quantity, // Sebelum update
+                                'quantity_after' => $quantityAdjust,  // Setelah update
+                            ];
+    
+                            // Update database
+                            ProductModel::where('product_code', $productCode)
+                                ->update(['quantity' => $quantityAdjust]);
+    
+                            // Simpan SQL query
+                            $sqlQueries[] = "UPDATE product_models SET quantity = '{$quantityAdjust}' WHERE product_code = '{$productCode}';";
+                        }
+                    }
+                }
+            }
+    
+            // Jika tidak ada produk yang diupdate, rollback transaksi dan return error
+            if (count($updatedProducts) == 0) {
+                DB::rollBack();
+                return ResponseFormatter::error(
+                    'No products were updated',
+                    'No changes detected',
+                    400
+                );
+            }
+    
+            $timestamp = now()->timestamp;
+    
+            // **Export ke Excel hanya data yang di-update**
+            $excelFileName = "product_update_{$timestamp}.xlsx";
+            $excelPath = "inventory_adjustment/{$excelFileName}";
+            Excel::store(new ProductExport($updatedProducts), $excelPath); // Simpan yang diupdate saja
+    
+            // Simpan SQL ke file
+            $sqlFileName = "product_update_{$timestamp}.sql";
+            $sqlPath = "inventory_adjustment/{$sqlFileName}";
+            Storage::put($sqlPath, implode("\n", $sqlQueries));
+    
+            // Simpan ke InventoryAdjustment
+            $pdfFileName = $this->generateUpdatedProductPDF($updatedProducts);
+            InventoryAdjustment::create([
+                'transaction_code' => $ticket,
+                'user_id' => auth()->user()->id,
+                'category_id' => $request->select_upload_category,
+                'location_id' => $request->select_upload_location,
+                'attachment_excel' => $excelFileName,
+                'attachment_sql' => $sqlFileName,
+                'attachment_pdf' => $pdfFileName, // Simpan nama file PDF di database
+            ]);
+           
+            DB::commit();
+            
+            return ResponseFormatter::success([
+                'updated_products' => $updatedProducts,
+                'total_updated' => count($updatedProducts)
+            ], 'Product updated successfully');
+    
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return ResponseFormatter::error(
+                $th->getMessage(),
+                'Product failed to update',
+                500
+            );
+        }
+    }
+    public function generateUpdatedProductPDF($updatedProducts)
+    {
+        $timestamp = now()->timestamp;
+        $pdfFileName = "product_update_{$timestamp}.pdf";
+        $pdfPath = "inventory_adjustment/{$pdfFileName}";
+        
+        // Data tambahan
+        $currentDate = now()->format('d M Y H:i'); // Format tanggal
+        $userName = auth()->user()->name; // Nama user yang sedang login
+    
+        // Buat PDF dengan data tambahan
+        $mpdf = new PDF();
+        $mpdf->WriteHTML(
+            view('master.inventory_adjustment.inventory_adjustment-pdf', compact('updatedProducts', 'currentDate', 'userName')
+            )->render());
+
+        
+        // Simpan ke storage
+        Storage::put($pdfPath, $mpdf->Output('', 'S'));
+    
+        return $pdfFileName;
+    }
+    
+    
+    
 }
