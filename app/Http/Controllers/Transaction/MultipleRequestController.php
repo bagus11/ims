@@ -77,7 +77,7 @@ class MultipleRequestController extends Controller
                 'item_id'              =>'-',
                 'quantity_request'     =>0,
                 'location_id'          =>$request->location_id,
-                'des_location_id'      =>$request->location_id,
+                'des_location_id'      =>auth()->user()->kode_kantor,
                 'request_type'         =>$request->transaction_id,
                 'remark'               =>$request->comment,
                 'category_id'          =>$request->category_id,
@@ -102,10 +102,11 @@ class MultipleRequestController extends Controller
                 'step'                 =>1,
                 'user_id'              =>auth()->user()->id,
                 'creator'              =>auth()->user()->id,
-                'des_location_id'      =>$request->location_id,
+                'des_location_id'      =>auth()->user()->kode_kantor,
                 'approval_id'          =>$approval_id->user_id,
                 'comment'              => $request->comment
             ];
+            // dd(auth()->user()->kode_kantor);
             $second_approval='';
             DB::transaction(function() use($post,$postLog,$request,$transaction_code,$fileName,$array_item,$approval_id,$second_approval) {
                 PurchaseModel::insert($array_item);
@@ -137,7 +138,7 @@ class MultipleRequestController extends Controller
                         'step'                 =>2,
                         'user_id'              =>auth()->user()->id,
                         'creator'              =>auth()->user()->id,
-                        'des_location_id'      =>$request->location_id,
+                        'des_location_id'      =>auth()->user()->kode_kantor,
                         'approval_id'          =>$second_approval == null ? 0 : $second_approval->user_id,
                         'comment'              =>'this transaction has been approved by system'
                     ];
@@ -146,7 +147,7 @@ class MultipleRequestController extends Controller
                         'item_id'              =>'-',
                         'quantity_request'     =>0,
                         'location_id'          =>$request->location_id,
-                        'des_location_id'      =>$request->location_id,
+                        'des_location_id'      =>auth()->user()->kode_kantor,
                         'category_id'          =>$request->category_id,
                         'request_type'         =>$request->transaction_id,
                         'remark'                =>$request->comment,
