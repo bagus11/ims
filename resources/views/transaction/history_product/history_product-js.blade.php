@@ -104,14 +104,14 @@
                 data += `<tr style="text-align: center;">
                             <td style="width:10%">${date} ${time}</td>
                             <td style="width:10%">${response[i].request_code}</td>
-                            <td style="width:10%;text-align:left">${response[i].item_relation.name}</td>
-                            <td style="width:10%;text-align:left">${response[i].location_relation.name}</td>
-                            <td style="width:10%;text-align:left">${response[i].des_location_relation.name}</td>
+                            <td style="width:10%;text-align:left">${response[i].item_relation?.name}</td>
+                            <td style="width:10%;text-align:left">${response[i].location_relation?.name}</td>
+                            <td style="width:10%;text-align:left">${response[i].des_location_relation?.name}</td>
                             <td style="width:5%">${response[i].quantity}</td>
                             <td style="width:5%">${response[i].quantity_request}</td>
                             <td style="width:5%">${response[i].quantity_result}</td>
-                            <td style="width:5%;text-align:center">${response[i].item_relation.uom}</td>
-                            <td style="width:40%;text-align:left">${response[i].transaction_relation.user_relation.name}</td>
+                            <td style="width:5%;text-align:center">${response[i].item_relation?.uom}</td>
+                            <td style="width:40%;text-align:left">${response[i].transaction_relation?.user_relation.name}</td>
                         </tr>`;
             }
 

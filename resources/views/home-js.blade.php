@@ -157,6 +157,7 @@
             })
             onChange('select_update_approval_id','update_approvalId')
             $('#btn_update_progress').on('click', function(){
+                $('#btn_update_progress').prop('disabled', true)
                 var data ={
                     'id'                    : $('#update_transaction_id').val(),
                     'update_approvalId'     : $('#update_approvalId').val(),
@@ -170,6 +171,7 @@
                     getCallbackNoSwal('getFinalizeItem', null, function(response){
                         mappingTableFinal(response.data)
                     })
+                    $('#btn_update_progress').prop('disabled', false)
                 })
             })
         // FInalized
