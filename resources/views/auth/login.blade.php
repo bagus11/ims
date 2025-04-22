@@ -35,14 +35,14 @@
 
                 @error('nik')
                     <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
+                        <strong style="font-size:9px !important">{{ $message }}</strong>
                     </span>
                 @enderror
                 <input placeholder="Password"  id="password"  style="font-size: 12px !important" type="password" class="input @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
                 @error('password')
                     <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
+                        <strong style="font-size:9px !important">{{ $message }}</strong>
                     </span>
                 @enderror
 			</div>
