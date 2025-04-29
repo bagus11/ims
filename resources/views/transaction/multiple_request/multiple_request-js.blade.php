@@ -63,11 +63,12 @@
         })
         $('#select_product').on('change', function(){
             var data ={ 'id':$('#select_product').val()}
-            var uom = $("#select_product").select2().find(":selected").data("uom");
-            $('.label_uom').html(uom)
+            // var uom = $("#select_product").select2().find(":selected").data("uom");
             getCallbackNoSwal('detailProduct', data, function(response){
+                console.log(response)
                 $('#quantity_product').val(response.detail == null ? '': response.detail.quantity)
                 $('#quantity_product').prop('disabled',true)
+                $('.label_uom').html(response.detail?.uom)
             })
         })
         $('#quantity_request').on('change', function(){
