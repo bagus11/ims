@@ -446,6 +446,33 @@ class MasterProductController extends Controller
     
         return $pdfFileName;
     }
+
+    function getProductMin(){
+        $data = [];
+
+        if(auth()->user()->hasPermissionTo('get-only_gm-master_product')){
+        $data = ProductModel::with(['typeRelation', 'categoryRelation', 'locationRelation'])
+                                ->where(function($query) {
+                                    $query->whereRaw('quantity = min_quantity + 1')
+                                        ->orWhere('quantity', 0);
+                                })
+                                ->where('department_id', auth()->user()->departement)
+                                ->get();
+
+        }else if(auth()->user()->hasRole('Admin')){
+              $data = ProductModel::with(['typeRelation', 'categoryRelation', 'locationRelation'])
+                                ->where(function($query) {
+                                    $query->whereRaw('quantity = min_quantity + 1')
+                                        ->orWhere('quantity', 0);
+                                })
+                                ->where('department_id', auth()->user()->departement)
+                                ->where('location_id', auth()->user()->kode_kantor)
+                                ->get();
+        }
+        return response()->json([
+            'data' => $data,
+        ]);
+    }
     
     
     

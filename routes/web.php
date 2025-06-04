@@ -99,6 +99,7 @@ Route::group(['middleware' => ['auth']], function() {
                 Route::get('getProduct', [MasterProductController::class, 'getProduct'])->name('getProduct');
                 Route::get('getProductDashboard', [MasterProductController::class, 'getProductDashboard'])->name('getProductDashboard');
                 Route::get('getActiveProduct', [MasterProductController::class, 'getActiveProduct'])->name('getActiveProduct');
+                Route::get('getProductMin', [MasterProductController::class, 'getProductMin'])->name('getProductMin');
                 Route::post('addProduct', [MasterProductController::class, 'addProduct'])->name('addProduct');
                 Route::get('detailProduct', [MasterProductController::class, 'detailProduct'])->name('detailProduct');
                 Route::get('logBufferProduct', [MasterProductController::class, 'logBufferProduct'])->name('logBufferProduct');
