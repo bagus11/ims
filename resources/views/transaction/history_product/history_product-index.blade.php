@@ -25,6 +25,7 @@
                                                 <input type="date" class="form-control" id="to" value="{{date('Y-m-d')}}">
                                             </div>
                                         </div>
+                                        @can('get-only_gm-master_product')
                                         <div class="mt-2">
                                             <div class="row">
                                                 <div class="col-3 mt-2">
@@ -37,6 +38,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @endcan
                                         <div class="mt-2">
                                             <div class="row">
                                                 <div class="col-3 mt-2">
