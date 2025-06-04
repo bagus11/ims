@@ -335,7 +335,7 @@
                     html: tableHtml,
                     icon: 'warning',
                     width: '900px',
-                    showCloseButton: false,
+                    showCloseButton: true,
                     allowOutsideClick: false,
                     allowEscapeKey: false
                 });
