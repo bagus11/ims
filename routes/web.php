@@ -172,7 +172,7 @@ Route::group(['middleware' => ['auth']], function() {
                 Route::get('getHistoryProduct', [TransactionProductController::class, 'getHistoryProduct'])->name('getHistoryProduct');
                 Route::get('getHistoryProductDashboard', [TransactionProductController::class, 'getHistoryProductDashboard'])->name('getHistoryProductDashboard');
                 Route::get('getPICReq', [TransactionProductController::class, 'getPICReq'])->name('getPICReq');
-                Route::get('print_stock_move/{from}/{date}/{productFilter}/{officeFilter}/{reqFilter}',[TransactionProductController::class, 'print_stock_move']);
+                Route::get('print_stock_move/{from}/{date}/{productFilter}/{officeFilter}/{reqFilter}/{categoryFilter}',[TransactionProductController::class, 'print_stock_move']);
                 Route::get('print_ir/{request_code}',[TransactionProductController::class, 'print_ir']);
                 Route::get('print_pr/{request_code}',[TransactionProductController::class, 'print_pr']);
               

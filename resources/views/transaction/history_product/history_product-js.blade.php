@@ -83,7 +83,7 @@
             var officeFilter = $('#officeFilter').val();
             var reqFilter = $('#reqFilter').val();
 
-            window.open(`print_stock_move/${from}/${to}/${productFilter =='' ? '*':productFilter}/${officeFilter =='' ? '*' : officeFilter}/${reqFilter =='' ? '*' : reqFilter + '/' + categoryFilter}`,'_blank');
+            window.open(`print_stock_move/${from}/${to}/${productFilter =='' ? '*':productFilter}/${officeFilter =='' ? '*' : officeFilter}/${reqFilter =='' ? '*' : reqFilter}${categoryFilter =='' ? '/*' : '/' + categoryFilter}`,'_blank');
         })
     // Call Function
 
