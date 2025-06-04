@@ -278,68 +278,68 @@
     // Operation
         getActiveItems('getLocation', null, 'select_location_filter', 'Location')
            getCallbackNoSwal('getProductMin', null, function(response) {
-       if (response.data.length > 0) {
-            // Kelompokkan data berdasarkan location
-            const groupedByLocation = {};
+            if (response.data.length > 0) {
+                // Kelompokkan data berdasarkan location
+                const groupedByLocation = {};
 
-            response.data.forEach(item => {
-                const locationName = item.location_relation?.name || 'Unknown';
-                if (!groupedByLocation[locationName]) {
-                    groupedByLocation[locationName] = [];
-                }
-                groupedByLocation[locationName].push(item);
-            });
+                response.data.forEach(item => {
+                    const locationName = item.location_relation?.name || 'Unknown';
+                    if (!groupedByLocation[locationName]) {
+                        groupedByLocation[locationName] = [];
+                    }
+                    groupedByLocation[locationName].push(item);
+                });
 
-            let tableHtml = '';
+                let tableHtml = '';
 
-            Object.keys(groupedByLocation).forEach(location => {
-                tableHtml += `
-                    <h3 style="margin-top:20px; color:#333;">Kantor: ${location}</h3>
-                    <div style="overflow-x: auto;">
-                        <table class="table table-bordered" style="width:100%; text-align:left; border-collapse: collapse; margin-bottom: 20px;">
-                            <thead>
-                                <tr>
-                                    <th style="padding:8px; border: 1px solid #ccc;">No</th>
-                                    <th style="padding:8px; border: 1px solid #ccc;">Product Code</th>
-                                    <th style="padding:8px; border: 1px solid #ccc;">Name</th>
-                                    <th style="padding:8px; border: 1px solid #ccc;">Quantity</th>
-                                    <th style="padding:8px; border: 1px solid #ccc;">Min Quantity</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                `;
-
-                groupedByLocation[location].forEach((item, index) => {
-                    const isMenipis = item.quantity === 0 || item.quantity < item.min_quantity;
-                    const colorStyle = isMenipis ? 'color:red;' : 'color:black;';
+                Object.keys(groupedByLocation).forEach(location => {
                     tableHtml += `
-                        <tr>
-                            <td style="padding:8px; border: 1px solid #ccc;${colorStyle}">${index + 1}</td>
-                            <td style="padding:8px; border: 1px solid #ccc;${colorStyle}">${item.product_code}</td>
-                            <td style="padding:8px; border: 1px solid #ccc;${colorStyle}">${item.name}</td>
-                            <td style="padding:8px; border: 1px solid #ccc;${colorStyle}">${item.quantity}</td>
-                            <td style="padding:8px; border: 1px solid #ccc;${colorStyle}">${item.min_quantity}</td>
-                        </tr>
+                        <h3 style="margin-top:20px; color:#333;">Location : ${location}</h3>
+                        <div style="overflow-x: auto;">
+                            <table class="table table-bordered" style="width:100%; text-align:left; border-collapse: collapse; margin-bottom: 20px;">
+                                <thead>
+                                    <tr>
+                                        <th style="padding:8px; border: 1px solid #ccc;">No</th>
+                                        <th style="padding:8px; border: 1px solid #ccc;">Product Code</th>
+                                        <th style="padding:8px; border: 1px solid #ccc;">Name</th>
+                                        <th style="padding:8px; border: 1px solid #ccc;">Quantity</th>
+                                        <th style="padding:8px; border: 1px solid #ccc;">Min Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                    `;
+
+                    groupedByLocation[location].forEach((item, index) => {
+                        const isMenipis = item.quantity === 0 || item.quantity < item.min_quantity;
+                        const colorStyle = isMenipis ? 'color:red;' : 'color:black;';
+                        tableHtml += `
+                            <tr>
+                                <td style="padding:8px; border: 1px solid #ccc;${colorStyle}">${index + 1}</td>
+                                <td style="padding:8px; border: 1px solid #ccc;${colorStyle}">${item.product_code}</td>
+                                <td style="padding:8px; border: 1px solid #ccc;${colorStyle}">${item.name}</td>
+                                <td style="padding:8px; border: 1px solid #ccc;${colorStyle}">${item.quantity}</td>
+                                <td style="padding:8px; border: 1px solid #ccc;${colorStyle}">${item.min_quantity}</td>
+                            </tr>
+                        `;
+                    });
+
+                    tableHtml += `
+                                </tbody>
+                            </table>
+                        </div>
                     `;
                 });
 
-                tableHtml += `
-                            </tbody>
-                        </table>
-                    </div>
-                `;
-            });
-
-            Swal.fire({
-                title: 'Produk Hampir Habis per Kantor',
-                html: tableHtml,
-                icon: 'warning',
-                width: '900px',
-                showCloseButton: true,
-                allowOutsideClick: false,
-                allowEscapeKey: false
-            });
-        }
+                Swal.fire({
+                    title: 'Product stock is running low',
+                    html: tableHtml,
+                    icon: 'warning',
+                    width: '900px',
+                    showCloseButton: false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                });
+            }
 
     });
     // Function
