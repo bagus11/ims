@@ -302,8 +302,8 @@
                                         <th style="padding:8px; border: 1px solid #ccc;">No</th>
                                         <th style="padding:8px; border: 1px solid #ccc;">Product Code</th>
                                         <th style="padding:8px; border: 1px solid #ccc;">Name</th>
-                                        <th style="padding:8px; border: 1px solid #ccc;">Quantity</th>
                                         <th style="padding:8px; border: 1px solid #ccc;">Min Quantity</th>
+                                        <th style="padding:8px; border: 1px solid #ccc;">Quantity</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -317,8 +317,8 @@
                                 <td style="padding:8px; border: 1px solid #ccc;${colorStyle}">${index + 1}</td>
                                 <td style="padding:8px; border: 1px solid #ccc;${colorStyle}">${item.product_code}</td>
                                 <td style="padding:8px; border: 1px solid #ccc;${colorStyle}">${item.name}</td>
-                                <td style="padding:8px; border: 1px solid #ccc;${colorStyle}">${item.quantity}</td>
                                 <td style="padding:8px; border: 1px solid #ccc;${colorStyle}">${item.min_quantity}</td>
+                                <td style="padding:8px; border: 1px solid #ccc;${colorStyle}">${item.quantity}</td>
                             </tr>
                         `;
                     });
