@@ -121,7 +121,12 @@ class TransactionProductController extends Controller
                 $query->where('user_id', 'like', '%' . $request->reqFilter . '%');
             });
             if ($user->hasPermissionTo('get-only_gm-master_product')) {
-                $query->whereHas('itemRelation', function($query) {
+                $query->whereHas('itemRelation', function($query) use ($request) {
+                    if($request->categoryFilter == null) {
+                        return;
+                    }else{
+                        $query->where('category_id', $request->categoryFilter);
+                    }
                     $query->where('department_id', 'like', '%%');
                 });
             } else {

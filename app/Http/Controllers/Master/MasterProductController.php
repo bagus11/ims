@@ -45,11 +45,19 @@ class MasterProductController extends Controller
             'data'=>$data,  
         ]);  
     }
-    function getProductDashboard() {
-        // dd(auth()->user()->departement);
-    
+    function getProductDashboard(Request $request) {
         if(auth()->user()->hasPermissionTo('get-only_gm-master_product')){
-            $data = ProductModel::with(['typeRelation','categoryRelation','locationRelation','departmentRelation'])->get();
+            if ($request->location_id == null || $request->location_id == "") {
+               
+               $data = ProductModel::with(['typeRelation', 'categoryRelation', 'locationRelation', 'departmentRelation'])
+               ->get();
+            } else {
+                // dd($request->location_id);
+                $data = ProductModel::with(['typeRelation', 'categoryRelation', 'locationRelation', 'departmentRelation'])
+                    ->where('location_id', $request->location_id)
+                    ->get();
+            }
+
         }else{
            
             $data = ProductModel::with(['typeRelation','categoryRelation','locationRelation','departmentRelation'])

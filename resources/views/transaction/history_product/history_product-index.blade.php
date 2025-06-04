@@ -28,6 +28,18 @@
                                         <div class="mt-2">
                                             <div class="row">
                                                 <div class="col-3 mt-2">
+                                                    <p>Item </p>
+                                                </div>
+                                                <div class="col-9">
+                                                    <select class="select2" id="categoryFilter" style="width:100%;margin-top:-10px">
+                                                        <option value="">Choose Location First</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2">
+                                            <div class="row">
+                                                <div class="col-3 mt-2">
                                                     <p>Office</p>
                                                 </div>
                                                 <div class="col-9">
@@ -37,6 +49,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                   
                                         <div class="mt-2">
                                             <div class="row">
                                                 <div class="col-3 mt-2">
@@ -44,7 +57,7 @@
                                                 </div>
                                                 <div class="col-9">
                                                     <select class="select2" id="productFilter" style="width:100%;margin-top:-10px">
-                                                        <option value="">Choose Location First</option>
+                                                        <option value="">Choose Category First</option>
                                                     </select>
                                                 </div>
                                             </div>

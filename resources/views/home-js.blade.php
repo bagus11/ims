@@ -1,6 +1,9 @@
 <script>
     //Call Function
-        getCallback('getProductDashboard',null,function(response){
+    var data_first ={
+        'location+id' : $('#select_location_filter').val()
+    }
+        getCallback('getProductDashboard',data_first,function(response){
             swal.close()
             mappingTable(response.data)
         })
@@ -18,6 +21,15 @@
         })
         getCallbackNoSwal('getFinalizeItem', null, function(response){
             mappingTableFinal(response.data)
+        })
+        $('#select_location_filter').on('change', function(){
+            var data = {
+                'location_id' : $('#select_location_filter').val()
+            }
+            getCallback('getProductDashboard',data,function(response){
+                swal.close()
+                mappingTable(response.data)
+            })
         })
     //Call Function
 
@@ -262,7 +274,7 @@
         })
         // Assignment
     // Operation
-
+        getActiveItems('getLocation', null, 'select_location_filter', 'Location')
     // Function
     function mappingTable(response) {
         var data = '';
@@ -275,19 +287,20 @@
                 css = 'color : red; font-weight:bold';
             }
 
-            var editBuffer = `
-                <button title="Edit Buffer" class="editBufferProduct btn btn-sm btn-secondary rounded" 
-                    data-code="${response[i]['product_code']}" 
-                    data-id="${response[i]['id']}" 
-                    data-toggle="modal" 
-                    data-target="#editBufferProductModal">
-                    <i class="fas fa-solid fa-gears"></i>
-                </button>
-            `;
+            // var editBuffer = `
+            //     <button title="Edit Buffer" class="editBufferProduct btn btn-sm btn-secondary rounded" 
+            //         data-code="${response[i]['product_code']}" 
+            //         data-id="${response[i]['id']}" 
+            //         data-toggle="modal" 
+            //         data-target="#editBufferProductModal">
+            //         <i class="fas fa-solid fa-gears"></i>
+            //     </button>
+            // `;
 
             data += `
                 <tr style="text-align: center;">
-                    <td style="width:45%;text-align:left;${css}">${response[i].name}</td>
+                    <td style="width:25%;text-align:left;${css}">${response[i].location_relation.name}</td>
+                    <td style="width:35%;text-align:left;${css}">${response[i].name}</td>
                     <td style="width:15%;text-align:center;${css}">${response[i].quantity}</td>
                     <td style="width:15%;text-align:center;${css}">${response[i].uom}</td>
                 </tr>

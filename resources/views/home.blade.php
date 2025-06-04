@@ -18,9 +18,20 @@
                         </div>
                     </div>
                     <hr>
+                    @can('get-only_gm-master_product')
+                    <div class="row p-0">
+                        <div class="col-3 mt-2">
+                            <p>Location</p>
+                        </div>
+                        <div class="col-9">
+                            <select name="select_location_filter" class="select2" id="select_location_filter" class="select2"></select>
+                        </div>
+                    </div>
+                    @endcan
                     <table class="table" id="product_table">
                         <thead>
                             <tr>
+                                <th  style="text-align: center">Location</th>
                                 <th  style="text-align: center">Product Name</th>
                                 <th  style="text-align: center">Quantity</th>
                                 <th  style="text-align: center">UOM</th>

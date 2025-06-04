@@ -36,6 +36,7 @@
             'to' :$('#to').val(),
             'productFilter' :$('#productFilter').val(),
             'officeFilter' :$('#officeFilter').val(),
+            'categoryFiltera' :$('#categoryFiltera').val(),
             'reqFilter' :$('#reqFilter').val(),
         }
         getCallback('getHistoryProduct',firstData,function(response){
@@ -48,8 +49,9 @@
                 'id' : $('#officeFilter').val()
             } 
             getProductItems('getActiveProduct',data,'productFilter','Product')
-
+            
         })
+        getProductItems('getActiveCategory',null,'categoryFilter','Category')
       
         getCallbackNoSwal('getPICReq',null,function(response){
             $('#reqFilter').empty()
@@ -63,6 +65,7 @@
             var firstData = {
                 'from' :$('#from').val(),
                 'to' :$('#to').val(),
+                'categoryFilter' :$('#categoryFilter').val(),
                 'productFilter' :$('#productFilter').val(),
                 'officeFilter' :$('#officeFilter').val(),
                 'reqFilter' :$('#reqFilter').val(),
@@ -76,10 +79,11 @@
             var from = $('#from').val();
             var to = $('#to').val();
             var productFilter = $('#productFilter').val();
+            var categoryFilter = $('#categoryFilter').val();
             var officeFilter = $('#officeFilter').val();
             var reqFilter = $('#reqFilter').val();
 
-            window.open(`print_stock_move/${from}/${to}/${productFilter =='' ? '*':productFilter}/${officeFilter =='' ? '*' : officeFilter}/${reqFilter =='' ? '*' : reqFilter}`,'_blank');
+            window.open(`print_stock_move/${from}/${to}/${productFilter =='' ? '*':productFilter}/${officeFilter =='' ? '*' : officeFilter}/${reqFilter =='' ? '*' : reqFilter + '/' + categoryFilter}`,'_blank');
         })
     // Call Function
 
