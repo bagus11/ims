@@ -332,12 +332,15 @@
 
                 Swal.fire({
                     title: 'Product stock is running low',
-                    html: tableHtml,
-                    icon: 'warning',
-                    width: '900px',
-                    showCloseButton: true,
-                    allowOutsideClick: false,
-                    allowEscapeKey: false
+                      html: tableHtml,
+                        icon: 'warning',
+                        width: '900px',
+                        showCloseButton: true,     // munculin tombol X pojok kanan atas
+                        showConfirmButton: true,   // munculin tombol "OK"
+                        confirmButtonText: 'OK',   // teks tombol OK
+                        allowOutsideClick: false,  // klik di luar gak nutup
+                        allowEscapeKey: false,     // tekan ESC gak nutup
+                        timer: null                // jangan set timer biar gak auto-close
                 });
             }
 
