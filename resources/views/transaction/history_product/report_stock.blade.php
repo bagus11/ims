@@ -49,21 +49,21 @@
                     @php
                         $remark = str_replace(['<p>', '</p>'], '', $item->transactionRelation->remark);
                     @endphp
-                    <tr>
-                        <td style="text-align:center;width:5%">{{$i+1}}</td>
-                        <td style="text-align:center;width:10%">{{$item->created_at}}</td>
-                        <td style="text-align:center;width:10%">{{$item->transactionRelation->request_code}}</td>
-                        <td style="text-align:left;width:10%">{{$item->itemRelation->name}}</td>
-                        <td style="text-align:left;width:10%">{{$item->locationRelation->name}}</td>
-                        <td style="text-align:left;width:10%">{{$item->desLocationRelation->name}}</td>
-                        <td style="text-align:center;width:5%">{{$item->quantity}}</td>
-                        <td style="text-align:center;width:5%">{{$item->quantity_request}}</td>
-                        <td style="text-align:center;width:5%">{{$item->quantity_result}}</td>
-                        <td style="text-align:center;width:5%">{{$item->itemRelation->uom}}</td>
-                        <td style="text-align:left;width:15%">{{$item->transactionRelation->userRelation->name}}</td>
-                        <td style="text-align:left;width:25%">{{$remark}}</td>
-                     
-                    </tr>
+                 <tr>
+                    <td style="text-align:center;width:5%">{{ $i + 1 }}</td>
+                    <td style="text-align:center;width:10%">{{ $item->created_at }}</td>
+                    <td style="text-align:center;width:10%">{{ optional($item->transactionRelation)->request_code ?? '-' }}</td>
+                    <td style="text-align:left;width:10%">{{ optional($item->itemRelation)->name ?? '-' }}</td>
+                    <td style="text-align:left;width:10%">{{ optional($item->locationRelation)->name ?? '-' }}</td>
+                    <td style="text-align:left;width:10%">{{ optional($item->desLocationRelation)->name ?? '-' }}</td>
+                    <td style="text-align:center;width:5%">{{ $item->quantity }}</td>
+                    <td style="text-align:center;width:5%">{{ $item->quantity_request }}</td>
+                    <td style="text-align:center;width:5%">{{ $item->quantity_result }}</td>
+                    <td style="text-align:center;width:5%">{{ optional($item->itemRelation)->uom ?? '-' }}</td>
+                    <td style="text-align:left;width:15%">{{ optional(optional($item->transactionRelation)->userRelation)->name ?? '-' }}</td>
+                    <td style="text-align:left;width:25%">{{ strip_tags(optional($item->transactionRelation)->remark) }}</td>
+                </tr>
+
                 @php
                     $i++;
                 @endphp

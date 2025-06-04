@@ -176,7 +176,7 @@ class TransactionProductController extends Controller
             'data'      => $data,
         ]);
     }
-    function print_stock_move($from,$to,$productFilter,$officeFilter,$reqFilter) {
+    function print_stock_move($from,$to,$productFilter,$officeFilter,$reqFilter, $categoryFilter) {
         ini_set('memory_limit', '900000M');
         ini_set('pcre.backtrack_limit', '10000000000');
         ini_set('pcre.recursion_limit', '10000000000');        
@@ -200,6 +200,14 @@ class TransactionProductController extends Controller
             ->where('product_code','like','%'.$productCode.'%')
             ->whereHas('transactionRelation',function($query) use($reqString){
                 $query->where('user_id', 'like', '%'.$reqString .'%');
+            })
+            ->whereHas('itemRelation', function($query) use ($categoryFilter) {
+                if($categoryFilter == "*") {
+                    return;
+                }else{
+                    $query->where('category_id', $categoryFilter);
+                }
+                $query->where('department_id', 'like', '%%');
             })
             ->orderBy('created_at','desc')
             ->get();
