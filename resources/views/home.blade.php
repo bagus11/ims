@@ -137,6 +137,7 @@
        
    </div>
 </div>
+@include('modal.low_stock')
 @include('transaction.multiple_request.modal.detail-request')
 @include('transaction.multiple_request.modal.update-request')
 @include('modal.approve-assignment')

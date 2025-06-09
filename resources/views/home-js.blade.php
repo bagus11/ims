@@ -276,75 +276,69 @@
         })
         // Assignment
     // Operation
-        getActiveItems('getLocation', null, 'select_location_filter', 'Location')
-           getCallbackNoSwal('getProductMin', null, function(response) {
-            if (response.data.length > 0) {
-                // Kelompokkan data berdasarkan location
-                const groupedByLocation = {};
+      getActiveItems('getLocation', null, 'select_location_filter', 'Location')
+    getCallbackNoSwal('getProductMin', null, function(response) {
+        if (response.data.length > 0) {
+            const groupedByLocation = {};
 
-                response.data.forEach(item => {
-                    const locationName = item.location_relation?.name || 'Unknown';
-                    if (!groupedByLocation[locationName]) {
-                        groupedByLocation[locationName] = [];
-                    }
-                    groupedByLocation[locationName].push(item);
-                });
+            response.data.forEach(item => {
+                const locationName = item.location_relation?.name || 'Unknown';
+                if (!groupedByLocation[locationName]) {
+                    groupedByLocation[locationName] = [];
+                }
+                groupedByLocation[locationName].push(item);
+            });
 
-                let tableHtml = '';
+            let tableHtml = '';
 
-                Object.keys(groupedByLocation).forEach(location => {
+            Object.keys(groupedByLocation).forEach(location => {
+                tableHtml += `
+                    <h5 style="margin-top:20px; color:#333;">Location : ${location}</h5>
+                    <div style="overflow-x: auto;">
+                        <table class="table table-bordered" style="width:100%; text-align:left;">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Product Code</th>
+                                    <th>Name</th>
+                                    <th>Min Quantity</th>
+                                    <th>Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+
+                groupedByLocation[location].forEach((item, index) => {
+                    const isMenipis = item.quantity === 0 || item.quantity < item.min_quantity;
+                    const colorStyle = isMenipis ? 'color:red;' : 'color:black;';
                     tableHtml += `
-                        <h3 style="margin-top:20px; color:#333;">Location : ${location}</h3>
-                        <div style="overflow-x: auto;">
-                            <table class="table table-bordered" style="width:100%; text-align:left; border-collapse: collapse; margin-bottom: 20px;">
-                                <thead>
-                                    <tr>
-                                        <th style="padding:8px; border: 1px solid #ccc;">No</th>
-                                        <th style="padding:8px; border: 1px solid #ccc;">Product Code</th>
-                                        <th style="padding:8px; border: 1px solid #ccc;">Name</th>
-                                        <th style="padding:8px; border: 1px solid #ccc;">Min Quantity</th>
-                                        <th style="padding:8px; border: 1px solid #ccc;">Quantity</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                    `;
-
-                    groupedByLocation[location].forEach((item, index) => {
-                        const isMenipis = item.quantity === 0 || item.quantity < item.min_quantity;
-                        const colorStyle = isMenipis ? 'color:red;' : 'color:black;';
-                        tableHtml += `
-                            <tr>
-                                <td style="padding:8px; border: 1px solid #ccc;${colorStyle}">${index + 1}</td>
-                                <td style="padding:8px; border: 1px solid #ccc;${colorStyle}">${item.product_code}</td>
-                                <td style="padding:8px; border: 1px solid #ccc;${colorStyle}">${item.name}</td>
-                                <td style="padding:8px; border: 1px solid #ccc;${colorStyle}">${item.min_quantity}</td>
-                                <td style="padding:8px; border: 1px solid #ccc;${colorStyle}">${item.quantity}</td>
-                            </tr>
-                        `;
-                    });
-
-                    tableHtml += `
-                                </tbody>
-                            </table>
-                        </div>
+                        <tr style="${colorStyle}">
+                            <td>${index + 1}</td>
+                            <td>${item.product_code}</td>
+                            <td>${item.name}</td>
+                            <td>${item.min_quantity}</td>
+                            <td>${item.quantity}</td>
+                        </tr>
                     `;
                 });
 
-                Swal.fire({
-                    title: 'Product stock is running low',
-                      html: tableHtml,
-                        icon: 'warning',
-                        width: '900px',
-                        showCloseButton: true,     // munculin tombol X pojok kanan atas
-                        showConfirmButton: true,   // munculin tombol "OK"
-                        confirmButtonText: 'OK',   // teks tombol OK
-                        allowOutsideClick: false,  // klik di luar gak nutup
-                        allowEscapeKey: false,     // tekan ESC gak nutup
-                        timer: null                // jangan set timer biar gak auto-close
-                });
-            }
+                tableHtml += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            });
 
+            // Inject HTML ke dalam modal
+            document.getElementById('productMinModalBody').innerHTML = tableHtml;
+
+            // // Tampilkan modal (pakai Bootstrap 5)
+            // const modal = new bootstrap.Modal(document.getElementById('productMinModal'));
+            // modal.show();
+            $('#productMinModal').modal('show');
+        }
     });
+
     // Function
     function mappingTable(response) {
         var data = '';
