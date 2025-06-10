@@ -273,6 +273,9 @@
                     getCallbackNoSwal('getAssignment',null,function(res){
                         mappingTableAssignment(res.data)
                     })
+                     getCallbackNoSwal('getFinalizeItem', null, function(response){
+                        mappingTableFinal(response.data)
+                    })
             })
         })
         // Assignment
