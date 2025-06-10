@@ -12,7 +12,6 @@
         <!-- Isi tabel akan di-inject lewat JS -->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
       </div>
     </div>
   </div>
