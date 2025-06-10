@@ -220,6 +220,7 @@
                         $('#detail_attachment').empty()
                         $('#detail_attachment').append(`: ${attachment}`)
                         $('#detail_comment').summernote('code',response.detail.remark)
+                        $('#detail_comment').summernote('code', response.detail.remark);
                         mappingTableLog(response.log,response.count)
                         mappingTableItem(response.log_item,'detail_item_table')
                     })

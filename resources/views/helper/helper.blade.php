@@ -287,15 +287,24 @@
                                         </tr>
                                 `
                             }else{
-                                var type = response[i].request_code.split('/');
-                                var result =type[1] == 'PUR' ? response[i].item_relation.quantity + response[i].quantity_request :response[i].item_relation.quantity - response[i].quantity_request
+                                // var type = response[i].request_code.split('/');
+                                // var result =type[1] == 'PUR' ? response[i].item_relation.quantity + response[i].quantity_request :response[i].item_relation.quantity - response[i].quantity_request
                                
+                                // data += `<tr style="text-align: center;">
+                                //             <td style="width:5%">${i + 1}</td>
+                                //             <td style="text-align:left; width:60%;">${response[i].item_relation == null ?response[i].item_name : response[i].item_relation.name}</td>
+                                //             <td style="text-align:right; width:10%;">${response[i].item_relation == null ? response[i].quantity : response[i].item_relation.quantity}</td>
+                                //             <td style="text-align:right; width:10%;">${response[i].quantity_request}</td>
+                                //             <td style="text-align:right; width:10%;">${result}</td>
+                                //             <td style="text-align:center; width:5%;">${response[i].item_relation == null ? response[i].uom : response[i].item_relation.uom}</td>
+                                //         </tr>
+                                //     `;
                                 data += `<tr style="text-align: center;">
                                             <td style="width:5%">${i + 1}</td>
                                             <td style="text-align:left; width:60%;">${response[i].item_relation == null ?response[i].item_name : response[i].item_relation.name}</td>
-                                            <td style="text-align:right; width:10%;">${response[i].item_relation == null ? response[i].quantity : response[i].item_relation.quantity}</td>
+                                            <td style="text-align:right; width:10%;">${response[i].quantity}</td>
                                             <td style="text-align:right; width:10%;">${response[i].quantity_request}</td>
-                                            <td style="text-align:right; width:10%;">${result}</td>
+                                            <td style="text-align:right; width:10%;">${response[i].quantity_final}</td>
                                             <td style="text-align:center; width:5%;">${response[i].item_relation == null ? response[i].uom : response[i].item_relation.uom}</td>
                                         </tr>
                                     `;

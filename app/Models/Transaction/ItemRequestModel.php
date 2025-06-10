@@ -40,4 +40,7 @@ class ItemRequestModel extends Model
     function categoryRelation() {
         return $this->hasOne(CategoryModel::class,'id','category_id');
     }
+    function purchaseRelation() {
+        return $this->hasMany(PurchaseModel::class,'request_code','request_code');
+    }
 }

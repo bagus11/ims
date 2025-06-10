@@ -237,9 +237,10 @@
                         $('#detail_status').html(': ' + status)
                         $('#detail_attachment').empty()
                         $('#detail_attachment').append(`: ${attachment}`)
+                        $('#detail_comment').summernote('code', response.detail.remark);
                         mappingTableLog(response.log,response.count)
                         if(response.detail.item_relation == null){
-                            mappingTableItem(response.log_item,'detail_item_table')
+                            mappingTableItem(response.detail.purchase_relation,'detail_item_table')
                         }else{
                             var result = 0;
                            
@@ -252,9 +253,9 @@
                            var array_push =[]
                            var data ={
                                'item_name' : response.detail.item_relation.name,
-                               'quantity' : response.detail.item_relation.quantity,
-                               'quantity_request' : response.detail.quantity_request,
-                               'quantity_result' : result,
+                               'quantity' : response.detail.purchase_relation.quantity,
+                               'quantity_request' : response.detail.purchase_relation.quantity_request,
+                               'quantity_result' : response.detail.purchase_relation.quantity_final,
                                'uom' : response.detail.item_relation.uom,
                            }
                            array_push.push(data)

@@ -118,6 +118,8 @@ class ItemRequestController extends Controller
             'locationRelation',
             'desLocationRelation',
             'approvalRelation',
+            'purchaseRelation',
+            'purchaseRelation.itemRelation',
         ])->where('request_code',$request->id)->first();
         $countApproval = ApprovalModel::where('location_id',$request->des)->count();
         $log_item = PurchaseModel::with(

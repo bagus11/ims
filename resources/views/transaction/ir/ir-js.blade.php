@@ -144,6 +144,7 @@
                         $('#detail_status').html(': ' + status)
                         $('#detail_attachment').empty()
                         $('#detail_attachment').append(`: ${attachment}`)
+                        $('#detail_comment').summernote('code', response.detail.remark);
                     
                         mappingTableLog(response.log,response.count)
                     })
@@ -362,8 +363,6 @@
                 $('#ir_detail_table').DataTable({
                     scrollX  : true,
                 }).columns.adjust()
-             
-                $('#detail_comment').summernote('code',last_comment)
         }
     // Function
 </script>
