@@ -71,7 +71,7 @@
                                         <span style="font-size:11px" id="detail_status"></span>
                                     </div>
                                     <div class="col-md-3 mt-2">
-                                        <span style="font-size:11px">Last Remark</span>
+                                        <span style="font-size:11px">Additional Info</span>
                                     </div>
                                     <div class="col-md-9 mt-2">
                                         <textarea name="detail_comment" class="form-control" disabled id="detail_comment"></textarea>
