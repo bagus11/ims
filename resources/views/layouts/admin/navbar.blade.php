@@ -6,9 +6,10 @@
         </li>
     </ul>
     <ul class="navbar-nav ml-auto"  >
-        <li class="nav-item dropdown">
-           
-          
+        <li class="nav-item">
+            <a href="#" data-toggle ="dropdown" class="nav-link" id="">
+                <i class="fas fa-user"></i>
+            </a>
         </li>
        <li class="nav-item dropdown">
             <a href="#" data-toggle ="dropdown" class="nav-link">

@@ -67,7 +67,7 @@ class MultipleRequestController extends Controller
                     'product_code'          => $product_code->product_code,
                     'quantity'              => $row['current_quantity'],
                     'quantity_request'      => $row['quantity_request'],
-                    'quantity_final'        => $row['current_quantity'] + $row['quantity_request'] ,
+                    'quantity_final'        => $row['current_quantity'] - $row['quantity_request'] ,
                     'created_at'            => date('Y-m-d H:i:s')
                 ];
                 array_push($array_item, $post_item);
