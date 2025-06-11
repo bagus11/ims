@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePurchaseRequest;
 use App\Http\Requests\UpdateProgressRequest;
 use App\Models\Master\ApprovalModel;
+use App\Models\Master\MasterApprover;
 use App\Models\Master\ProductModel;
 use App\Models\Transaction\HistoryProduct_model;
 use App\Models\Transaction\ItemRequestDetail;
@@ -125,21 +126,25 @@ class MultipleRequestController extends Controller
                         'category_id'   => $request->category_id,
                         'location_id'   => $request->location_id
                     ])->where('step', $approval_id->step + 1)->first();
-                
+                    $stepApproval =  MasterApprover::where([
+                        'category_id'   => $request->category_id,
+                        'location_id'   => $request->location_id
+                    ])->first();
+                    // dd($stepApproval->step,$second_approval);
                     $postLogSecond=[
                         'request_code'         =>$transaction_code,
                         'item_id'              =>'-',
                         'quantity_request'     =>0,
                         'location_id'          =>$request->location_id,
                         'request_type'         =>$request->transaction_id,
-                        'status'               =>2,
+                        'status'               =>$stepApproval->step == 1 ? 3 : 2,
                         'checking'             =>0,
                         'approval_status'      =>0,
                         'step'                 =>2,
                         'user_id'              =>auth()->user()->id,
                         'creator'              =>auth()->user()->id,
                         'des_location_id'      =>auth()->user()->kode_kantor,
-                        'approval_id'          =>$second_approval == null ? 0 : $second_approval->user_id,
+                        'approval_id'          =>$second_approval == null ? auth()->user()->id : $second_approval->user_id,
                         'comment'              =>'this transaction has been approved by system'
                     ];
                     $postSecond =[
@@ -151,16 +156,16 @@ class MultipleRequestController extends Controller
                         'category_id'          =>$request->category_id,
                         'request_type'         =>$request->transaction_id,
                         'remark'                =>$request->comment,
-                        'status'               =>2,
+                        'status'               =>$stepApproval->step == 1 ? 3 : 2,
                         'checking'             =>0,
                         'approval_status'      =>0,
                         'user_id'              =>auth()->user()->id,
                         'creator'              =>auth()->user()->id,
-                        'approval_id'          =>$second_approval->user_id,
+                         'approval_id'          =>$second_approval == null ? auth()->user()->id : $second_approval->user_id,
                         'step'                 =>2,
                         'attachment'           =>'',
                     ];
-
+                    // dd($postSecond);
                     ItemRequestModel::create($postSecond);
                     ItemRequestDetail::create($postLogSecond);
                 }else{
