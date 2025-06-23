@@ -81,13 +81,17 @@
             }else{
                 var total =  parseInt(quantity_product) + parseInt(quantity_request)
             }
-            console.log(total + ' == ' + min + ' == ' +quantity_product + ' == ' + quantity_request)
+            console.log(select_transaction_type + total + ' == ' + min + ' == ' +quantity_product + ' == ' + quantity_request)
             if(total <= min){
                 if(total <=  min){
                     if(total < 0){
-                        $('#quantity_request').val('')
-                        toastr['error']('quantity is not enough, please contact admin');  
-                        return false
+                        if(select_transaction_type == 2){
+                            return
+                        }else{
+                            $('#quantity_request').val('')
+                            toastr['error']('quantity is not enough, please contact admin');  
+                            return false
+                        }
                     }else{
                         toastr['warning']('quantity is low, please review your item balances');  
                     }

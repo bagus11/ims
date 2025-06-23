@@ -226,7 +226,7 @@ class MultipleRequestController extends Controller
               $productModel = ProductModel :: where('product_code',$row->product_code)->first();
               $finalBuffer        = $dataOld->request_type == 1 || $dataOld->request_type == 3 ?  $productModel->quantity_buffer - $row['quantity_request'] : $productModel->quantity + $dataOld->quantity_request;
               $finalResult =  $dataOld->request_type == 1 || $dataOld->request_type == 3 ? $productModel->quantity - $row->quantity_request : $productModel->quantity + $row->quantity_request;
-            //   dd($finalBuffer);
+            //   dd($finalResult);
               $postLogProduct =[
                   'product_code'         =>$row->product_code,
                   'request_code'         =>$request->id,
