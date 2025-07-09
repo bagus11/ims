@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Transaction;
 
 use App\Http\Controllers\Controller;
 use App\Models\Master\ApprovalModel;
+use App\Models\Master\CategoryModel;
 use App\Models\Master\ProductModel;
 use App\Models\Transaction\HistoryProduct_model;
 use App\Models\Transaction\ItemRequestDetail;
@@ -11,6 +12,7 @@ use App\Models\Transaction\ItemRequestModel;
 use App\Models\Transaction\PurchaseModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Mockery\Undefined;
 use \Mpdf\Mpdf as PDF;
 class TransactionProductController extends Controller
 {
@@ -202,9 +204,13 @@ class TransactionProductController extends Controller
                 $query->where('user_id', 'like', '%'.$reqString .'%');
             })
             ->whereHas('itemRelation', function($query) use ($categoryFilter) {
-                if($categoryFilter == "*") {
-                    return;
-                }else{
+                // dd($categoryFilter == "undefined");
+                if (!isset($categoryFilter) || $categoryFilter === '*' || empty($categoryFilter)) {
+                }else if($categoryFilter == 'undefined') {
+                    $category = CategoryModel::where('department_id', auth()->user()->departement)->first();
+                    $query->where('category_id', $category->id);
+
+                } else {
                     $query->where('category_id', $categoryFilter);
                 }
                 $query->where('department_id', 'like', '%%');
@@ -212,6 +218,7 @@ class TransactionProductController extends Controller
             ->orderBy('created_at','desc')
             ->get();
             // dd($data_stok);
+            // dd($data_stok->toSql(), $data_stok->getBindings());
             $data =[
                 'data'=>$data_stok,
                 'from'=>$from,
