@@ -8,8 +8,12 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>@yield('title', 'Admin')</title>
         <link rel="stylesheet" href="{{asset('css/app.css')}}">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+      <!-- DataTables with Bootstrap 4 -->
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/datatables.net-bs4@1.13.7/css/dataTables.bootstrap4.min.css">
+
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-        <link href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap4.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <!-- css.gg -->
         <link href="https://css.gg/css" rel="stylesheet" />
@@ -23,7 +27,7 @@
           rel="stylesheet"
         />
           <!-- Tempus Dominus Styles -->
-          <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+         
           {{-- <link href="{{ asset('assets/select2/select2.min.css') }}" rel="stylesheet"> --}}
 
           <link href="{{ asset('assets/summernote/summernote.css') }}" rel="stylesheet">
@@ -172,301 +176,325 @@
  
     </body>
 </html>
-
 <style>
-   /* body {
-        font-family: poppins !important;
-        font-size: 1.2em !important;
-    } */
- /* Font size for the Select2 container */
-.select2-container--default .select2-selection--single {
-    font-size: 9px; /* Adjust font size for the selected item */
+/* ============================
+   FONT & GLOBAL
+============================ */
+body {
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 10px !important;
+}
+p {
+    font-size: 10px !important;
+}
+.myFont {
+    font-size: 9px;
 }
 
-/* Font size for the dropdown search input */
-.select2-container--default .select2-search__field {
-    font-size: 9px; /* Adjust font size for the search input field */
-}
-
-/* Font size for dropdown options */
-.select2-container--default .select2-results__option {
-    font-size: 9px; /* Adjust font size for dropdown options */
-}
-
-/* Font size for no results found message */
-.select2-container--default .select2-results__message {
-    font-size: 9px; /* Adjust font size for no results found message */
-}
-.select2-dropdown {
-    z-index: 1050; /* Make sure it appears above other elements */
-}
-
-  .badge-orange{
-    background-color: #FE7A36;
-    color : black
-  }
-  .badge-purple{
-    background-color: #5D3587;
-    color : white
-  }
-  .toast{
-    width:100%; 
-    margin : auto !important;
-    /* background-position: 35% !important; */
-  }
-  .page-link
-  {
-    font-size: 9px !important;
-    height: 30px !important;  
-    margin-top:10px !important; 
-  }
-.datatable-bordered{
-  font-family: Poppins;
-  border-collapse: collapse;
-  width: 100% !important;
-  font-size: 9px;
-  overflow-x:auto !important;
-  
-  }
-  .nav-sidebar{
-    overflow-y: auto;
-  }
-  .dataTables_filter input { width: 300px }
-  .datatable-bordered td, .datatable-bordered th {
-  padding: 8px;
-  }
-  .datatable-bordered tr:nth-child(even){background-color: #f2f2f2;}
-
-  .datatable-bordered tr:hover {background-color: #ddd;}
-  .countMoney{
-    text-align: end
-  }
-  .datatable-bordered th {
-  border: 1px solid #ddd;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  text-align: center;
-  background-color: white;
-  color: black;
-  overflow-x:auto !important;
-  }
-
-  ion-icon
-    {
-     zoom: 1.5;
-     margin:auto
-    }
-.select2{
+/* ============================
+   SELECT2
+============================ */
+.select2 {
     width: 100% !important;
-    font-size:9px;
+    font-size: 9px;
+}
+.select2-container--default .select2-selection--single {
+    height: 35px !important;
+    font-size: 9px;
 }
 .select2-selection__rendered {
     line-height: 25px !important;
-    font-size:9px;
-  
-}
-.badge {
-    min-width: 28px;
-    border-radius: 4px;
-}
-.select2-container .select2-selection--single {
-    height: 35px !important;
-    font-size:9px;
-}
-.modal {
-  overflow-y:auto !important;
+    font-size: 9px;
 }
 .select2-selection__arrow {
     height: 34px !important;
-    font-size:9px;
+    font-size: 9px;
+}
+.select2-container--default .select2-search__field,
+.select2-container--default .select2-results__option,
+.select2-container--default .select2-results__message {
+    font-size: 9px;
+}
+.select2-dropdown {
+    z-index: 1050;
 }
 
-.dataTables_scrollHeadInner, .table{
-     width:100%!important; 
-     font-size:9px;
-}
-p{
-  font-size: 10px !important;
-}
-.open\:bg-green-200[open] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(187 247 208 / var(--tw-bg-opacity));
-}
-.open\:bg-red-600[open] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(220 38 38 / var(--tw-bg-opacity));
-}
-.open\:bg-red-200[open] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(254 202 202 / var(--tw-bg-opacity));
-
-}
-.open\:bg-amber-200[open] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(253 230 138 / var(--tw-bg-opacity));
-}
-th.details-control {
-  background-color: #04AA6D;
-  color: white;
-}
-td.details-control {
-background: url('https://datatables.net/examples/resources/details_open.png') no-repeat center center;
-cursor: alias;
-}
-tr.shown td.details-control {
-    background: url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;
+/* ============================
+   DATATABLES
+============================ */
+.datatable-bordered,
+.datatable-stepper {
+    font-family: Poppins, Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100% !important;
+    font-size: 9px;
+    border: 1px solid #ddd;
+    overflow-x: auto !important;
 }
 
-td.details-click {
+.datatable-bordered td,
+.datatable-bordered th,
+.datatable-stepper td,
+.datatable-stepper th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.datatable-bordered tr:nth-child(even),
+.datatable-stepper tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.datatable-bordered tr:hover,
+.datatable-stepper tr:hover {
+    background-color: #ddd;
+}
+
+.datatable-bordered th,
+.datatable-stepper th {
+    padding: 10px 0;
+    text-align: center;
+    background-color: white;
+    color: black;
+}
+
+.dataTables_scrollHeadInner,
+.table {
+    width: 100% !important;
+    font-size: 9px;
+}
+
+/* Info & pagination text */
+.dataTables_info {
+    font-size: 10px;
+    color: #b3acac;
+}
+
+/* Search box */
+.dataTables_filter input {
+    width: 300px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    padding: 5px 12px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+.dataTables_filter input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+}
+
+/* Pagination buttons */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 5px 12px;
+    border-radius: 4px;
+    margin: 0 2px;
+    border: none;
+    background: #f8f9fa;
+    font-size: 9px !important;
+    height: 30px !important;
+    margin-top: 10px !important;
+    transition: all 0.3s ease;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: #007bff;
+    color: #fff !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: #007bff;
+    color: #fff !important;
+}
+
+/* Sorting icon with FontAwesome */
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:after {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    opacity: 0.6;
+    margin-left: 6px;
+}
+table.dataTable thead .sorting:after {
+    content: "\f0dc"; /* sort */
+}
+table.dataTable thead .sorting_asc:after {
+    content: "\f0de"; /* sort-up */
+}
+table.dataTable thead .sorting_desc:after {
+    content: "\f0dd"; /* sort-down */
+}
+
+/* ============================
+   BADGES
+============================ */
+.badge {
+    min-width: 28px;
+    border-radius: 4px;
+    font-size: 9px;
+}
+.badge-orange {
+    background-color: #FE7A36;
+    color: black;
+}
+.badge-purple {
+    background-color: #5D3587;
+    color: white;
+}
+
+/* ============================
+   TOAST
+============================ */
+.toast {
+    width: 100%;
+    margin: auto !important;
+}
+
+/* ============================
+   COMPONENTS & UTILITIES
+============================ */
+.countMoney {
+    text-align: end;
+}
+.nav-sidebar {
+    overflow-y: auto;
+}
+.modal {
+    overflow-y: auto !important;
+}
+.headerTitle {
+    font-size: 14px;
+}
+.bg-core {
+    background-color: #6B92A4 !important;
+    color: white;
+}
+.card-radius {
+    border-radius: 20px;
+}
+.card-radius-shadow {
+    border-radius: 15px;
+    filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.1));
+}
+
+/* ============================
+   DETAILS ICONS (EXPAND/Collapse)
+============================ */
+th.details-control,
+th.subdetails-control {
+    background-color: #04AA6D;
+    color: white;
+}
+td.details-control,
+td.subdetails-control {
     background: url('https://datatables.net/examples/resources/details_open.png') no-repeat center center;
     cursor: alias;
 }
-tr.shown td.details-click {
-    background: url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;
-}
-
-th.subdetails-control {
-  background-color: #04AA6D;
-  color: white;
-}
-td.subdetails-control {
-background: url('https://datatables.net/examples/resources/details_open.png') no-repeat center center;
-cursor: alias;
-}
+tr.shown td.details-control,
 tr.shown td.subdetails-control {
     background: url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;
 }
-
+td.details-click,
 td.subdetails-click {
     background: url('https://datatables.net/examples/resources/details_open.png') no-repeat center center;
     cursor: alias;
 }
+tr.shown td.details-click,
 tr.shown td.subdetails-click {
     background: url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;
 }
+
+/* ============================
+   STAR RATING
+============================ */
 .rating {
-   position: relative;
-   width: 180px;
-   background: transparent;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   gap: .3em;
-   padding: 5px;
-   overflow: hidden;
-   border-radius: 20px;
-   box-shadow: 0 0 2px #b3acac;
+    position: relative;
+    width: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .3em;
+    padding: 5px;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 0 2px #b3acac;
 }
-
 .rating__result {
-   position: absolute;
-   top: 0;
-   left: 0;
-   transform: translateY(-10px) translateX(-5px);
-   z-index: -9;
-   font: 3em Arial, Helvetica, sans-serif;
-   color: #ebebeb8e;
-   pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateY(-10px) translateX(-5px);
+    z-index: -9;
+    font: 3em Arial, Helvetica, sans-serif;
+    color: #ebebeb8e;
+    pointer-events: none;
 }
-
 .rating__star {
-   font-size: 1.3em;
-   cursor: pointer;
-   color: #dabd18b2;
-   transition: filter linear .3s;
+    font-size: 1.3em;
+    cursor: pointer;
+    color: #dabd18b2;
+    transition: filter linear .3s;
 }
-
 .rating__star:hover {
-   filter: drop-shadow(1px 1px 4px gold);
+    filter: drop-shadow(1px 1px 4px gold);
 }
-.datatable-stepper{
-  /* font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100% !important;
-  font-size: 12px;
-  overflow-x:auto !important; */
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  border-spacing: 0;
-  font-size: 9px;
-  width: 100% !important;
-  border: 1px solid #ddd;
-  
-  }
-  .datatable-stepper tr:nth-child(even){background-color: #f2f2f2;}
 
-  .datatable-stepper tr:hover {background-color: #ddd;}
+/* ============================
+   BUTTON ACTION
+============================ */
+.btnAction:hover {
+    background-color: #1e8449;
+    opacity: 1;
+    transform: translateY(0);
+    transition-duration: .35s;
+}
+.btnAction:active {
+    transform: translateY(2px);
+    transition-duration: .35s;
+}
+.btnAction:hover {
+    box-shadow: rgba(39, 174, 96, .2) 0 6px 12px;
+}
 
-  .datatable-stepper th {
-  border: 1px solid #ddd;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  text-align: center;
-  
-  color: black;
-  overflow-x:auto !important;
-  }
-  .datatable-stepper td, .datatable-stepper th {
-        border: 1px solid #ddd;
-        padding: 8px;
-       
-    }
-  .headerTitle{
-    font-size: 14px;
+/* ============================
+   FIELDSET & LEGEND
+============================ */
+fieldset.scheduler-border {
+    border: 1px groove #ddd !important;
+    padding: 0 1.5em 1.5em 1.5em !important;
+    margin: 0 0 1.5em 0 !important;
+    box-shadow: none;
+}
+legend.scheduler-border {
+    font-size: 12px !important;
+    font-weight: bold !important;
+    text-align: left !important;
+}
 
-  }
-  fieldset.scheduler-border {
-        border: 1px groove #ddd !important;
-        padding: 0 1.5em 1.5em 1.5em !important;
-        margin: 0 0 1.5em 0 !important;
-        -webkit-box-shadow:  0px 0px 0px 0px #000;
-                box-shadow:  0px 0px 0px 0px #000;
-    }
+/* ============================
+   ICONS
+============================ */
+ion-icon {
+    zoom: 1.5;
+    margin: auto;
+}
+.item ion-icon[item-left] + .item-inner,
+.item ion-icon[item-left] + .item-input {
+    margin-left: 10px !important;
+}
 
-    legend.scheduler-border {
-        font-size: 12px !important;
-        font-weight: bold !important;
-        text-align: left !important;
-    }
-    .btnAction :hover {
-      background-color: #1e8449;
-      opacity: 1;
-      transform: translateY(0);
-      transition-duration: .35s;
-    }
-
-    .btnAction :active {
-      transform: translateY(2px);
-      transition-duration: .35s;
-    }
-
-    .btnAction :hover {
-      box-shadow: rgba(39, 174, 96, .2) 0 6px 12px;
-    }
-    .myFont{
-      font-size:9px
-    }
-    .bg-core{
-      background-color: #6B92A4 !important;
-      color: white ;
-    }
-    .card-radius{
-      border-radius: 20px;
-    }
-    .card-radius-shadow{
-      border-radius: 15px;
-      /* box-shadow: 5px 5px rgb(0 0 0 / 0.2); */
-      filter: drop-shadow(5px 5px 5px rgba(0,0,0,0.1));
-    }
-    .dataTables_info{
-      font-size: 10px;
-      color: #b3acac;
-    }
-    .item ion-icon[item-left]+.item-inner,
-    .item ion-icon[item-left]+.item-input {
-        margin-left: 10px !important;
-    }
-    .table{
-      style=" font-family: 'Poppins', sans-serif;"
-    }
+/* ============================
+   OPEN STATE COLORS
+============================ */
+.open\:bg-green-200[open] {
+    background-color: rgb(187 247 208 / 1);
+}
+.open\:bg-red-600[open] {
+    background-color: rgb(220 38 38 / 1);
+}
+.open\:bg-red-200[open] {
+    background-color: rgb(254 202 202 / 1);
+}
+.open\:bg-amber-200[open] {
+    background-color: rgb(253 230 138 / 1);
+}
 </style>

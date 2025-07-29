@@ -217,7 +217,6 @@ class TransactionProductController extends Controller
             })
             ->orderBy('created_at','desc')
             ->get();
-            // dd($data_stok);
             // dd($data_stok->toSql(), $data_stok->getBindings());
             $data =[
                 'data'=>$data_stok,
