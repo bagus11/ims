@@ -18,11 +18,11 @@
                                         <div class="row">
                                             <div class="col-md-6 mt-2">
                                                <p>From</p>
-                                                <input type="date" id="from" class="form-control" value="{{date("Y-m-d", strtotime( date( "Y-m-d", strtotime( date("Y-m-d") ) ) . "-1 month" ) )}}">
+                                                <input type="date" style="font-size: 10px !important" id="from" class="form-control" value="{{date("Y-m-d", strtotime( date( "Y-m-d", strtotime( date("Y-m-d") ) ) . "-1 month" ) )}}">
                                             </div>
                                             <div class="col-md-6 mt-2">
                                                 <p>To</p>
-                                                <input type="date" class="form-control" id="to" value="{{date('Y-m-d')}}">
+                                                <input type="date" style="font-size: 10px !important" class="form-control" id="to" value="{{date('Y-m-d')}}">
                                             </div>
                                         </div>
                                         <div class="mt-2">
