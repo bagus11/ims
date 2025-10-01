@@ -37,60 +37,77 @@ class ItemRequestController extends Controller
     function index() {
         return view('transaction.ir.ir-index');
     }
-    function getItemRequest(Request $request) {
-        // dd(auth()->user()->roles->pluck('name')); 
+    function getItemRequest(Request $request) 
+    {
         if(auth()->user()->hasPermissionTo('get-only_user-item_request')){
-           
+
             $data = ItemRequestModel::with([
                 'userRelation',
                 'itemRelation',
                 'locationRelation',
-            ])->where('location_id','like','%'.$request->id.'%')
-                ->whereIn('request_type',[1,2,3])
-                ->orderBy('status','asc')
-                ->orderBy('id', 'desc')
-                ->where('user_id', auth()->user()->id)
-                ->get();
+            ])
+            ->where('location_id','like','%'.$request->location_filter.'%') // pakai location_filter
+            ->whereIn('request_type',[1,2,3])
+            ->where('user_id', auth()->user()->id)
+            ->whereBetween(DB::raw('DATE(created_at)'), [$request->from, $request->to])
+            ->orderBy('status','asc')
+            ->orderBy('id', 'desc')
+            ->get();
+
             return response()->json([
                 'data'=>$data,  
             ]);  
-        }else if(auth()->user()->hasPermissionTo('get-only_admin-item_request')){
-            //  dd($request);
+
+        } else if(auth()->user()->hasPermissionTo('get-only_admin-item_request')) {
+
             $data = ItemRequestModel::with([
                 'userRelation',
                 'itemRelation',
                 'stepRelation',
                 'locationRelation',
                 'approvalRelation',
-                ])->where('location_id','like','%'.auth()->user()->kode_kantor.'%')
-                ->whereHas('stepRelation',function($q){
-                    $q->where('user_id', auth()->user()->id);
-                })
-                ->orWhere('user_id',auth()->user()->id)
-                ->whereIn('request_type',[1,2,3])
-                ->orderBy('status','asc')
-                ->orderBy('id', 'desc')
-                ->get();
+            ])
+            ->where(function($q) use ($request) {
+                $q->where('location_id','like','%'.$request->location_filter.'%')
+                ->whereHas('stepRelation', function($q2){
+                    $q2->where('user_id', auth()->user()->id);
+                });
+            })
+            ->orWhere('user_id', auth()->user()->id)
+            ->whereIn('request_type',[1,2,3])
+            ->whereBetween(DB::raw('DATE(created_at)'), [$request->from, $request->to])
+            ->where('user_id', 'like','%'.$request->reqFilter.'%')
+            ->orderBy('status','asc')
+            ->orderBy('id', 'desc')
+            ->get();
+
             return response()->json([
                 'data'=>$data,  
             ]);  
-        }else{
+
+        } else {
+
             $data = ItemRequestModel::with([
                 'userRelation',
                 'itemRelation',
                 'stepRelation',
                 'locationRelation',
                 'approvalRelation',
-            ])->where('location_id','like','%'.$request->id.'%')
-                ->whereIn('request_type',[1,2,3])
-                ->orderBy('status','asc')
-                ->orderBy('id', 'desc')
-                ->get();
+            ])
+            ->where('location_id','like','%'.$request->location_filter.'%') // pakai location_filter
+            ->whereIn('request_type',[1,2,3])
+            ->whereBetween(DB::raw('DATE(created_at)'), [$request->from, $request->to])
+            ->where('user_id', 'like','%'.$request->reqFilter.'%')
+            ->orderBy('status','asc')
+            ->orderBy('id', 'desc')
+            ->get();
+
             return response()->json([
                 'data'=>$data,  
             ]);   
         }
     }
+
 
     function getFinalizeItem() {
         $data = ItemRequestModel::with([

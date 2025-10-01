@@ -1,10 +1,30 @@
 <script>
-        getCallback('getItemRequest', null, function(response){
+        getActiveItems('getLocation',null,'location_filter','Office')
+        getActiveItems('getUser',null,'reqFilter','PIC')
+        var dataStart = {
+            'from' : $('#from').val(),
+            'to' : $('#to').val(),
+            'location_filter' : $('#location_filter').val(),
+            'reqFilter' : $('#reqFilter').val(),
+        }
+        getCallback('getItemRequest', dataStart, function(response){
             swal.close()        
             mappingTable(response.data)
         })
+        $('#btn_filter').on('click', function(){
+            var data = {
+                'from' : $('#from').val(),
+                'to' : $('#to').val(),
+                'location_filter' : $('#location_filter').val(),
+                'reqFilter' : $('#reqFilter').val(),
+            }
+            getCallback('getItemRequest',data,function(response){
+                swal.close()
+                mappingTable(response.data)
+            }) 
+        })
         $('#btn_refresh').on('click', function(){
-            getCallback('getItemRequest',null,function(response){
+            getCallback('getItemRequest',dataStart,function(response){
                 swal.close()
                 mappingTable(response.data)
             }) 
@@ -21,7 +41,9 @@
            
         });
         var array_item =[];
-      
+        $(document).on('click', '.dropdown-menu', function (e) {
+            e.stopPropagation();
+        });
         $('#btn_add_request').on('click',function(){
             array_item = []
             array_item.length = 0
@@ -381,8 +403,14 @@
                                             </button>
                                 `;
                                 if(response[i].request_type != 4){
+                                        const d = new Date(response[i].created_at);
+                                        const date = d.toISOString().split('T')[0];
+                                        const time = d.toTimeString().split(' ')[0];
+                                        var dateTime = date + ' ' + time
+
                                     data += `<tr style="text-align: center;">
                                           
+                                            <td style="text-align:center;">${dateTime}</td>
                                             <td style="text-align:center;">${response[i].request_code}</td>
                                             <td style="text-align:left;">${response[i].user_relation.name}</td>
                                             <td style="text-align:left;">${response[i].location_relation.name}</td>
