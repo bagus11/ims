@@ -211,7 +211,13 @@
                                 toastr['success'](response.meta.message);
                                 $('#addRequestModal').modal('hide')
                                 array_item = []
-                                getCallbackNoSwal('getItemRequest',null,function(response){
+                                 var dataStart = {
+                                    'from' : $('#from').val(),
+                                    'to' : $('#to').val(),
+                                    'location_filter' : $('#location_filter').val(),
+                                    'reqFilter' : $('#reqFilter').val(),
+                                }
+                                getCallbackNoSwal('getItemRequest',dataStart,function(response){
                                     mappingTable(response.data)
                                 })
                             })
@@ -347,7 +353,13 @@
                     $('.message_error').html('')
                     toastr['success'](response.meta.message);
                     $('#updateProgressModal').modal('hide')
-                    getCallbackNoSwal('getItemRequest',null,function(response){
+                     var dataStart = {
+                        'from' : $('#from').val(),
+                        'to' : $('#to').val(),
+                        'location_filter' : $('#location_filter').val(),
+                        'reqFilter' : $('#reqFilter').val(),
+                    }
+                    getCallbackNoSwal('getItemRequest',dataStart,function(response){
                         mappingTable(response.data)
                     })
                     $('#btn_update_progress').prop('disabled', false)
