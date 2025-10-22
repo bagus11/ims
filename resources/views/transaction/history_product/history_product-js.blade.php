@@ -56,9 +56,12 @@
         getCallbackNoSwal('getPICReq',null,function(response){
             $('#reqFilter').empty()
             $('#reqFilter').append('<option value=""> Please Choose PIC </option>')
-            $.each(response.data,function(i,data,param){
-                $('#reqFilter').append('<option value="'+data.user_id+'">' + data.user_relation.name +'</option>');
-            });
+         $.each(response.data, function(i, data) {
+    $('#reqFilter').append(
+        '<option value="'+ data.user_id +'">' + (data.user_relation?.name || "-") + '</option>'
+    );
+});
+
         })
 
         $('#btn_filter_stock').on('click', function(){
@@ -101,7 +104,7 @@
 
             var data = '';
             for (var i = 0; i < response.length; i++) {
-                const d = new Date(response[i].created_at);
+                const d = new Date(response[i].transaction_relation?.created_at);
                 const date = d.toISOString().split('T')[0];
                 const time = d.toTimeString().split(' ')[0];
 
@@ -115,7 +118,10 @@
                             <td style="width:5%">${response[i].quantity_request}</td>
                             <td style="width:5%">${response[i].quantity_result}</td>
                             <td style="width:5%;text-align:center">${response[i].item_relation?.uom}</td>
-                            <td style="width:40%;text-align:left">${response[i].transaction_relation?.user_relation.name}</td>
+                           <td style="width:40%;text-align:left">
+                                ${response[i].transaction_relation?.user_relation?.name || "-"}
+                            </td>
+
                         </tr>`;
             }
 

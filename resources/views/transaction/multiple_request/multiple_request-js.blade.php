@@ -449,7 +449,7 @@
                     'next': '<span class="next-icon"><i class="fa-solid fa-arrow-right"></i></span>'
                     }
                 },
-                    ordering : false
+                    ordering : true
                 }).columns.adjust()
         }
         function mappingArrayTable(response){

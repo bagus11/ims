@@ -334,7 +334,7 @@
 
             var data = '';
             for (var i = 0; i < response.length; i++) {
-                const d = new Date(response[i].created_at);
+                const d = new Date(response[i].transaction_relation?.created_at);
                 console.log(response[i].item_relation)
                 const date = d.toISOString().split('T')[0];
                 const time = d.toTimeString().split(' ')[0];

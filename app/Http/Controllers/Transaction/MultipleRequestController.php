@@ -238,15 +238,16 @@ class MultipleRequestController extends Controller
                   'created_at'           =>date('Y-m-d H:i:s')   
               ];
               array_push($post_array,$postLogProduct);
-             
-              ProductModel::where('product_code',$row->product_code)->update([
-                'quantity'=>$finalResult,
-                'quantity_buffer'=>$finalBuffer
-            
-            ]);
+             if($request->update_approvalId == 6){
+                 ProductModel::where('product_code',$row->product_code)->update([
+                   'quantity'=>$finalResult,
+                   'quantity_buffer'=>$finalBuffer
+               
+               ]);
+               HistoryProduct_model::insert($post_array);
+             }
              }
              ItemRequestModel::where('request_code',$dataOld->request_code)->update($post);
-             HistoryProduct_model::insert($post_array);
              ItemRequestDetail::create($post_log);
            
         });
