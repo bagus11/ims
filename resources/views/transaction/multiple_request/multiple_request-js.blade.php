@@ -95,13 +95,14 @@
         })
         $('#quantity_request').on('change', function(){
             var min = $("#select_product").select2().find(":selected").data("min");
+            var buffer = $("#select_product").select2().find(":selected").data("buffer");
             var quantity_product = $('#quantity_product').val()
             var quantity_request = $('#quantity_request').val()
             var select_transaction_type = $('#select_transaction_type').val()
             if(select_transaction_type !== 3){
-                var total =  parseInt(quantity_product) - parseInt(quantity_request)
+                var total =  parseInt(quantity_product) - parseInt(quantity_request) - parseInt(buffer)
             }else{
-                var total =  parseInt(quantity_product) + parseInt(quantity_request)
+                var total =  parseInt(quantity_product) + parseInt(quantity_request) 
             }
             console.log(select_transaction_type + total + ' == ' + min + ' == ' +quantity_product + ' == ' + quantity_request)
             if(total <= min){

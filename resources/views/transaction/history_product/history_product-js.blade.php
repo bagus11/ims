@@ -124,7 +124,7 @@
 
                         </tr>`;
             }
-
+h
             $('#product_table > tbody:first').html(data);
 
             var table = $('#product_table').DataTable({

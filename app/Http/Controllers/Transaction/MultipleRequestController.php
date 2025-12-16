@@ -115,11 +115,13 @@ class MultipleRequestController extends Controller
                 foreach($request->array_item as $row){
                     // dd($row);
                     $productCode = ProductModel::find($row['product_id']);
-                    ProductModel::find($row['product_id'])->update(
-                        [
-                            'quantity_buffer' => $productCode->quantity_buffer + $row['quantity_request']
-                        ]
-                    );
+                    if($request->transaction_id != 2 ){
+                        ProductModel::find($row['product_id'])->update(
+                            [
+                                'quantity_buffer' => $productCode->quantity_buffer + $row['quantity_request']
+                            ]
+                        );
+                    }
                 }
                 if($approval_id->user_id == auth()->user()->id){
                     $second_approval = ApprovalModel::where([
@@ -224,7 +226,7 @@ class MultipleRequestController extends Controller
          foreach($purchaseItem as $row){
          
               $productModel = ProductModel :: where('product_code',$row->product_code)->first();
-              $finalBuffer        = $dataOld->request_type == 1 || $dataOld->request_type == 3 ?  $productModel->quantity_buffer - $row['quantity_request'] : $productModel->quantity + $dataOld->quantity_request;
+              $finalBuffer        = $dataOld->request_type == 1 || $dataOld->request_type == 3 ?  $productModel->quantity_buffer - $row['quantity_request'] : $productModel->quantity_buffer ;
               $finalResult =  $dataOld->request_type == 1 || $dataOld->request_type == 3 ? $productModel->quantity - $row->quantity_request : $productModel->quantity + $row->quantity_request;
             //   dd($finalResult);
               $postLogProduct =[
