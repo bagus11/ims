@@ -1,10 +1,9 @@
 services:
-
-  ims_php:
-    image: ims-php        # pakai image lokal yang sudah di-build
+  php:
+    image: ims-php
     container_name: ims-php
 
-  ims_nginx:
+  nginx:
     container_name: ims-nginx
     environment:
-      - PHP_HOST=ims-php   # nama service di shared_network
+      - PHP_HOST=ims-php
