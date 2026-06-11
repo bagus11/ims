@@ -59,4 +59,4 @@ RUN php artisan config:clear || true \
 
 EXPOSE 9000
 
-CMD ["php-fpm"]
+CMD ["php-fpm", "-F"]
