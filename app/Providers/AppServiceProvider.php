@@ -22,14 +22,11 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+   public function boot(): void
     {
-         if (config('app.env') === 'production') {
+        if (config('app.env') === 'production') {
             \URL::forceScheme('https');
             \URL::forceRootUrl(config('app.url'));
         }
-        config(['app.locale' => 'id']);
-        Carbon::setLocale('id');
-        date_default_timezone_set('Asia/Jakarta');
     }
 }
