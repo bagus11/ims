@@ -1,9 +1,10 @@
 services:
-  php:
+
+  ims_php:
     image: ims-php
     container_name: ims-php
 
-  nginx:
+  ims_nginx:
     container_name: ims-nginx
     environment:
-      - PHP_HOST=ims-php
+      - PHP_HOST=ims_php
