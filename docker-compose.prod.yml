@@ -3,6 +3,7 @@ services:
   ims_php:
     image: ims-php
     container_name: ims-php
+    
 
   ims_nginx:
     container_name: ims-nginx

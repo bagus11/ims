@@ -42,8 +42,4 @@ class LoginController extends Controller
     {
         return 'nik';
     }
-    protected function authenticated($request, $user)
-    {
-        return redirect(config('app.url').'/home');
-    }
 }
