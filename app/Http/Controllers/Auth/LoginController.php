@@ -37,10 +37,7 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-    protected function authenticated($request, $user)
-    {
-        return redirect('/home');
-    }
+ 
     public function username()
     {
         return 'nik';
