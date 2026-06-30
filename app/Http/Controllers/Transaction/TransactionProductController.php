@@ -268,7 +268,9 @@ class TransactionProductController extends Controller
                 ); // margin footer
                 $mpdf->WriteHTML($cetak);
                 // Output a PDF file directly to the browser
-                ob_clean();
+                  if (ob_get_level() > 0) {
+                        ob_end_clean();
+                    }
                 $mpdf->Output('Report Stock'.'('.date('Y-m-d').').pdf', 'I');
 
     }
@@ -343,9 +345,9 @@ class TransactionProductController extends Controller
             ); // margin footer
             $mpdf->WriteHTML($cetak);
             // Output a PDF file directly to the browser
-        //    if (ob_get_level() > 0) {
-        //         ob_end_clean();
-        //     }
+           if (ob_get_level() > 0) {
+                ob_end_clean();
+            }
             $mpdf->Output('Report Wo'.'('.date('Y-m-d').').pdf', 'I');
 
     }
@@ -423,7 +425,10 @@ class TransactionProductController extends Controller
             ); // margin footer
             $mpdf->WriteHTML($cetak);
             // Output a PDF file directly to the browser
-            ob_clean();
+            // ob_clean();
+              if (ob_get_level() > 0) {
+                    ob_end_clean();
+                }
             $mpdf->Output('Report Wo'.'('.date('Y-m-d').').pdf', 'I');
 
     }
