@@ -38,7 +38,7 @@ class TransactionProductController extends Controller
         //                 'transactionRelation',
         //             ])->orderBy('id', 'desc')->offset($start)->limit($limit);
         // if(is_null($request->search['value'])){
-            
+
         // // dd($query->get());
         // }else{
         //     $search     = $request->search['value'];
@@ -90,7 +90,7 @@ class TransactionProductController extends Controller
         //             'quantity_result'       => $row['quantity_result'],
         //             'pcs'                   => 'pcs',
         //             'pic'                   => $row['transactionRelation']['userRelation']['name'],
-                  
+
         //         ];
         //         array_push($data,$arrData);
         //     }
@@ -181,7 +181,7 @@ class TransactionProductController extends Controller
     function print_stock_move($from,$to,$productFilter,$officeFilter,$reqFilter, $categoryFilter) {
         ini_set('memory_limit', '900000M');
         ini_set('pcre.backtrack_limit', '10000000000');
-        ini_set('pcre.recursion_limit', '10000000000');        
+        ini_set('pcre.recursion_limit', '10000000000');
         set_time_limit(60000);
         $productCode = '';
             if($productFilter != '*'){
@@ -237,10 +237,10 @@ class TransactionProductController extends Controller
                                                 <td style="width: 50px; text-align:right;">'.$imageLogo.'
                                             </td>
                                         </tr>
-                                        
+
                                     </table>
                                     <hr>';
-            
+
             $footer             = '<hr>
                                     <table width="100%" style="font-size: 10px;">
                                         <tr>
@@ -249,12 +249,12 @@ class TransactionProductController extends Controller
                                         </tr>
                                     </table>';
 
-            
+
                 $mpdf           = new PDF();
                 $mpdf->SetHTMLHeader($header);
                 $mpdf->SetHTMLFooter($footer);
                 $mpdf->AddPage(
-                    'L', // L - landscape, P - portrait 
+                    'L', // L - landscape, P - portrait
                     '',
                     '',
                     '',
@@ -270,11 +270,11 @@ class TransactionProductController extends Controller
                 // Output a PDF file directly to the browser
                 ob_clean();
                 $mpdf->Output('Report Stock'.'('.date('Y-m-d').').pdf', 'I');
-                
+
     }
     function print_ir($request_code) {
         $request_code =  str_replace("&*.","/",$request_code);
-        
+
         $detail = ItemRequestModel::with([
             'userRelation',
             'itemRelation',
@@ -305,17 +305,17 @@ class TransactionProductController extends Controller
                                         <td style="padding-left:10px;">
                                         <span style="font-size: 6px; font-weight: bold;margin-top:-10px"> '.$imageLogo.'</span>
                                         <br>
-                                        <span style="font-size:8px;">Synergy Building #08-08</span> 
+                                        <span style="font-size:8px;">Synergy Building #08-08</span>
                                         <br>
                                         <span style="font-size:8px;">Jl. Jalur Sutera Barat 17 Alam Sutera, Serpong Tangerang 15143 - Indonesia</span>
                                         <br>
                                         <span style="font-size:8px;">Tangerang 15143 - Indonesia +62 21 304 38808</span>
                                     </td>
                                         </tr>
-                                        
+
                                     </table>
                                 ';
-        
+
         $footer             = '<hr>
                                 <table width="100%" style="font-size: 10px;">
                                     <tr>
@@ -324,12 +324,12 @@ class TransactionProductController extends Controller
                                     </tr>
                                 </table>';
 
-        
+
             $mpdf           = new PDF();
             $mpdf->SetHTMLHeader($header);
             $mpdf->SetHTMLFooter($footer);
             $mpdf->AddPage(
-                'P', // L - landscape, P - portrait 
+                'P', // L - landscape, P - portrait
                 '',
                 '',
                 '',
@@ -343,13 +343,15 @@ class TransactionProductController extends Controller
             ); // margin footer
             $mpdf->WriteHTML($cetak);
             // Output a PDF file directly to the browser
-            ob_clean();
+           if (ob_get_level() > 0) {
+                ob_end_clean();
+            }
             $mpdf->Output('Report Wo'.'('.date('Y-m-d').').pdf', 'I');
-            
+
     }
     function print_pr($request_code) {
         $request_code =  str_replace("&*.","/",$request_code);
-        
+
         $detail = ItemRequestModel::with([
             'userRelation',
             'itemRelation',
@@ -361,7 +363,7 @@ class TransactionProductController extends Controller
         $log = ItemRequestDetail::with([
             'userRelation',
             'creatorRelation',
-            
+
         ])->where('request_code',$request_code)->get();
         $logProduct =PurchaseModel::with(
             [
@@ -383,17 +385,17 @@ class TransactionProductController extends Controller
                                     <td style="padding-left:10px;">
                                     <span style="font-size: 6px; font-weight: bold;margin-top:-10px"> '.$imageLogo.'</span>
                                     <br>
-                                    <span style="font-size:8px;">Synergy Building #08-08</span> 
+                                    <span style="font-size:8px;">Synergy Building #08-08</span>
                                     <br>
                                     <span style="font-size:8px;">Jl. Jalur Sutera Barat 17 Alam Sutera, Serpong Tangerang 15143 - Indonesia</span>
                                     <br>
                                     <span style="font-size:8px;">Tangerang 15143 - Indonesia +62 21 304 38808</span>
                                 </td>
                                     </tr>
-                                    
+
                                 </table>
                                ';
-        
+
         $footer             = '<hr>
                                 <table width="100%" style="font-size: 10px;">
                                     <tr>
@@ -402,12 +404,12 @@ class TransactionProductController extends Controller
                                     </tr>
                                 </table>';
 
-        
+
             $mpdf           = new PDF();
             $mpdf->SetHTMLHeader($header);
             $mpdf->SetHTMLFooter($footer);
             $mpdf->AddPage(
-                'P', // L - landscape, P - portrait 
+                'P', // L - landscape, P - portrait
                 '',
                 '',
                 '',
@@ -423,6 +425,6 @@ class TransactionProductController extends Controller
             // Output a PDF file directly to the browser
             ob_clean();
             $mpdf->Output('Report Wo'.'('.date('Y-m-d').').pdf', 'I');
-            
+
     }
 }
